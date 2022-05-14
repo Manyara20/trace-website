@@ -1,11 +1,9 @@
-import { Button, Link , ring, Stack, useToast } from '@chakra-ui/react'
-import NextLink from "next/link";
+import { Button, Stack, useToast } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import ScreenSizeSection from '../components/elements/ScreenSizeSeciton.ts'
 import { NextRouter, useRouter } from 'next/router';
 import Image from 'next/image';
-import { relative } from 'path';
 
 const Home: NextPage = () => {
 
@@ -95,25 +93,38 @@ const Home: NextPage = () => {
                             placeholder-dbg-border
                             "
                             >
-                                <h3
+                                <div
                                 style={{
+                                    height: "50%",
                                     position: 'absolute',
-                                    fontSize: "1.2em",
-                                    textAlign: "center",
-                                    color: "#efe"
+                                    paddingBottom: 0,
+                                    marginBottom:  0
                                 }}
                                 className="
                                 placeholder-dbg-border
                                 "
                                 >
-                                    Built on
-                                </h3>
+
+                                    <h3
+                                    style={{
+                                        fontSize: "3vh",
+                                        textAlign: "center",
+                                        color: "#efe",
+                                    }}
+                                    className="
+                                    placeholder-dbg-border
+                                    "
+                                    >
+                                        Built on
+                                    </h3>
+
+                                </div>
 
                                 <div
                                 style={{
-                                    height: "100%",
+                                    height: "50%",
                                     width: "70%",
-                                    right: 0,
+                                    bottom:0,
                                     position: "absolute"
                                 }}
                                 className="
@@ -137,7 +148,7 @@ const Home: NextPage = () => {
                             height: "30%",
                         }}
                         className="
-                        placeholder-dbg-border
+                         placeholder-dbg-border
                         "
 
                         >
@@ -147,7 +158,7 @@ const Home: NextPage = () => {
                             spacing={4} 
                             align='center' justify="center" 
                             className="
-                            placeholder-dbg-border
+                             placeholder-dbg-border
                             centred-on-relative-parent
                             "
                             >

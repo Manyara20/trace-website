@@ -19,7 +19,9 @@ import ScreenSizeSection from "../../components/elements/ScreenSizeSeciton.ts"
 import { NextRouter, useRouter } from "next/router"
 
 
-const Application: NextPage = () => {
+const Application: NextPage = () =>
+{
+    const { isOpen, onOpen, onClose } = useDisclosure()
 
     const router : NextRouter = useRouter();
 
@@ -36,8 +38,7 @@ const Application: NextPage = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <WalletsModal/>
-
+            <WalletsModal shouldBeOpen={isOpen} onClose={onClose} />
 
             <ScreenSizeSection
             style={{
@@ -68,13 +69,15 @@ const Application: NextPage = () => {
 
 export default Application;
 
+interface WalletsModalProps {
+  shouldBeOpen: boolean,
+  onClose: () => void
+}
 
-function WalletsModal() {
-    const { isOpen, onOpen, onClose } = useDisclosure()
+function WalletsModal({shouldBeOpen , onClose } : WalletsModalProps) {
     const [ walletToastShouldFire, setwalletToastShouldFire ] = useState(false);
     
     useEffect(() => {
-        onOpen();
         setwalletToastShouldFire(true)
     }, [])
   
@@ -97,7 +100,7 @@ function WalletsModal() {
 
     return (
       <>
-        <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
+        <Modal blockScrollOnMount={false} isOpen={shouldBeOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Connect your wallet</ModalHeader>
