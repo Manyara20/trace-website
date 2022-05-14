@@ -1,4 +1,4 @@
-import { Button, Link , ring, Stack } from '@chakra-ui/react'
+import { Button, Link , ring, Stack, useToast } from '@chakra-ui/react'
 import NextLink from "next/link";
 import type { NextPage } from 'next'
 import Head from 'next/head'
@@ -10,6 +10,8 @@ import { relative } from 'path';
 const Home: NextPage = () => {
 
     const router : NextRouter = useRouter();
+
+    const noDocsToast = useToast();
 
     return (
         <div className="
@@ -67,6 +69,8 @@ const Home: NextPage = () => {
                                 fontSize: "8em",
                                 textAlign: "center",
                                 color: "#efe",
+
+                                fontWeight: "bold",
 
                                 display: "flex",
                                 alignItems: "center",
@@ -167,7 +171,17 @@ const Home: NextPage = () => {
                                     >
                                         Docs
                                 </Button>*/}
-                                <Button colorScheme="gray" variant="solid">
+                                <Button colorScheme="gray" variant="solid"
+                                onClick={() =>
+                                    noDocsToast({
+                                      title: 'Documentation is being written',
+                                      description: "We are currently writing the documentation, follow us on twitter to stay updated",
+                                      status: 'warning',
+                                      duration: 4500,
+                                      isClosable: true,
+                                    })
+                                  }
+                                >
                                     Docs
                                 </Button>
                             </Stack>
