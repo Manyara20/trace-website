@@ -18,6 +18,7 @@ import {
 import { useEffect, useState } from "react"
 import ScreenSizeSection from "../../components/elements/ScreenSizeSeciton.ts"
 import { NextRouter, useRouter } from "next/router"
+import Wallet from "../../ownWallets"
 
 
 const Application: NextPage = () =>
@@ -98,7 +99,7 @@ const Application: NextPage = () =>
                     colorScheme='blue'
                     variant='solid'
                     onClick={() => {
-                        setWalletToastShouldFire(true);
+                        //setWalletToastShouldFire(true);
                         openWalletsModal();
                     }}
                     >
@@ -136,11 +137,32 @@ interface WalletsModalProps {
 
 function WalletsModal({shouldBeOpen , onClose } : WalletsModalProps) {
 
+    const wInterfaces = Wallet.stringNames.map( wName => {
+        if( Wallet.has(wName) )
+        {
+            return Wallet.getInterface( wName );
+        }
+        return undefined;
+    }).filter( maybeIWallet => maybeIWallet != undefined );
+
 
     return (
       <>
-        <Modal blockScrollOnMount={false} isOpen={shouldBeOpen} onClose={onClose}>
-          <ModalOverlay />
+        <Modal
+        isCentered
+        isOpen={shouldBeOpen} onClose={onClose}
+        
+        closeOnOverlayClick={false} 
+        blockScrollOnMount={false}
+        scrollBehavior="inside"
+        size="xl"
+
+        >
+
+          <ModalOverlay
+                bg='blackAlpha.200'
+                backdropFilter='blur(3px)'
+          />
           <ModalContent>
             
             <ModalHeader>Connect your wallet</ModalHeader>
@@ -148,7 +170,10 @@ function WalletsModal({shouldBeOpen , onClose } : WalletsModalProps) {
             <ModalCloseButton />
             
             <ModalBody>
-              No wallet found :(
+                {
+                    wInterfaces.length == 0 ? "No wallets found :(" :
+                    "yey" 
+                }
             </ModalBody>
 
           </ModalContent>
