@@ -13,6 +13,7 @@ import {
     useDisclosure,
     Button,
     useToast,
+    Stack,
   } from '@chakra-ui/react'
 import { useEffect, useState } from "react"
 import ScreenSizeSection from "../../components/elements/ScreenSizeSeciton.ts"
@@ -21,10 +22,33 @@ import { NextRouter, useRouter } from "next/router"
 
 const Application: NextPage = () =>
 {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-
     const router : NextRouter = useRouter();
+    
+    const { isOpen, onOpen: openWalletsModal , onClose } = useDisclosure({defaultIsOpen: false})
+    const noWallletsToast = useToast();
 
+    const [ walletToastShouldFire, setWalletToastShouldFire ] = useState(false);
+    
+
+    useEffect(() => {
+        console.log("use effect");
+
+        if( walletToastShouldFire )
+        {
+            
+            noWallletsToast({
+                title: 'Wallet connection not yet implemented',
+                description: "Wallet connection is being implemented, you can follow us on twitter to stay updated. Thank you for you patience!",
+                status: 'error',
+                duration: null,
+                isClosable: true
+            })
+
+            setWalletToastShouldFire( false );
+        }
+
+        
+    }, [walletToastShouldFire]);
 
     return (
         <div className="
@@ -45,10 +69,45 @@ const Application: NextPage = () =>
                 position: "relative",
                 display: "flex",
                 flexDirection: "row",
-                backgroundImage: "linear-gradient( -135deg, #fff -160%, #28AB1F )"
+                backgroundImage: "linear-gradient( 165deg, #7dc -50%, #28AB1F 150% )"
             }}
-            className="placeholder-dbg-border"
+            className="
+            dbg-border
+            "
             >
+
+                <Stack
+                spacing={8}
+                direction='row'
+                
+                align="center" justify="end"
+
+                style={{
+                    position: "absolute",
+                    width: "100%",
+                    height: "10%",
+                    paddingRight: "3%",
+                }}
+                className="
+                placeholder-dbg-border
+                "
+                >
+                
+
+                    <Button 
+                    colorScheme='blue'
+                    variant='solid'
+                    onClick={() => {
+                        setWalletToastShouldFire(true);
+                        openWalletsModal();
+                    }}
+                    >
+                        Connect wallet
+                    </Button>
+
+                </Stack>
+
+
                 <Button 
                 colorScheme='blue'
                 variant='solid'
@@ -61,6 +120,7 @@ const Application: NextPage = () =>
                 >
                     Go back Home
                 </Button>
+
             </ScreenSizeSection>
         
         </div>
@@ -75,45 +135,22 @@ interface WalletsModalProps {
 }
 
 function WalletsModal({shouldBeOpen , onClose } : WalletsModalProps) {
-    const [ walletToastShouldFire, setwalletToastShouldFire ] = useState(false);
-    
-    useEffect(() => {
-        setwalletToastShouldFire(true)
-    }, [])
-  
-    const noWallletsToast = useToast();
 
-    useEffect(() => {
-        console.log("use effect");
-
-        if( walletToastShouldFire ) {
-            noWallletsToast({
-                title: 'Wallet connection not yet implemented',
-                description: "Wallet connection is being implemented, you can follow us on twitter to stay updated. Thank you for you patience!",
-                status: 'error',
-                duration: null,
-                isClosable: true
-            })
-        }
-        
-    }, [walletToastShouldFire]);
 
     return (
       <>
         <Modal blockScrollOnMount={false} isOpen={shouldBeOpen} onClose={onClose}>
           <ModalOverlay />
           <ModalContent>
+            
             <ModalHeader>Connect your wallet</ModalHeader>
+            
             <ModalCloseButton />
+            
             <ModalBody>
               No wallet found :(
             </ModalBody>
-  
-            <ModalFooter>
-              <Button colorScheme='green' mr={3} onClick={onClose}>
-                Close
-              </Button>
-            </ModalFooter>
+
           </ModalContent>
         </Modal>
       </>

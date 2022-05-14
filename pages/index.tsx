@@ -28,7 +28,7 @@ const Home: NextPage = () => {
                 position: "relative",
                 display: "flex",
                 flexDirection: "row",
-                backgroundImage: "linear-gradient( -135deg, #fff -160%, #28AB1F )"
+                backgroundImage: "linear-gradient( -135deg, #7dc -60%, #28AB1F )"
             }}
             className="placeholder-dbg-border"
             >
