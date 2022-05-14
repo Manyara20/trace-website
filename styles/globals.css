@@ -6,11 +6,73 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
 * {
   box-sizing: border-box;
+}
+
+
+.screen-dims {
+  width: 100vw;
+  height: 100vh;
+}
+
+.screen-width {
+  width: 100vw;
+}
+
+.fixed-screen-width {
+  width: 100vw;
+  max-width: 100%; /* prevents horizontal scrolling due to vertical scrolling bar */
+
+  overflow-x: hidden;
+}
+
+.min-screen-height {
+  min-height: 100vh;
+}
+
+.no-overflowX{
+  overflow-x: hidden;
+}
+
+.no-overflowY {
+  overflow-y: hidden;
+}
+
+
+.relative {
+  position: relative;
+}
+
+.centred-on-relative-parent {
+  position: absolute;
+
+  top:  50%;
+  left: 50%;
+
+  transform: translate(-50%,-50%);
+}
+
+
+.flex {
+  display: flex;
+}
+
+.flex-to-center {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-row-dir {
+  flex-direction: row;
+}
+
+.flex-col-dir {
+  flex-direction: column;
+}
+
+.dbg-border {
+  border: red 3px solid;
 }
