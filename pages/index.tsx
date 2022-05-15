@@ -17,11 +17,6 @@ const Home: NextPage = () => {
         min-screen-height
         "
         >
-            <Head>
-                <title>Trace</title>
-                <meta name="description" content="decentralized product tracing service on the Cardano blockchain" />
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
 
             <ScreenSizeSection
             style={{
