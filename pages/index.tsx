@@ -160,7 +160,7 @@ const Home: NextPage = () => {
                             centred-on-relative-parent
                             "
                             >
-                                <Link href="/app">
+                                <Link href="/app/trace-it">
                                     <a target="_blank" >App</a>
                                 </Link>
                                 {/*<Button

@@ -1,4 +1,4 @@
-import { Button, Stack } from "@chakra-ui/react";
+import { Button, Popover, PopoverArrow, PopoverBody, PopoverCloseButton, PopoverContent, PopoverTrigger, Stack } from "@chakra-ui/react";
 import React from "react";
 import Wallet from "../../../../ownWallets";
 
@@ -12,7 +12,7 @@ interface AppTopBarState {
     wallet: object | null
     Iwallet: object | null
 
-    connectingWallet: boolean 
+    walletConncetionAction: "Connecting" | "Disconnecting" | ""
 
     walletInfos : WalletInfos
     isWalletModalOpen: boolean
@@ -38,7 +38,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         this.state = {
             wallet: null,
             Iwallet: null,
-            connectingWallet: true,
+            walletConncetionAction: "",
             isWalletModalOpen: false,
             walletInfos : {
                 cborBalance: "",
@@ -48,6 +48,8 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         this.openWalletModal = this.openWalletModal.bind(this);
         this.closeWalletModal = this.closeWalletModal.bind(this);
 
+        this.connectWallet = this.connectWallet.bind(this);
+        this.disconnectWallet = this.disconnectWallet.bind(this);
         this.getConnectedWallet = this.getConnectedWallet.bind(this); 
     }
 
@@ -60,7 +62,6 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         {
             if( !Wallet.has( this._connectedWalletName ) )
             {
-                localStorage.removeItem("CardanoTrace_user_connectedWallet");
             }
             else Wallet.enable( this._connectedWalletName )
             .then( () => {
@@ -78,13 +79,8 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         }
 
         this.setState({
-            connectingWallet: false
+            walletConncetionAction: ""
         })
-    }
-
-    componentDidUpdate()
-    {
-
     }
 
     render(): React.ReactNode
@@ -112,48 +108,43 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     <WalletsModal
                         shouldBeOpen={this.state.isWalletModalOpen}
                         closeModal={this.closeWalletModal}
-                        connectWallet={async (wName) => {
-
-                            this.setState({
-                                connectingWallet: true
-                            })
-                            
-                            if( wName === "eternl")  { wName = Wallet.Names.CCVault };
-
-                            window.localStorage.setItem("CardanoTrace_user_connectedWallet", wName )
-                            
-                            Wallet.enable( wName ).then(
-                                async (_) => {
-
-                                    const w = Wallet.get( wName );
-                
-                                    this.setState({
-                                        wallet: w,
-                                        walletInfos: {
-                                            cborBalance: await w.raw.getBalance()
-                                        },
-                                        connectingWallet: false,
-                                    });
-                                    
-                                }
-                            );
-
-                            this.setState({
-                                Iwallet: await Wallet.getInterface( wName )
-                            })
-                        }}
-                        />
+                        connectWallet={this.connectWallet}
+                    />
                     {
                         this.state.wallet !== null ?
                         
-                        <Button
-                        colorScheme='blue'
-                        mr={6}
-                        >{(this.state.Iwallet as any).name}</Button>
+                        <Popover>
+                            <PopoverTrigger>
+                                <Button
+                                colorScheme='blue'
+                                mr={6}
+                                >
+                                    {(this.state.Iwallet as any).name}
+                                </Button>
+                            </PopoverTrigger>
+                            <PopoverContent mr={6}>
+                                <PopoverArrow />
+                                <PopoverCloseButton />
+                                <PopoverBody>
+                                    <Button
+                                    variant="outline"
+                                    colorScheme='blue'
+                                    style={{
+                                        width:"100%"
+                                    }}
+                                    mr={6}
+                                    onClick={this.disconnectWallet}
+                                    >
+                                        Disconnect
+                                    </Button>
+                                </PopoverBody>
+                            </PopoverContent>
+                        </Popover>
+                        
                         :
                         <Button
-                        isLoading={this.state.connectingWallet}
-                        loadingText="Connecting"
+                        isLoading={this.state.walletConncetionAction !== ""}
+                        loadingText={this.state.walletConncetionAction}
                         colorScheme='blue'
                         variant='solid'
                         onClick={this.openWalletModal}
@@ -177,6 +168,54 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
     {
         this.setState({
             isWalletModalOpen: false
+        })
+    }
+
+    private async connectWallet( wName: string )
+    {
+        this.setState({
+            walletConncetionAction: "Connecting"
+        })
+        
+        if( wName === "eternl")  { wName = Wallet.Names.CCVault };
+
+        window.localStorage.setItem("CardanoTrace_user_connectedWallet", wName )
+        
+        Wallet.enable( wName ).then(
+            async (_) => {
+
+                const w = Wallet.get( wName );
+
+                this.setState({
+                    wallet: w,
+                    walletInfos: {
+                        cborBalance: await w.raw.getBalance()
+                    },
+                    walletConncetionAction: "",
+                });
+                
+            }
+        );
+
+        this.setState({
+            Iwallet: await Wallet.getInterface( wName )
+        })
+    }
+    
+    private disconnectWallet()
+    {
+        this.setState({
+            walletConncetionAction: "Disconnecting"
+        })
+
+        if( typeof window === "undefined") return;
+
+        window.localStorage.removeItem("CardanoTrace_user_connectedWallet");
+
+        this.setState({
+            wallet: null,
+            Iwallet: null,
+            walletConncetionAction: ""
         })
     }
 

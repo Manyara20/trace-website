@@ -21,7 +21,14 @@ export default class ScreenSizeSection extends React.Component<SSSProps, SSSStat
 
 
         return (
-            <section {...this.props} className="screen-dims placeholder-dbg-border" />
+            <section 
+            {...this.props}
+            className="
+            screen-dims
+            no-overflowX
+            placeholder-dbg-border
+            "
+            />
         )
     }
 }
