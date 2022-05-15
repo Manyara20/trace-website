@@ -283,7 +283,7 @@ class Wallet
   {
     Wallet._assertWalletNameIsValid( walletName );
 
-    if( !Wallet.has( walletName ) ) throw new Error("can't access the "+wName+" object if the "+wName+" extension is not installed");
+    if( !Wallet.has( walletName ) ) throw new Error("can't access the "+walletName+" object if the "+walletName+" extension is not installed");
   }
   
 

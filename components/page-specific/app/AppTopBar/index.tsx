@@ -6,7 +6,6 @@ import WalletsModal from "./WalletsModal";
 
 
 export interface AppTopBarProps {
-
 }
 
 interface AppTopBarState {
@@ -30,6 +29,8 @@ interface WalletInfos
  */
 class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
 {
+    private _connectedWalletName?: string;
+
     constructor( props: AppTopBarProps )
     {
         super(props);
@@ -37,7 +38,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         this.state = {
             wallet: null,
             Iwallet: null,
-            connectingWallet: false,
+            connectingWallet: true,
             isWalletModalOpen: false,
             walletInfos : {
                 cborBalance: "",
@@ -46,6 +47,44 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
 
         this.openWalletModal = this.openWalletModal.bind(this);
         this.closeWalletModal = this.closeWalletModal.bind(this);
+
+        this.getConnectedWallet = this.getConnectedWallet.bind(this); 
+    }
+
+    componentDidMount()
+    {
+        
+        this.getConnectedWallet();
+
+        if( this._connectedWalletName !== undefined )
+        {
+            if( !Wallet.has( this._connectedWalletName ) )
+            {
+                localStorage.removeItem("CardanoTrace_user_connectedWallet");
+            }
+            else Wallet.enable( this._connectedWalletName )
+            .then( () => {
+
+                const wallet = Wallet.get( this._connectedWalletName );
+
+                const Iwallet = Wallet.getInterface( this._connectedWalletName )
+
+                this.setState({
+                    wallet: wallet,
+                    Iwallet: Iwallet
+                });
+
+            });
+        }
+
+        this.setState({
+            connectingWallet: false
+        })
+    }
+
+    componentDidUpdate()
+    {
+
     }
 
     render(): React.ReactNode
@@ -67,24 +106,26 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                 }}
                 
                 className="
-                dbg-border
+                placeholder-dbg-border
                 "
                 >
                     <WalletsModal
                         shouldBeOpen={this.state.isWalletModalOpen}
                         closeModal={this.closeWalletModal}
-                        connectWallet={async (str) => {
+                        connectWallet={async (wName) => {
 
                             this.setState({
                                 connectingWallet: true
                             })
                             
-                            if( str === "eternl")  { str = Wallet.Names.CCVault };
+                            if( wName === "eternl")  { wName = Wallet.Names.CCVault };
+
+                            window.localStorage.setItem("CardanoTrace_user_connectedWallet", wName )
                             
-                            Wallet.enable( str ).then(
+                            Wallet.enable( wName ).then(
                                 async (_) => {
 
-                                    const w = Wallet.get( str );
+                                    const w = Wallet.get( wName );
                 
                                     this.setState({
                                         wallet: w,
@@ -98,7 +139,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                             );
 
                             this.setState({
-                                Iwallet: await Wallet.getInterface( str )
+                                Iwallet: await Wallet.getInterface( wName )
                             })
                         }}
                         />
@@ -137,6 +178,13 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         this.setState({
             isWalletModalOpen: false
         })
+    }
+
+    private getConnectedWallet()
+    {
+        if( typeof window === "undefined") return;
+
+        this._connectedWalletName = window.localStorage.getItem("CardanoTrace_user_connectedWallet") ?? undefined
     }
 
 }

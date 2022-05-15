@@ -4,6 +4,7 @@ import Head from 'next/head'
 import ScreenSizeSection from '../components/elements/ScreenSizeSeciton.ts'
 import { NextRouter, useRouter } from 'next/router';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const Home: NextPage = () => {
 
@@ -25,7 +26,9 @@ const Home: NextPage = () => {
                 flexDirection: "row",
                 backgroundImage: "linear-gradient( -135deg, #7dc -60%, #28AB1F )"
             }}
-            className="placeholder-dbg-border"
+            className="
+            placeholder-dbg-border
+            "
             >
                 <div
                 style={{
@@ -157,16 +160,9 @@ const Home: NextPage = () => {
                             centred-on-relative-parent
                             "
                             >
-                                <Button 
-                                colorScheme='blue'
-                                variant='solid'
-                                onClick={() => {
-                                    router.push("/app")
-                                }}
-                                size="lg"
-                                >
-                                    App
-                                </Button>
+                                <Link href="/app">
+                                    <a target="_blank" >App</a>
+                                </Link>
                                 {/*<Button
                                     colorScheme='gray'
                                     color="#fff"

@@ -56,7 +56,7 @@ class Application extends React.Component<ApplicationProps, ApplicationState>
             centred-on-relative-parent 
             "
             >
-                Go back Home
+                Your traces
             </Button>
         )
     }
