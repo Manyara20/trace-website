@@ -163,11 +163,12 @@ const Home: NextPage = () => {
                             "
                             >
                                 <Button 
-                                colorScheme='green'
+                                colorScheme='blue'
                                 variant='solid'
                                 onClick={() => {
                                     router.push("/app")
                                 }}
+                                size="lg"
                                 >
                                     App
                                 </Button>
@@ -183,6 +184,7 @@ const Home: NextPage = () => {
                                         Docs
                                 </Button>*/}
                                 <Button colorScheme="gray" variant="solid"
+                                size="lg"
                                 onClick={() =>
                                     noDocsToast({
                                       title: 'Documentation is being written',
