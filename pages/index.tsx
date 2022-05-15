@@ -28,7 +28,7 @@ const Home: NextPage = () => {
                 position: "relative",
                 display: "flex",
                 flexDirection: "row",
-                backgroundImage: "linear-gradient( -135deg, #fff -160%, #28AB1F )"
+                backgroundImage: "linear-gradient( -135deg, #7dc -60%, #28AB1F )"
             }}
             className="placeholder-dbg-border"
             >
@@ -163,11 +163,12 @@ const Home: NextPage = () => {
                             "
                             >
                                 <Button 
-                                colorScheme='green'
+                                colorScheme='blue'
                                 variant='solid'
                                 onClick={() => {
                                     router.push("/app")
                                 }}
+                                size="lg"
                                 >
                                     App
                                 </Button>
@@ -183,6 +184,7 @@ const Home: NextPage = () => {
                                         Docs
                                 </Button>*/}
                                 <Button colorScheme="gray" variant="solid"
+                                size="lg"
                                 onClick={() =>
                                     noDocsToast({
                                       title: 'Documentation is being written',
