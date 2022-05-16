@@ -2,24 +2,24 @@ import { NextRouter, withRouter } from "next/router"
 import React from "react";
 import { ReactNode } from "react"
 
-interface ApplicationProps {
+interface ProducersProps {
     router: NextRouter
 }
 
-interface ApplicationState {
+interface ProducersState {
 
 }
 
-class Application extends React.Component<ApplicationProps, ApplicationState>
+class Producers extends React.Component<ProducersProps, ProducersState>
 {
-    constructor(props: ApplicationProps)
+    constructor(props: ProducersProps)
     {
         super(props);
     }
 
     componentDidMount()
     {
-        this.props.router.replace("/app/trace-it")
+        this.props.router.replace("/app/producers/make-a-trace")
     }
 
     render(): ReactNode
@@ -29,6 +29,6 @@ class Application extends React.Component<ApplicationProps, ApplicationState>
 
 }
 
-export default withRouter(Application);
+export default withRouter(Producers);
 
 
