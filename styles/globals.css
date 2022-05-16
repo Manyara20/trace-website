@@ -10,6 +10,16 @@ body {
   box-sizing: border-box;
 }
 
+/*
+*:focus {
+  box-shadow: none !important /* remove default ChakraUI focus * /
+}
+*/
+
+body.js-prevent-focus-using-mouse *:focus {
+  box-shadow: none !important;
+}
+
 
 .screen-dims {
   width: 100vw;

@@ -123,6 +123,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     top: "1vh",
                     left: "1vw",
                 }}
+                onClick={() => this.props.router.replace("/")}
                 >
                     Trace
                 </Heading>
@@ -156,7 +157,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     colorScheme="d-green"
                     onClick={() => {
                         if( this.props.router.pathname !== "/app/trace-it" )
-                            this.props.router.push("/app/trace-it")
+                            this.props.router.replace("/app/trace-it")
                     }}
                     >
                         Trace it
@@ -167,7 +168,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     colorScheme="d-green"
                     onClick={() => {
                         if( this.props.router.pathname !== "/app/your-traces" )
-                            this.props.router.push("/app/your-traces")
+                            this.props.router.replace("/app/your-traces")
                     }}
                     >
                         Your traces
@@ -178,7 +179,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     colorScheme="d-green"
                     onClick={() => {
                         if( !this.props.router.pathname.startsWith( "/app/producers" ) )
-                            this.props.router.push("/app/producers/make-a-trace")
+                            this.props.router.replace("/app/producers/make-a-trace")
                     }}
                     >
                         Producer zone

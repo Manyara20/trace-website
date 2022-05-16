@@ -26,16 +26,16 @@ const theme = extendTheme({
                     return({
                         color: props.theme.colors[props.colorScheme]["0"],
                         bg: props.theme.colors[props.colorScheme]["500"],
-                        boxShadow: '0 0 5px 0px '+ props.theme.colors[props.colorScheme]["900"],
+                        boxShadow: '0 0 3px 0px '+ props.theme.colors[props.colorScheme]["900"],
                     })
                 },
                 "outline-shadow": (props: StyleFunctionProps) => {
                     // console.log(props);
                     return({
                         color: props.theme.colors[props.colorScheme]["700"],
-                        bg: props.theme.colors[props.colorScheme]["0"],
-                        border: "solid 1px " + props.theme.colors[props.colorScheme]["900"],
-                        boxShadow: '0px 0px 5px 0px '+ props.theme.colors[props.colorScheme]["900"],
+                        bg: props.theme.colors[props.colorScheme]["0"]+"22",
+                        border: "solid 2px " + props.theme.colors[props.colorScheme]["900"],
+                        boxShadow: '0px 0px 3px 0px '+ props.theme.colors[props.colorScheme]["900"],
                     })
                 },
                 "no-border": (props: StyleFunctionProps) => {
