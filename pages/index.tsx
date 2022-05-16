@@ -160,20 +160,19 @@ const Home: NextPage = () => {
                             centred-on-relative-parent
                             "
                             >
-                                <Link href="/app/trace-it">
-                                    <a target="_blank" >App</a>
-                                </Link>
-                                {/*<Button
-                                    colorScheme='gray'
-                                    color="#fff"
-                                    _hover={{ color: "#4b4b4b" , bg: "#EDF2F7"}}
-                                    variant='outline'
-                                    onClick={() => {
-                                        // router.push("/app")
-                                    }}
-                                    >
-                                        Docs
-                                </Button>*/}
+
+                                <Button
+                                colorScheme='d-green'
+                                variant='solid'
+                                size="lg"
+
+                                onClick={() => {
+                                    router.push("/app/trace-it")
+                                }}
+                                >
+                                    App
+                                </Button>
+
                                 <Button colorScheme="gray" variant="solid"
                                 size="lg"
                                 onClick={() =>

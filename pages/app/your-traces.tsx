@@ -46,18 +46,9 @@ class Application extends React.Component<ApplicationProps, ApplicationState>
         >
         */
         return (
-            <Button 
-            colorScheme='blue'
-            variant='solid'
-            onClick={() => {
-                this.props.router.back()
-            }}
-            className="
-            centred-on-relative-parent 
-            "
-            >
-                Your traces
-            </Button>
+            <>
+            
+            </>
         )
     }
 

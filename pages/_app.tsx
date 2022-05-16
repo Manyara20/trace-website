@@ -7,6 +7,8 @@ import { ReactElement, ReactNode } from 'react'
 import { NextRouter, withRouter } from 'next/router'
 import AppLayout from '../components/page-specific/app/layout/AppLayout'
 
+import theme from "../chakra/theme";
+
 
 type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode
@@ -22,7 +24,7 @@ function MyApp({ router, Component, pageProps }: AppPropsWithLayoutAndRouter) {
   
   if (router.pathname.startsWith('/app')) {
     return (
-      <ChakraProvider>
+      <ChakraProvider theme={theme}>
         <Head>
             <title>Trace</title>
             <meta name="description" content="decentralized product tracing service on the Cardano blockchain" />
@@ -36,7 +38,7 @@ function MyApp({ router, Component, pageProps }: AppPropsWithLayoutAndRouter) {
   }
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Head>
           <title>Trace</title>
           <meta name="description" content="decentralized product tracing service on the Cardano blockchain" />
