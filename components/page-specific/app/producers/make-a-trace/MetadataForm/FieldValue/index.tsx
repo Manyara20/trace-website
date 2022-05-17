@@ -118,8 +118,8 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                     break;
                     case "obj":
                         return(
-                            <ObjFieldValue onChange={console.log}/>
-                        );
+                            <ObjFieldValue onChange={(obj) => console.log("obj fieldValue onChange callback syas: ", JSON.stringify( obj ))}/>
+                        ); 
                     break;
                 }
             })()}

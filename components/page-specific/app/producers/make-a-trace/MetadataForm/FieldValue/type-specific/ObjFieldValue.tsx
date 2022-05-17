@@ -1,4 +1,4 @@
-import { Button, Stack, StackDivider } from "@chakra-ui/react";
+import { Button, Center, Stack, StackDivider } from "@chakra-ui/react";
 import React from "react";
 import FieldValue from "..";
 import FieldName from "../../FieldName";
@@ -16,7 +16,7 @@ export enum ObjFieldChangeReason {
     fieldValueChanged = 2
 }
 
-interface ObjFieldValueProps // extends IFieldValueProps
+interface ObjFieldValueProps extends IFieldValueProps
 {
     onChange: (newObj: object, what ?: ObjFieldChangeReason) => void
 }
@@ -67,13 +67,13 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                 <ToastContainer />
                 {this.state.addedFields}
                 <Button onClick={() => {
-                    console.log(this._value);
+                    console.log( "Add a filed button says", this._value);
 
                     if(Object.keys(this._value).includes("field"))
                     {
                         makeToast({
                             title: "Fields can't have the same name",
-                            description: "trying to add a new field will create one called \"field\"; make sure that name is not already present! ",
+                            description: "trying to add a new field will create one called \"field\"; make sure that name is not already present! " ,
                             status: 'warning',
                             variant: "subtle",
                             duration: 4500,
@@ -93,16 +93,23 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
 
                     this.props.onChange( this._value, ObjFieldChangeReason.fieldNameEdited )
 
+                    
+                    console.log("setState 1")
                     this.setState({
                         addedFields: [...this.state.addedFields, (
-                            <>
+                            <Center key={"field_" +(this.state.addedFields.length + 1).toString()}>
                             <FieldName editable
-                                canChangeEditTo={(newName) => {
+                                canEditTo={(newName, oldName) => {
+                                    /**  IMPORTANT
+                                     * prevent useless side effects
+                                     */
+                                    if( newName == oldName ) return true;
+
                                     if(Object.keys(this._value).includes(newName))
                                     {
                                         makeToast({
                                             title: "Fields can't have the same name",
-                                            description: "there is already a field called \""+ newName +"\"; make sure that name is not already present! ",
+                                            description: "there is already a field called \""+ newName +"\"; make sure that name is not already present! " ,
                                             status: 'warning',
                                             variant: "subtle",
                                             duration: 4500,
@@ -136,7 +143,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                                     */
                                     const prevCopy = JSON.parse(
                                         JSON.stringify(
-                                            (this._value as any)[prevName] || ""
+                                            (this._value as any)[prevName] || {}
                                             )
                                         );
                                     
@@ -158,7 +165,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                                 defaultValue="field" 
                             />
                             <FieldValue />
-                            </>
+                            </Center>
                         )]
                     })
 
