@@ -1,6 +1,6 @@
 import { Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody } from "@chakra-ui/react";
 import React from "react";
-import MetadataFieldCreator from "./MetadataFieldCreator";
+import MetadataForm from "./MetadataForm";
 
 
 interface MetadataDarawerProps {
@@ -32,7 +32,7 @@ class MetadataDrawer extends React.Component<MetadataDarawerProps, MetadataDaraw
                 <DrawerCloseButton />
                 <DrawerHeader>Add the product informations</DrawerHeader>
                 <DrawerBody>
-                    <MetadataFieldCreator/>
+                    <MetadataForm/>
                 </DrawerBody>
                 </DrawerContent>
             </Drawer>

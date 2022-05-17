@@ -19,7 +19,7 @@ export type FieldValueType =
 
 interface FieldValueTypeSelectorProps {
     onChoice: ( choice: FieldValueType ) => void
-    hideStructuredValues?: boolean 
+    hideHeavyData?: boolean 
 }
 
 interface FieldValueTypeSelectorState {
@@ -59,13 +59,13 @@ export default class FieldValueTypeSelector extends React.Component<FieldValueTy
                 <MenuItem icon={<PercentageIcon />} onClick={() => this.props.onChoice("percentage")} >Percentage</MenuItem>
                 <MenuItem icon={<AtSignIcon/>} onClick={() => this.props.onChoice("mail")}  >e-mail</MenuItem>
                 <MenuItem icon={<LinkIcon/>}  onClick={() => this.props.onChoice("link")} >Link</MenuItem>
-                <MenuItem icon={<InfoIcon />} onClick={() => this.props.onChoice("text")} >Text</MenuItem>
                 {
-                !this.props.hideStructuredValues && 
-                (<>
-                <MenuItem icon={<HamburgerIcon />} onClick={() => this.props.onChoice("list")} >List of Values</MenuItem>
-                <MenuItem icon={<AttachmentIcon />} onClick={() => this.props.onChoice("obj")} >Labeled sub-fields</MenuItem>
-                </>
+                    !this.props.hideHeavyData && 
+                    (<>
+                        <MenuItem icon={<InfoIcon />} onClick={() => this.props.onChoice("text")} >Text</MenuItem>
+                        <MenuItem icon={<HamburgerIcon />} onClick={() => this.props.onChoice("list")} >List of Values</MenuItem>
+                        <MenuItem icon={<AttachmentIcon />} onClick={() => this.props.onChoice("obj")} >Labeled sub-fields</MenuItem>
+                    </>
                 )}
             </MenuList>
             </Menu>
