@@ -5,4 +5,6 @@ export default interface IFieldValueProps {
     onRemotion?: () => void
     onChange: (newValue: any) => void,
     defaultValue?: any
+
+    maybeTrackerID ?: symbol
 }

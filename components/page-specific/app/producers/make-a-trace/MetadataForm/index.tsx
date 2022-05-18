@@ -31,7 +31,6 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
         return (
             
                 <ObjFieldValue
-
                 onChange={console.log}
                 />
         );
