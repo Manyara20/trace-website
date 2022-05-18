@@ -1,7 +1,5 @@
-import { Box, Button, Stack, StackDivider } from "@chakra-ui/react";
 import React from "react";
-import FieldName from "./FieldName";
-import FieldValue from "./FieldValue";
+import Debug from "../../../../../../utils/Debug";
 import ObjFieldValue from "./FieldValue/type-specific/ObjFieldValue";
 
 
@@ -31,7 +29,7 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
         return (
             
                 <ObjFieldValue
-                onChange={console.log}
+                onChange={Debug.log}
                 />
         );
     }

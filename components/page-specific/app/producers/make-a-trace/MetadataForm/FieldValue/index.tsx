@@ -3,6 +3,7 @@ import {
     Input
 } from "@chakra-ui/react";
 import React from "react";
+import Debug from "../../../../../../../utils/Debug";
 import ReadableSwitch from "../../../../../../elements/ReadableSwitch";
 import FieldValueTypeSelector, { FieldValueType } from "./FieldValueTypeSelector";
 import IFieldValueProps from "./IFieldValueProps";
@@ -114,12 +115,12 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                         break;
                         case "mail":
                             return(
-                                <Input type="email" onChange={(event: React.ChangeEvent<HTMLInputElement>) => console.log(event.target.value)}/>
+                                <Input type="email" onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
                             );
                         break;
                         case "link":
                             return(
-                                <Input type="url" onChange={(event: React.ChangeEvent<HTMLInputElement>) => console.log(event.target.value)}/>
+                                <Input type="url" onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
                             );
                         break;
                         case "text":
@@ -173,15 +174,15 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                     case "option":
                         return(
                             <ReadableSwitch onChange={(isActive:boolean) => {
-                                console.log(isActive)
+                                Debug.log(isActive)
                             }}/>
                         );
                     break;
                     case "number":
-                        return (<NumFieldValue onChange={console.log}/>);
+                        return (<NumFieldValue onChange={Debug.log}/>);
                     break;
                     case "hour":
-                        return <HourFieldValue onChange={console.log} />
+                        return <HourFieldValue onChange={Debug.log} />
                     break;
                     case "date":
                         return(
@@ -191,25 +192,25 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                         );
                     break;
                     case "range":
-                        return <RangeFieldValue onChange={console.log}  boundaries={[10,200]}/>
+                        return <RangeFieldValue onChange={Debug.log}  boundaries={[10,200]}/>
                     break;
                     case "percentage":
                         return <PercentageFieldValue  onChange={(newValue: number) => {
-                            console.log(newValue)
+                            Debug.log(newValue)
                         }} />
                     break;
                     case "mail":
                         return(
-                            <Input type="email" onChange={(event: React.ChangeEvent<HTMLInputElement>) => console.log(event.target.value)}/>
+                            <Input type="email" onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
                         );
                     break;
                     case "link":
                         return(
-                            <Input type="url" onChange={(event: React.ChangeEvent<HTMLInputElement>) => console.log(event.target.value)}/>
+                            <Input type="url" onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
                         );
                     break;
                     case "text":
-                        return <TextFieldValue onChange={console.log} />
+                        return <TextFieldValue onChange={Debug.log} />
                     break;
                     case "list":
                         return (
@@ -223,7 +224,7 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                     break;
                     case "obj":
                         return(
-                            <ObjFieldValue onChange={(obj) => console.log("obj fieldValue onChange callback syas: ", JSON.stringify( obj ))}/>
+                            <ObjFieldValue onChange={(obj) => Debug.log("obj fieldValue onChange callback syas: ", JSON.stringify( obj ))}/>
                         ); 
                     break;
                 }

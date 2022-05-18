@@ -9,9 +9,7 @@ export interface FieldNameProps
     defaultValue: string
 
     editable?: boolean
-    /**
-     * has to be PURE
-     */
+    
     canEditTo?: (newName: string, prevName?: string) => boolean
     onNameEdit?: (newName: string, prevName?: string) => void
 }

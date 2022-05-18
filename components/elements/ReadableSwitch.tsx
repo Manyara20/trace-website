@@ -1,8 +1,9 @@
 import { Switch } from "@chakra-ui/react";
 import React from "react";
 import { ReactNode } from "react";
+import IFieldValueProps from "../page-specific/app/producers/make-a-trace/MetadataForm/FieldValue/IFieldValueProps";
 
-interface ReadableSwitchProps
+interface ReadableSwitchProps extends IFieldValueProps
 {
     onChange: (state: boolean) => void
 }
@@ -19,7 +20,7 @@ export default class ReadableSwitch extends React.Component<ReadableSwitchProps,
         super(props);
 
         this.state = {
-            isActive: false
+            isActive: this.props.defaultValue ?? false
         }
     }
 
