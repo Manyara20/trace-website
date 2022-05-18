@@ -1,116 +1,10 @@
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons"
-import { useEditableControls, ButtonGroup, IconButton, Flex, Editable, EditablePreview, Input, EditableInput, Text, Stack } from "@chakra-ui/react";
+import { ButtonGroup, IconButton, Flex, Input, Text } from "@chakra-ui/react";
 import React from "react";
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 
 
-interface FieldNameProps_ {
-    editable?: boolean
-    canChangeEditTo?: (newName: string) => boolean
-    onNameEdit?: (newName: string, prevName?: string) => void
-    defaultValue: string
-}
-
- function FieldName_({editable, defaultValue, onNameEdit = () => {}, canChangeEditTo = (_newName) => true }: FieldNameProps_) {
-    /* Here's a custom control */
-
-    const [ fieldName, setFieldName ] = useState(defaultValue);
-    const [ prevName, setPrevName ] = useState<string>(defaultValue);
-
-    function EditableControls({mr}: {mr?:number})
-    {
-        const {
-            isEditing,
-            getSubmitButtonProps,
-            getCancelButtonProps,
-            getEditButtonProps,
-        } = useEditableControls()
-
-        const submitProps = getSubmitButtonProps();
-
-        
-        const editNameAndSubmit = ( strangeChakraMouseEvent: any ) => {
-            
-            const editName = () =>
-            {
-                onNameEdit(fieldName, prevName);
-                setPrevName(fieldName);
-            }
-
-            if( canChangeEditTo( fieldName ) )
-            {
-                editName();
-                submitProps.onClick && submitProps.onClick( strangeChakraMouseEvent );
-            }
-            else
-            {
-                // use toast
-                console.error("can't change name to" + fieldName)
-            }
-        }
-
-        return isEditing ? (
-            <ButtonGroup justifyContent='center' size='sm' mr={mr}>
-                <IconButton
-                
-                icon={<CheckIcon />}
-                {...{
-                    ...submitProps,
-                    onClick: editNameAndSubmit
-                }}
-                aria-label="Update field name"
-                
-                />
-                <IconButton aria-label="Dismiss" icon={<CloseIcon />} {...getCancelButtonProps()} />
-            </ButtonGroup>
-        ) : (
-            <Flex justifyContent='center' mr={mr}>
-                <IconButton aria-label="" size='sm' icon={<EditIcon />} {...getEditButtonProps()} />
-            </Flex>
-        )
-    }
-  
-    return (
-    <Editable defaultValue={defaultValue} submitOnBlur={false}
-
-        textAlign='center'
-        fontSize='xl'
-        fontWeight="black"
-        isPreviewFocusable={false}
-
-        onChange={ (next: string) =>  {
-            throw Error;
-        }}
-        style={{
-            width: "15vw", minWidth: "fit-content",
-
-            display: "flex", flexDirection: "row",
-            justifyContent: "center", alignItems: "center",
-
-        }}
-        className="
-        placeholder-dbg-border
-        "
-    >
-        <EditablePreview mr={2}/>
-        
-        <Input as={EditableInput}
-        mr={2}
-        onChange={(evt) => setFieldName( evt.target.value )}
-        width="12vw"
-        fontWeight="black"
-        fontSize="lg"
-        />
-
-        {editable && <EditableControls mr={4}/>}
-        <Text mr={4}>:</Text>
-    </Editable>
-    )
-
-}
-
-
-interface FieldNameProps
+export interface FieldNameProps
 {
     defaultValue: string
 
@@ -169,8 +63,14 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
                 />
                 <ButtonGroup justifyContent='center' size='sm' >
                     <SubmitButton 
-                    isDisabled={!this._canEditTo( this.state.fieldName, this.state.prevName )}
-                    onClick={this._submit}
+                    isDisabled={ this.state.fieldName === this.state.prevName || !this._canEditTo( this.state.fieldName, this.state.prevName )}
+                    onClick={() => {
+                        if (this.state.fieldName === this.state.prevName ) return;
+
+                        if(this._canEditTo( this.state.fieldName , this.state.prevName) ) {
+                            this._submit();
+                        }
+                    }}
                     />
                     <DismissButton
                     onClick={this._revert}
@@ -182,25 +82,34 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
         else
         {
             return (
-                <>
-                <Text 
-                width="12vw"
-                fontWeight="black"
-                fontSize="lg"
-                >
-                    {this.state.fieldName}
-                </Text>
-                {
-                    (this.props.editable == true) &&
-                    <EditButton
-                    onClick={ () => {
-                        this.setState({
-                            isEditing: true
-                        })
-                    }}
-                    />
-                }
-                </>
+                <Flex>
+                    <Text 
+                    margin="0 5px 0 1.5vw"
+                    width="fit-content"
+                    fontWeight="black"
+                    fontSize="lg"
+                    >
+                        {this.state.fieldName}
+                    </Text>
+                    {
+                        (this.props.editable == true) &&
+                        <EditButton
+                        mr="5px"
+                        onClick={ () => {
+                            this.setState({
+                                isEditing: true
+                            })
+                        }}
+                        />
+                    }
+                    <Text 
+                    width="12vw"
+                    fontWeight="black"
+                    fontSize="lg"
+                    >
+                        :
+                    </Text>
+                </Flex>
             )
         }
     }
@@ -234,13 +143,14 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
 
 
 interface EditButtonProps {
+    mr?: string
     onClick: () => void
 }
 
-const EditButton: React.FC<EditButtonProps> = ({onClick} : EditButtonProps) => 
+const EditButton: React.FC<EditButtonProps> = ({onClick, mr} : EditButtonProps) => 
 {
     return (
-        <Flex justifyContent='center' onClick={onClick} >
+        <Flex justifyContent='center' onClick={onClick} mr={mr ?? 0}>
             <IconButton
             aria-label="edit-button"
             size='sm'

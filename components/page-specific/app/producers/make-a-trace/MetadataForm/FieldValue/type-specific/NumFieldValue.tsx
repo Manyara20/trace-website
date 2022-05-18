@@ -18,6 +18,13 @@ export default class NumFieldValue extends React.Component<NumFieldValueProps, N
     constructor(props: NumFieldValueProps)
     {
         super(props);
+
+        if( this.props.defaultValue )
+        {
+            this.props.onChange(
+                this.props.defaultValue
+            )
+        }
     }
 
     render(): ReactNode
@@ -27,7 +34,7 @@ export default class NumFieldValue extends React.Component<NumFieldValueProps, N
             <NumberInput onChange={( _str: string, num: number) => {
                 this.props.onChange(num);
             }} 
-            defaultValue={0} allowMouseWheel
+            defaultValue={this.props.defaultValue} allowMouseWheel
             >
                 <NumberInputField />
                 
