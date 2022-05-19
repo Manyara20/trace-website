@@ -1,8 +1,10 @@
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons"
-import { ButtonGroup, IconButton, Flex, Input, Text } from "@chakra-ui/react";
+import { ButtonGroup, IconButton, Flex, Input, Text, Tag } from "@chakra-ui/react";
 import React from "react";
 import { ReactNode } from "react";
 
+
+export type FieldNameTag = "required" | "suggested" | undefined
 
 export interface FieldNameProps
 {
@@ -12,6 +14,8 @@ export interface FieldNameProps
     
     canEditTo?: (newName: string, prevName?: string) => boolean
     onNameEdit?: (newName: string, prevName?: string) => void
+
+    tag: FieldNameTag
 }
 
 
@@ -107,6 +111,16 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
                     >
                         :
                     </Text>
+                    {
+                        this.props.tag !== undefined &&
+                        <Tag
+                        variant={this.props.tag === "required" ? "solid" : "subtle"}
+                        size="sm"
+                        colorScheme={this.props.tag === "required" ? "blue" : "green"}
+                        >
+                            {this.props.tag}
+                        </Tag>
+                    }
                 </Flex>
             )
         }

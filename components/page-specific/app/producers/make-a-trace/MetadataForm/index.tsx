@@ -29,6 +29,20 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
         return (
             
                 <ObjFieldValue
+                fixedFieds={[
+                    {
+                        fieldName: {
+                            name: "producer",
+                            tag: "required"
+                        }
+                    },
+                    {
+                        fieldName: {
+                            name: "product",
+                            tag: "required"
+                        }
+                    },
+                ]}
                 onChange={Debug.log}
                 />
         );

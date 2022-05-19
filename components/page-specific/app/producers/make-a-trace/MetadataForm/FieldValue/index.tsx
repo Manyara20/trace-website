@@ -29,7 +29,6 @@ export interface FieldValueProps {
      * @returns the ```onChange``` callback to pass to the specific FieldValue
      */
     get_onChange_fromChoice ?: ( chosenValueType: FieldValueType ) => (( any: any ) => void )
-    defaultValue ?: DefaultValueDescriptor
 }
 
 
@@ -40,9 +39,9 @@ export interface FieldValueProps_NonOptional {
      * 
      * @returns the ```onChange``` callback to pass to the specific FieldValue
      */
-    // get_onChange_fromChoice ?: ( chosenValueType: FieldValueType ) => (( any: any ) => void )
+    get_onChange_fromChoice ?: ( chosenValueType: FieldValueType ) => (( any: any ) => void )
     
-    defaultValue : DefaultValueDescriptor
+    // defaultValue : DefaultValueDescriptor
 }
 
 interface FieldValueState {
@@ -56,106 +55,13 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
         super(props);
 
         this.state = {
-            chosenField: this.props.defaultValue?.valueType
+            chosenField: undefined
         }
     }
 
     render(): React.ReactNode
     {
-        if( this.props.defaultValue )
-        {
-            return (
-                <Center>
-                {    
-                (() => {
-                    const def = this.props.defaultValue;
-
-                    switch( def.valueType )
-                    {
-                        case "option":
-                            return(
-                                <ReadableSwitch {...{
-                                    ...def.other_fieldValueProps,
-                                    ...def.base_fieldValueProps,
-                                }}/>
-                            );
-                        break;
-                        case "number":
-                            return (<NumFieldValue {...{
-                                ...def.other_fieldValueProps,
-                                ...def.base_fieldValueProps,
-                            }} />);
-                        break;
-                        case "hour":
-                            return <HourFieldValue {...{
-                                ...def.other_fieldValueProps,
-                                ...def.base_fieldValueProps,
-                            }} />
-                        break;
-                        case "date":
-                            return(
-                                <Input type="date"  {...{
-                                    ...def.other_fieldValueProps,
-                                    ...def.base_fieldValueProps,
-                                }} />
-                            );
-                        break;
-                        case "range":
-                            return <RangeFieldValue {...{
-                                boundaries: [0,100],
-                                ...def.other_fieldValueProps,
-                                ...def.base_fieldValueProps,
-                            }} />
-                        break;
-                        case "percentage":
-                            return <PercentageFieldValue  {...{
-                                    ...def.other_fieldValueProps,
-                                    ...def.base_fieldValueProps,
-                                }} />
-                        break;
-                        case "mail":
-                            return(
-                                <Input type="email" onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
-                            );
-                        break;
-                        case "link":
-                            return(
-                                <Input type="url" onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
-                            );
-                        break;
-                        case "text":
-                            return <TextFieldValue {...{
-                                ...def.other_fieldValueProps,
-                                ...def.base_fieldValueProps,
-                            }} />
-                        break;
-                        case "list":
-                            return (
-                                <FieldValueTypeSelector
-                                hideHeavyData 
-                                {...{
-                                    ...def.other_fieldValueProps,
-                                    ...def.base_fieldValueProps,
-                                }}
-                                />
-                            );
-                        break;
-                        case "obj":
-                            return(
-                                <ObjFieldValue {...{
-                                    ...def.other_fieldValueProps,
-                                    ...def.base_fieldValueProps,
-                                }}
-                                />
-                            ); 
-                        break;
-                    }
-                })()}
-                </Center>
-            );
-        }
-
-
+        
         return(
             this.state.chosenField === undefined ?
             <Center>
