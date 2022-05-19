@@ -28,7 +28,7 @@ export interface FieldValueProps {
      * 
      * @returns the ```onChange``` callback to pass to the specific FieldValue
      */
-    get_onChange_fromChoice ?: ( chosenValueType: FieldValueType ) => (( any: any ) => void )
+    get_onChange_fromChoice: ( chosenValueType: FieldValueType ) => (( any: any ) => void )
 }
 
 
@@ -39,7 +39,7 @@ export interface FieldValueProps_NonOptional {
      * 
      * @returns the ```onChange``` callback to pass to the specific FieldValue
      */
-    get_onChange_fromChoice ?: ( chosenValueType: FieldValueType ) => (( any: any ) => void )
+    get_onChange_fromChoice: ( chosenValueType: FieldValueType ) => (( any: any ) => void )
     
     // defaultValue : DefaultValueDescriptor
 }
@@ -79,48 +79,44 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                 {
                     case "option":
                         return(
-                            <ReadableSwitch onChange={(isActive:boolean) => {
-                                Debug.log(isActive)
-                            }}/>
+                            <ReadableSwitch onChange={this.getOnChange()}/>
                         );
                     break;
                     case "number":
-                        return (<NumFieldValue onChange={Debug.log}/>);
+                        return (<NumFieldValue onChange={this.getOnChange()}/>);
                     break;
                     case "hour":
-                        return <HourFieldValue onChange={Debug.log} />
+                        return <HourFieldValue onChange={this.getOnChange()} />
                     break;
                     case "date":
                         return(
-                            <Input type="date"  onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
+                            <Input type="date" errr onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
                                 evt.currentTarget.valueAsDate
                             }}/>
                         );
                     break;
                     case "range":
-                        return <RangeFieldValue onChange={Debug.log}  boundaries={[10,200]}/>
+                        return <RangeFieldValue onChange={this.getOnChange()} boundaries={[0,100]}/>
                     break;
                     case "percentage":
-                        return <PercentageFieldValue  onChange={(newValue: number) => {
-                            Debug.log(newValue)
-                        }} />
+                        return <PercentageFieldValue onChange={this.getOnChange()} />
                     break;
                     case "mail":
                         return(
-                            <Input type="email" onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
+                            <Input type="email" err onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
                         );
                     break;
                     case "link":
                         return(
-                            <Input type="url" onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
+                            <Input type="url" err onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
                         );
                     break;
                     case "text":
-                        return <TextFieldValue onChange={Debug.log} />
+                        return <TextFieldValue onChange={this.getOnChange()} />
                     break;
                     case "list":
                         return (
-                            <FieldValueTypeSelector
+                            <FieldValueTypeSelector err
                             hideHeavyData 
                             onChoice={function (choice: FieldValueType): void {
                                 throw new Error("Function not implemented.");
@@ -130,12 +126,19 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                     break;
                     case "obj":
                         return(
-                            <ObjFieldValue onChange={(obj) => Debug.log("obj fieldValue onChange callback syas: ", JSON.stringify( obj ))}/>
+                            <ObjFieldValue onChange={this.getOnChange()}/>
                         ); 
                     break;
                 }
             })()}
             </Center>
         )
+    }
+
+    private getOnChange()
+    {
+        if (! this.state.chosenField ) return (() => {});
+
+        return this.props.get_onChange_fromChoice(this.state.chosenField)
     }
 }

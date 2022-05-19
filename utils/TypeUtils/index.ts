@@ -17,4 +17,16 @@ export default class TypeUtils
 
         return str.split("").every( strCh => hexChars.includes(strCh) )
     }
+
+    public static copySerializable( anySerializable: any )
+    {
+        return (
+            anySerializable === undefined ? undefined :
+            JSON.parse(
+                JSON.stringify(
+                    anySerializable
+                )
+            )
+        );
+    }
 }

@@ -1,8 +1,10 @@
+import { Text } from "@chakra-ui/react";
 import React from "react";
 import TypeUtils from "../../../../../../../../utils/TypeUtils";
 
 export interface NonChangebleHashProps {
     hash: string
+    onMount?: (hash: string) => void
 }
 
 interface NonChangebleHashState {
@@ -23,13 +25,25 @@ export default class NonChangebleHash extends React.Component< NonChangebleHashP
         this.state = {
 
         };
+
+        this.props.onMount( this.props.hash );
     }
     
     render(): React.ReactNode
     {
 
         return (
-            null
+            <Text
+            style={{
+                width: "80%",
+                overflowX: "scroll",
+                minHeight: "fit-content",
+                backgroundColor: "#eee",
+                color: "#777"
+            }}
+            >
+                {this.props.hash}
+            </Text>
         );
     }
 }

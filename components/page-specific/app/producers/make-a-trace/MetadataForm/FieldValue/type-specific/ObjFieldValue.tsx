@@ -66,13 +66,14 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
             addedFields: []
         }
 
-
         this._addField = this._addField.bind(this);
         
         this._defineProperty_and_callChange = this._defineProperty_and_callChange.bind(this);
         this._replacePropertyName_and_callChange = this._replacePropertyName_and_callChange.bind(this);
         
         this._checkNewFieldName = this._checkNewFieldName.bind(this);
+
+        this._hasAnyUndefinedValue = this._hasAnyUndefinedValue.bind(this);
     }
 
     componentDidMount()
@@ -88,7 +89,8 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                     {
                         this._addField(
                             fieldDescriptor.fieldName.name,
-                            undefined, // fieldDescriptor.objValue?.value,
+                            // undefined,
+                            fieldDescriptor.objValue?.value,
                             false, // editable name
                             fieldDescriptor.fieldName.tag
                         )
@@ -103,8 +105,9 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                 ensureFieldAdded();
             }
         }
+        
         // update any parent
-        this.props.onChange( JSON.parse( JSON.stringify(this._value) ) , ObjFieldChangeReason.creation )
+        this.props.onChange( TypeUtils.copySerializable( this._value ) , ObjFieldChangeReason.creation )
     }
 
     render(): React.ReactNode
@@ -162,7 +165,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
             return;
         }
 
-        this._defineProperty_and_callChange( fieldName, {}, ObjFieldChangeReason.newField )
+        this._defineProperty_and_callChange( fieldName, fieldValue, ObjFieldChangeReason.newField )
         
         this._isStateWriteable = false;
         this.setState({
@@ -187,11 +190,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
 
 
                     this.props.onChange(
-                        JSON.parse(
-                            JSON.stringify(
-                                this._value
-                            )
-                        ),
+                        TypeUtils.copySerializable(this._value),
                         ObjFieldChangeReason.fieldValueChanged
                     );
                 } }
@@ -207,10 +206,6 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                     onNameEdit: (newName: string, oldName?: string) => {
 
                         this._replacePropertyName_and_callChange(oldName, newName);
-
-                        Debug.log(
-                            "field name has been edited, newName: ", newName, "oldName", oldName
-                        );
                     }
                 }} 
                 />
@@ -234,14 +229,11 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         );
 
         this.props.onChange(
-            JSON.parse(
-                JSON.stringify(
-                    this._value
-                )
-            ),
+            TypeUtils.copySerializable(this._value),
             changeReason
         );
 
+        Debug.warn( "is there any undefined? ", this._hasAnyUndefinedValue() )
     }
 
     private _replacePropertyName_and_callChange( oldName: string | undefined , newName: string )
@@ -256,14 +248,11 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         {
             const prevShallowCopy = (this._value as any)[oldName] 
     
-            if( prevShallowCopy === undefined ) throw Error("trying to replace non exsisting property");
+            // actually ok
+            // if( prevShallowCopy === undefined ) throw Error("trying to replace non exsisting property");
     
             // due to how the object is constructed we are sure everything here is json-serializable
-            prevCopy = JSON.parse(
-                JSON.stringify(
-                    prevShallowCopy
-                )
-            );
+            prevCopy = TypeUtils.copySerializable( prevShallowCopy );
             
             // remove old
             delete (this._value as any)[oldName];
@@ -271,6 +260,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         
         // create new Field using copied object
         this._defineProperty_and_callChange( newName, prevCopy, ObjFieldChangeReason.fieldNameEdited )
+
     }
 
 
@@ -307,6 +297,13 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         }
 
         return true;
+    }
+
+    private _hasAnyUndefinedValue(): boolean
+    {
+        const keys = Object.keys( this._value );
+
+        return keys.some( k => (this._value as any)[k] === undefined );
     }
 
 }
@@ -396,11 +393,8 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
 
                     const defaultValValue = this.props.valueProps.defaultValue;
 
-                    Debug.log( "defaultValValue:", defaultValValue , defaultValValue === undefined)
-
                     if( defaultValValue === undefined )
                     {
-                        Debug.log( "will render FieldValue with no default");
                         return ( <FieldValue
                         get_onChange_fromChoice={(_whateverChoice) => this._changeValue_and_callChange} 
                         /> );
@@ -410,6 +404,7 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
                         {
                             case "bigint":
                             case "number":
+                                Debug.log("rendering NumField as value")
                                 return (<NumFieldValue 
                                     defaultValue={
                                         Number( defaultValValue )
@@ -429,14 +424,10 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
                                     Array.isArray( defaultValValue )
                                 )
                                 {
-
-                                }
-                                else
-                                {
                                     return (
                                         <ObjFieldValue
-
-                                        defaultValue={defaultValValue}
+    
+                                        fixedFieds={defaultValValue}
                                         
                                         onChange={(newObj: object, what?: ObjFieldChangeReason | undefined): void  => {
                                             this._changeValue_and_callChange( newObj );
@@ -445,8 +436,14 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
                                         />
                                     )
                                 }
+                                else
+                                {
+                                }
 
-                                throw Error("couldn't determine a field value for the default value passed");
+                                throw Error(
+                                    "couldn't determine a field value for the default value passed; default value: " +
+                                    JSON.stringify( defaultValValue , undefined, 2 )
+                                );
 
                             break;
                             case "string":
@@ -491,8 +488,9 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
 
     private _changeValue_and_callChange( newValue: any ): void
     {
-        this._value = newValue;
+        this._value = newValue ;
 
+        Debug.log("FieldAndValuePair._changeValue_and_callChange ");
         this._callChange();
     }
 
