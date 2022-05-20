@@ -12,6 +12,8 @@ import ReadableSwitch from "../../../../../../../elements/ReadableSwitch";
 import TypeUtils from "../../../../../../../../utils/TypeUtils";
 import NonChangebleHash from "./NonChangebleHash";
 import TextFieldValue from "./TextFieldValue";
+import LinkFieldValue from "./LinkFieldValue";
+import EmailFieldValue from "./EmailFiledValue";
 
 const { ToastContainer, toast: makeToast } = createStandaloneToast(theme)
 
@@ -459,6 +461,21 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
                                 ))
                                 {
                                     return <NonChangebleHash hash={defaultValValue} />
+                                }
+                                else if (
+                                    defaultValValue.startsWith("http://")  ||
+                                    defaultValValue.startsWith("https://") ||
+                                    defaultValValue.startsWith("ipfs://")
+                                )
+                                {
+                                    return <LinkFieldValue defaultValue={defaultValValue}
+                                    onChange={this._changeValue_and_callChange} />
+                                }
+                                else if( Array.from(defaultValValue).includes("@") )
+                                {
+                                    return <EmailFieldValue defaultValue={defaultValValue}
+                                    onChange={this._changeValue_and_callChange}
+                                    />
                                 }
                                 else
                                 {

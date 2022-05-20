@@ -97,7 +97,7 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                         );
                     break;
                     case "range":
-                        return <RangeFieldValue onChange={this.getOnChange()} boundaries={[0,100]}/>
+                        return <RangeFieldValue onChange={this.getOnChange()} defaultBoundaries={[0,100]}/>
                     break;
                     case "percentage":
                         return <PercentageFieldValue onChange={this.getOnChange()} />

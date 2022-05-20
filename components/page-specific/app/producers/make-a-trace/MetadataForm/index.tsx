@@ -61,6 +61,15 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
                                 stringValue: {
                                     value: "deadbeef"
                                 }
+                            },
+                            {
+                                fieldName: {
+                                    name: "email",
+                                    tag: "suggested"
+                                },
+                                stringValue: {
+                                    value: "@"
+                                }
                             }
                         ]
                     }
@@ -81,11 +90,29 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
                             },
                             {
                                 fieldName: {
+                                    name: "name",
+                                    tag: "suggested"
+                                },
+                                stringValue: {
+                                    value: ""
+                                }
+                            },
+                            {
+                                fieldName: {
                                     name: "image",
                                     tag: "suggested"
                                 },
                                 stringValue: {
-                                    value: "https://"
+                                    value: "ipfs://"
+                                }
+                            },
+                            {
+                                fieldName: {
+                                    name: "description",
+                                    tag: "suggested"
+                                },
+                                stringValue: {
+                                    value: ""
                                 }
                             }
                         ]

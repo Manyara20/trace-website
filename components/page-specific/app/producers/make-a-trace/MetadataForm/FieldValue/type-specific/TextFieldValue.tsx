@@ -4,6 +4,7 @@ import IFieldValueProps from "../IFieldValueProps";
 
 export interface TextFieldValueProps extends IFieldValueProps
 {
+    defaultValue?: string
     onChange: (newTxt: string) => void
     onEditStart?: () => void
 }
@@ -30,7 +31,9 @@ export default class TextFieldValue extends React.Component<TextFieldValueProps,
     {
 
         return(
-            <Textarea onChange={(evt: React.ChangeEvent<HTMLTextAreaElement>) => {
+            <Textarea
+            defaultValue={this.props.defaultValue}
+            onChange={(evt: React.ChangeEvent<HTMLTextAreaElement>) => {
                 this._updateText( evt.currentTarget.value )
             }} resize="vertical" />
         );
