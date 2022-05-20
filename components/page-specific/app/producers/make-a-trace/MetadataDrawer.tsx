@@ -1,4 +1,4 @@
-import { Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody } from "@chakra-ui/react";
+import { Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, Button, DrawerFooter } from "@chakra-ui/react";
 import React from "react";
 import MetadataForm from "./MetadataForm";
 
@@ -14,6 +14,8 @@ interface MetadataDarawerState {
 
 class MetadataDrawer extends React.Component<MetadataDarawerProps, MetadataDarawerState>
 {
+    private metadataFormRef: React.RefObject<MetadataForm> = React.createRef<MetadataForm>();
+
     constructor(props: MetadataDarawerProps)
     {
         super(props);
@@ -28,13 +30,39 @@ class MetadataDrawer extends React.Component<MetadataDarawerProps, MetadataDaraw
                 size="full"
             >
                 <DrawerOverlay />
+
                 <DrawerContent>
-                <DrawerCloseButton />
-                <DrawerHeader>Add the product informations</DrawerHeader>
-                <DrawerBody>
-                    <MetadataForm/>
-                </DrawerBody>
+                
+                    <DrawerCloseButton />
+
+                    <DrawerHeader>Add product informations</DrawerHeader>
+                    
+                    <DrawerBody>
+                        <MetadataForm ref={this.metadataFormRef} />
+                    </DrawerBody>
+                    
+                    <DrawerFooter>
+
+                        <Button
+                            variant="solid-shadow"
+                            colorScheme='d-green'
+                            onClick={() => {
+                                alert( 
+                                    JSON.stringify(
+                                        this.metadataFormRef.current?.getMetadata(),
+                                        undefined,
+                                        2
+                                    )
+                                );
+                            }}
+                        >
+                            Send
+                        </Button>
+
+                    </DrawerFooter>
+
                 </DrawerContent>
+
             </Drawer>
         );
     }

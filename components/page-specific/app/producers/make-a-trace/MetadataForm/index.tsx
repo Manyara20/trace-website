@@ -1,9 +1,10 @@
 import React from "react";
 import Debug from "../../../../../../utils/Debug";
+import TypeUtils from "../../../../../../utils/TypeUtils";
 import ObjFieldValue from "./FieldValue/type-specific/ObjFieldValue";
 
 
-interface MetadataFormProps {
+export interface MetadataFormProps {
 
 }
 
@@ -13,9 +14,20 @@ interface MetadataFormState {
 
 export default class MetadataForm extends React.Component<MetadataFormProps, MetadataFormState>
 {
+    private _metadata: any = {};
+
+    public getMetadata()
+    {
+        return (
+            TypeUtils.copySerializable( this._metadata )
+        );
+    }
+
     constructor( props: MetadataFormProps)
     {
         super(props);
+
+        this._metadata = {};
 
         this.state = {
             addedFields: []
@@ -29,6 +41,10 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
         return (
             
             <ObjFieldValue
+            onChange={(obj) => {
+                this._metadata = obj;
+                Debug.log("actual metadata:\n\n" + JSON.stringify( obj, undefined, 2 ));
+            }}
             fixedFieds={[
                 {
                     fieldName: {
@@ -39,13 +55,17 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
                         value: [
                             {
                                 fieldName: {
-                                    name: "NFT policy",
+                                    name: "Trace producer identifier (NFT policy)",
                                     tag: "required"
+                                },
+                                stringValue: {
+                                    value: "deadbeef"
                                 }
                             }
                         ]
                     }
                 },
+
                 {
                     fieldName: {
                         name: "product",
@@ -57,16 +77,22 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
                                 fieldName: {
                                     name: "identifier",
                                     tag: "required"
+                                }
+                            },
+                            {
+                                fieldName: {
+                                    name: "image",
+                                    tag: "suggested"
                                 },
                                 stringValue: {
-                                    value: "deadbeef"
+                                    value: "https://"
                                 }
                             }
                         ]
                     }
                 },
+
             ]}
-            onChange={() => {}}
             />
         );
     }

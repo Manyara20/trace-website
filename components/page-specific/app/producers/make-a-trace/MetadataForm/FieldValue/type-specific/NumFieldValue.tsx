@@ -6,6 +6,8 @@ import IFieldValueProps from "../IFieldValueProps";
 export interface NumFieldValueProps extends IFieldValueProps
 {
     onChange: (number: number) => void
+    min?: number
+    max?: number
 }
 
 interface NumFieldValueState
@@ -35,6 +37,7 @@ export default class NumFieldValue extends React.Component<NumFieldValueProps, N
                 this.props.onChange(num);
             }} 
             defaultValue={this.props.defaultValue} allowMouseWheel
+            max={this.props.max} min={this.props.min}
             >
                 <NumberInputField />
                 

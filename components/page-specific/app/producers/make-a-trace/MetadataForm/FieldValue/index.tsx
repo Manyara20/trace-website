@@ -7,7 +7,10 @@ import Debug from "../../../../../../../utils/Debug";
 import ReadableSwitch from "../../../../../../elements/ReadableSwitch";
 import FieldValueTypeSelector, { FieldValueType } from "./FieldValueTypeSelector";
 import IFieldValueProps from "./IFieldValueProps";
+import DateFieldValue from "./type-specific/DateFieldValue";
+import EmailFieldValue from "./type-specific/EmailFiledValue";
 import HourFieldValue from "./type-specific/HourFieldValue";
+import LinkFieldValue from "./type-specific/LinkFieldValue";
 import NumFieldValue from "./type-specific/NumFieldValue";
 import ObjFieldValue from "./type-specific/ObjFieldValue";
 import PercentageFieldValue from "./type-specific/PercentaceFieldValue";
@@ -90,9 +93,7 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                     break;
                     case "date":
                         return(
-                            <Input type="date" errr onChange={(evt: React.ChangeEvent<HTMLInputElement>) => {
-                                evt.currentTarget.valueAsDate
-                            }}/>
+                            <DateFieldValue onChange={this.getOnChange()} />
                         );
                     break;
                     case "range":
@@ -103,27 +104,18 @@ export default class FieldValue extends React.Component<FieldValueProps, FieldVa
                     break;
                     case "mail":
                         return(
-                            <Input type="email" err onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
+                            <EmailFieldValue onChange={this.getOnChange()} />
                         );
                     break;
                     case "link":
                         return(
-                            <Input type="url" err onChange={(event: React.ChangeEvent<HTMLInputElement>) => Debug.log(event.target.value)}/>
+                            <LinkFieldValue onChange={this.getOnChange()} />
                         );
                     break;
                     case "text":
                         return <TextFieldValue onChange={this.getOnChange()} />
                     break;
-                    case "list":
-                        return (
-                            <FieldValueTypeSelector err
-                            hideHeavyData 
-                            onChoice={function (choice: FieldValueType): void {
-                                throw new Error("Function not implemented.");
-                            } }
-                            />
-                        );
-                    break;
+                    
                     case "obj":
                         return(
                             <ObjFieldValue onChange={this.getOnChange()}/>

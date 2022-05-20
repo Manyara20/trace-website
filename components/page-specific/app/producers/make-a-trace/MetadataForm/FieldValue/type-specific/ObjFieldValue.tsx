@@ -90,7 +90,8 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                         this._addField(
                             fieldDescriptor.fieldName.name,
                             // undefined,
-                            fieldDescriptor.objValue?.value,
+                            fieldDescriptor.objValue?.value ||
+                            fieldDescriptor.stringValue?.value,
                             false, // editable name
                             fieldDescriptor.fieldName.tag
                         )
@@ -212,8 +213,8 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
             )]
         }, () => {
             this._isStateWriteable = true;
+            this.props.onChange( this._value )
         })
-
     }
 
     private _defineProperty_and_callChange( name: string, value: any, changeReason: ObjFieldChangeReason ) 
@@ -232,8 +233,6 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
             TypeUtils.copySerializable(this._value),
             changeReason
         );
-
-        Debug.warn( "is there any undefined? ", this._hasAnyUndefinedValue() )
     }
 
     private _replacePropertyName_and_callChange( oldName: string | undefined , newName: string )
@@ -392,6 +391,13 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
                 (() => {
 
                     const defaultValValue = this.props.valueProps.defaultValue;
+                    Debug.log("FieldAndValuePair.props.valueProps.defaultValue:\n\n" +
+                        JSON.stringify(
+                            defaultValValue,
+                            undefined,
+                            2
+                        ) 
+                    )
 
                     if( defaultValValue === undefined )
                     {
@@ -490,7 +496,6 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
     {
         this._value = newValue ;
 
-        Debug.log("FieldAndValuePair._changeValue_and_callChange ");
         this._callChange();
     }
 

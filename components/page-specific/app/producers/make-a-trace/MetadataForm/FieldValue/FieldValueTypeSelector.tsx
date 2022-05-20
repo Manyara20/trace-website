@@ -14,7 +14,6 @@ export type FieldValueType =
     "mail"          |
     "link"          |
     "text"          |
-    "list"          |
     "obj";
 
 interface FieldValueTypeSelectorProps {
@@ -63,7 +62,6 @@ export default class FieldValueTypeSelector extends React.Component<FieldValueTy
                     !this.props.hideHeavyData && 
                     (<>
                         <MenuItem icon={<InfoIcon />} onClick={() => this.props.onChoice("text")} >Text</MenuItem>
-                        <MenuItem icon={<HamburgerIcon />} onClick={() => this.props.onChoice("list")} >List of Values</MenuItem>
                         <MenuItem icon={<AttachmentIcon />} onClick={() => this.props.onChoice("obj")} >Labeled sub-fields</MenuItem>
                     </>
                 )}

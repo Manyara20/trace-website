@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react";
+import { Input, Text } from "@chakra-ui/react";
 import React from "react";
 import TypeUtils from "../../../../../../../../utils/TypeUtils";
 
@@ -26,24 +26,17 @@ export default class NonChangebleHash extends React.Component< NonChangebleHashP
 
         };
 
-        this.props.onMount( this.props.hash );
+        this.props.onMount && this.props.onMount( this.props.hash );
     }
     
     render(): React.ReactNode
     {
 
         return (
-            <Text
-            style={{
-                width: "80%",
-                overflowX: "scroll",
-                minHeight: "fit-content",
-                backgroundColor: "#eee",
-                color: "#777"
-            }}
-            >
-                {this.props.hash}
-            </Text>
+            <Input
+            isDisabled
+            defaultValue={this.props.hash} 
+            />
         );
     }
 }
