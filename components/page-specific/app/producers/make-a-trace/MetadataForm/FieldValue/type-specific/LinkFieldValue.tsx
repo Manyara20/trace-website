@@ -48,7 +48,12 @@ export default class LinkFieldValue extends React.Component< LinkFieldValueProps
     render(): React.ReactNode
     {
         return(
-            <InputGroup>
+            <InputGroup
+            style={{
+                width:"90%",
+                margin: "auto 5%",
+            }}
+            >
                 <InputLeftAddon children={
                     <Menu>
                         <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>

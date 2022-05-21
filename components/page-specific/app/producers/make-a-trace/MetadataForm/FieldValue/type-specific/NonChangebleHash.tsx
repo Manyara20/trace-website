@@ -35,6 +35,10 @@ export default class NonChangebleHash extends React.Component< NonChangebleHashP
         return (
             <Input
             isDisabled
+            style={{
+                width:"90%",
+                margin: "auto 5%",
+            }}
             defaultValue={this.props.hash} 
             />
         );

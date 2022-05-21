@@ -1,18 +1,21 @@
-import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, HStack, NumberInputField } from "@chakra-ui/react";
+import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb, HStack, NumberInputField, Center } from "@chakra-ui/react";
 import React from "react";
 import { ReactNode } from "react";
+import Debug from "../../../../../../../../utils/Debug";
+import TypeUtils from "../../../../../../../../utils/TypeUtils";
 import IFieldValueProps from "../IFieldValueProps";
 import NumFieldValue from "./NumFieldValue";
 
 export interface RangeFieldValueProps extends IFieldValueProps
 {
     defaultBoundaries: [number, number]
-    onChange: (fromTo: [number, number, number, number]) => void
+    onChange: (boudariesAndValues: [number, number, number, number]) => void
 }
 
 interface RangeFieldValueState
 {
-    boundaries: [number,number]
+    minBound: number
+    maxBound: number
 }
 
 export default class RangeFieldValue extends React.Component<RangeFieldValueProps, RangeFieldValueState>
@@ -26,13 +29,19 @@ export default class RangeFieldValue extends React.Component<RangeFieldValueProp
         this._lastEdit = Date.now();
 
         this.state = {
-            boundaries: [ Math.min( ...this.props.defaultBoundaries ), Math.max( ...this.props.defaultBoundaries ) ]
+            minBound: Math.min( ...this.props.defaultBoundaries ),
+            maxBound: Math.max( ...this.props.defaultBoundaries )
         }
 
         this._callChange = this._callChange.bind(this);
 
         this._callChange(
-            [ Math.min( ...this.props.defaultBoundaries ), Math.max( ...this.props.defaultBoundaries ) ]
+            TypeUtils.copySerializable( 
+                [
+                    this.state.minBound,
+                    this.state.maxBound
+                ]
+            )
         );
     }
 
@@ -40,41 +49,59 @@ export default class RangeFieldValue extends React.Component<RangeFieldValueProp
     {
 
         return(
-            <>
-
-            <RangeSlider
-            aria-label={['min', 'max']}
-            colorScheme='d-green'
-
-            defaultValue={[ Math.min( ...this.props.defaultBoundaries ), Math.max( ...this.props.defaultBoundaries ) ]}
-            min={ Math.min( ...this.state.boundaries ) } max={ Math.max( ...this.state.boundaries ) }
-            
-            onChange={this._callChange}
+            <Center
+            style={{
+                width:"90%",
+                margin: "auto 5%",
+            }}
             >
-                <RangeSliderTrack>
-                    <RangeSliderFilledTrack />
-                </RangeSliderTrack>
-                <RangeSliderThumb index={0} />
-                <RangeSliderThumb index={1} />
-            </RangeSlider>
 
-            <HStack >
-                <NumFieldValue
-                defaultValue={Math.min( ...this.state.boundaries )}
                 
-                onChange={n => this.setState({
-                    boundaries: [ this.state.boundaries[0], n ]
-                })}
-                />
-                <NumFieldValue
-                defaultValue={Math.max( ...this.state.boundaries )} 
-                
-                onChange={n => this.setState({
-                    boundaries: [ n, this.state.boundaries[1] ]
-                })} 
-                />
-            </HStack>
-            </>
+
+                <HStack >
+                    <NumFieldValue
+                    defaultValue={this.state.minBound}
+                    
+                    onChange={n => {
+                        if(n <= this.state.maxBound)
+                        {
+                            this.setState({
+                                minBound: n
+                            })
+                        }
+                    }}
+                    />
+                    <RangeSlider
+                    aria-label={['min', 'max']}
+                    colorScheme='d-green'
+
+                    defaultValue={[ Math.min( ...this.props.defaultBoundaries ), Math.max( ...this.props.defaultBoundaries ) ]}
+                    min={this.state.minBound} max={ this.state.maxBound }
+                    
+                    onChange={this._callChange}
+                    >
+                        <RangeSliderTrack>
+                            <RangeSliderFilledTrack />
+                        </RangeSliderTrack>
+
+
+                        <RangeSliderThumb index={0} />
+                        <RangeSliderThumb index={1} />
+                    </RangeSlider>
+                    <NumFieldValue
+                    defaultValue={this.state.maxBound} 
+                    
+                    onChange={n => {
+                        if(n >=this.state.minBound)
+                        {
+                            this.setState({
+                                maxBound: n
+                            })
+                        }
+                    }}
+                    />
+                </HStack>
+            </Center>
         );
     }
 
@@ -89,7 +116,27 @@ export default class RangeFieldValue extends React.Component<RangeFieldValueProp
                 }
                 else
                 {
-                    this.props.onChange([ this.state.boundaries[0], ...rangeValues , this.state.boundaries[1] ])
+                    Debug.log("central values", rangeValues , "result" ,
+                        TypeUtils.copySerializable(
+                            [
+                                this.state.minBound,
+                                ...rangeValues ,
+                                this.state.maxBound 
+                            ]
+                        ),
+                        "\n\n min bound:", this.state.minBound ,
+                        "\n\n this.state.boundaries: ", this.state.maxBound
+                    );
+
+                    this.props.onChange(
+                        TypeUtils.copySerializable(
+                            [
+                                this.state.minBound,
+                                ...rangeValues ,
+                                this.state.maxBound 
+                            ]
+                        )
+                    );
                 }
             },
             510

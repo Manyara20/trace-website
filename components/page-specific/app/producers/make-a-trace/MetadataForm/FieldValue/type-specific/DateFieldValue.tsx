@@ -29,9 +29,18 @@ export interface DateStruct {
     year: number
 }
 
+function dateStructToArray( d: DateStruct ): [number, number, number]
+{
+    return [
+        d.day,
+        d.month,
+        d.year
+    ];
+}
 
 export interface DateFieldValueProps extends IFieldValueProps {
     defaultValue?: DateStruct
+    onChange: (date: [number, number, number]) => void
 }
 
 interface DateFieldValueState {
@@ -81,7 +90,7 @@ export default class DateFieldValue extends React.Component< DateFieldValueProps
             maxDayInMonth: this._getMaxDay()
         };
 
-        this.props.onChange( this._date );
+        this.props.onChange( dateStructToArray( this._date ) );
 
 
         this._setDay = this._setDay.bind(this);
@@ -173,7 +182,7 @@ export default class DateFieldValue extends React.Component< DateFieldValueProps
             }
             else
             {
-                this.props.onChange( this._date );
+                this.props.onChange( dateStructToArray( this._date ) );
             }
         }, 500 );
 

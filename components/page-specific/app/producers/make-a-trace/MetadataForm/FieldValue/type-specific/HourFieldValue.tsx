@@ -5,6 +5,7 @@ import IFieldValueProps from "../IFieldValueProps";
 
 interface HourFieldValueProps extends IFieldValueProps
 {
+    onChange: ( hour: [number,number]) => void
 }
 
 interface HourFieldValueState
@@ -24,7 +25,7 @@ export default class HourFieldValue extends React.Component<HourFieldValueProps,
         }
 
         this.setHour = this.setHour.bind(this);
-        this.setMin  = this.setHour.bind(this);
+        this.setMin  = this.setMin.bind(this);
 
         this.fire_onChange = this.fire_onChange.bind(this)
     }

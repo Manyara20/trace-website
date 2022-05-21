@@ -32,6 +32,10 @@ export default class TextFieldValue extends React.Component<TextFieldValueProps,
 
         return(
             <Textarea
+            style={{
+                width: "90%",
+                margin: "auto 5%"
+            }}
             defaultValue={this.props.defaultValue}
             onChange={(evt: React.ChangeEvent<HTMLTextAreaElement>) => {
                 this._updateText( evt.currentTarget.value )

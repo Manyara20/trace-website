@@ -1,5 +1,6 @@
 import { CheckIcon, CloseIcon, EditIcon } from "@chakra-ui/icons"
-import { ButtonGroup, IconButton, Flex, Input, Text, Tag } from "@chakra-ui/react";
+import { ButtonGroup, IconButton, Flex, Input, Text, Tag, HStack } from "@chakra-ui/react";
+import { debug } from "console";
 import React from "react";
 import { ReactNode } from "react";
 import Debug from "../../../../../../utils/Debug";
@@ -31,6 +32,8 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
 {
     private _canEditTo: ( newName: string, oldName: string ) => boolean
 
+    private _editingInputRef: React.RefObject<HTMLInputElement> = React.createRef<HTMLInputElement>(); 
+
     constructor( props: FieldNameProps)
     {
         super( props );
@@ -45,6 +48,9 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
 
         this._updateName = this._updateName.bind(this)
 
+        this._inputFocusEventHandler = this._inputFocusEventHandler.bind(this); 
+
+        this._editAndSubmit = this._editAndSubmit.bind( this );
         this._submit = this._submit.bind(this);
         this._revert = this._revert.bind(this);
     }
@@ -53,41 +59,75 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
     {
         if( this.state.isEditing )
         {
+
             return (
-                <>
-                <Input
-                mr={2}
-                defaultValue={this.state.fieldName}
-                onChange={(evt: { target: { value: string; }; }) => this._updateName( evt.target.value ) }
-                width="12vw"
-                fontWeight="black"
-                fontSize="lg"
+                <HStack
+                style={{
+                    margin: "12px"
+                }}
+                >
+                    {
+                        this.props.tag !== undefined &&
+                        <Tag
+                        variant={this.props.tag === "required" ? "solid" : "subtle"}
+                        size="sm"
+                        colorScheme={this.props.tag === "required" ? "blue" : "green"}
+                        >
+                            {this.props.tag}
+                        </Tag>
+                    }
+                    <Input
+                    ref={this._editingInputRef}
+                    mr={2}
+                    defaultValue={this.state.fieldName}
+                    onChange={(evt: { target: { value: string; }; }) => this._updateName( evt.target.value ) }
+                    width="12vw"
+                    fontWeight="black"
+                    fontSize="lg"
 
-                />
-                <ButtonGroup justifyContent='center' size='sm' >
-                    <SubmitButton 
-                    isDisabled={ this.state.fieldName === this.state.prevName || !this._canEditTo( this.state.fieldName, this.state.prevName )}
-                    onClick={() => {
-                        if (this.state.fieldName === this.state.prevName ) return;
-
-                        if(this._canEditTo( this.state.fieldName , this.state.prevName) ) {
-                            this._submit();
-                        }
+                    onFocus={() => {
+                        window.addEventListener(
+                            "keydown", this._inputFocusEventHandler
+                        );
                     }}
+                    onBlur={ () => {
+                        window.removeEventListener("keydown", this._inputFocusEventHandler )
+                    }}
+
                     />
-                    <DismissButton
-                    onClick={this._revert}
-                    />
-                </ButtonGroup>
-                </>
+                    <ButtonGroup justifyContent='center' size='sm' >
+                        <SubmitButton 
+                        isDisabled={ this.state.fieldName === this.state.prevName || !this._canEditTo( this.state.fieldName, this.state.prevName )}
+                        onClick={this._editAndSubmit}
+                        />
+                        <DismissButton
+                        onClick={this._revert}
+                        />
+                    </ButtonGroup>
+                </HStack>
             )
         }
+
         else
         {
             return (
-                <Flex>
+                <Flex
+                style={{
+                    margin: "12px"
+                }}
+                >
+                    {
+                        this.props.tag !== undefined &&
+                        <Tag
+                        variant={this.props.tag === "required" ? "solid" : "subtle"}
+                        size="sm"
+                        colorScheme={this.props.tag === "required" ? "blue" : "green"}
+                        >
+                            {this.props.tag}
+                        </Tag>
+                    }
                     <Text 
-                    margin="0 5px 0 1.5vw"
+                    margin="0 5px 0 8px"
                     width="fit-content"
                     fontWeight="black"
                     fontSize="lg"
@@ -101,6 +141,9 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
                         onClick={ () => {
                             this.setState({
                                 isEditing: true
+                            }, () => {
+                                this._editingInputRef.current?.focus();
+                                this._editingInputRef.current?.select();
                             })
                         }}
                         />
@@ -112,16 +155,7 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
                     >
                         :
                     </Text>
-                    {
-                        this.props.tag !== undefined &&
-                        <Tag
-                        variant={this.props.tag === "required" ? "solid" : "subtle"}
-                        size="sm"
-                        colorScheme={this.props.tag === "required" ? "blue" : "green"}
-                        >
-                            {this.props.tag}
-                        </Tag>
-                    }
+                    
                 </Flex>
             )
         }
@@ -132,6 +166,28 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
         this.setState({ 
             fieldName: newName,
         })
+    }
+
+    private _inputFocusEventHandler(evt: KeyboardEvent)
+    {
+        if( evt.key.toUpperCase() === "ENTER" && this._canEditTo( this.state.fieldName , this.state.prevName) )
+        {
+            if (this.state.fieldName === this.state.prevName ) return; // returns first so that the event listener is not removed
+
+            this._editAndSubmit();
+            
+            window.removeEventListener("keydown", this._inputFocusEventHandler );
+        }
+    }
+
+    private _editAndSubmit()
+    {
+        Debug.log("called_editAndSubmit from FieldName")
+        if (this.state.fieldName === this.state.prevName ) return;
+
+        if( this._canEditTo( this.state.fieldName , this.state.prevName) ) {
+            this._submit();
+        }
     }
 
     private _submit()
@@ -183,14 +239,14 @@ interface SubmitButtonProps {
 const SubmitButton: React.FC<SubmitButtonProps> = ({onClick, isDisabled} : SubmitButtonProps) => 
 {
     return (
-        <Flex justifyContent='center' onClick={ isDisabled ? () => {} : onClick} >
-            <IconButton 
-            isDisabled={isDisabled}
+        <IconButton 
+        isDisabled={isDisabled}
 
-            aria-label="edit-button" 
-            size='sm' 
-            icon={<CheckIcon />} />
-        </Flex>   
+        onClick={ isDisabled ? () => {} : onClick} 
+
+        aria-label="edit-button" 
+        size='sm' 
+        icon={<CheckIcon />} />
     )
 }
 
@@ -205,13 +261,13 @@ interface DismissButtonProps {
 const DismissButton: React.FC<DismissButtonProps> = ({onClick, isDisabled} : DismissButtonProps) => 
 {
     return (
-        <Flex justifyContent='center' onClick={ isDisabled ? () => {} : onClick} >
-            <IconButton 
-            isDisabled={isDisabled}
+        <IconButton 
+        isDisabled={isDisabled}
 
-            aria-label="edit-button" 
-            size='sm' 
-            icon={<CloseIcon />} />
-        </Flex>   
+        onClick={ isDisabled ? () => {} : onClick}
+
+        aria-label="edit-button" 
+        size='sm' 
+        icon={<CloseIcon />} />
     )
 }

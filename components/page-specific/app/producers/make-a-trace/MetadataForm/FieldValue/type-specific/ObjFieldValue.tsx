@@ -1,4 +1,4 @@
-import { Button, Center, Stack, StackDivider } from "@chakra-ui/react";
+import { Box, Button, Center, HStack, Stack, StackDivider } from "@chakra-ui/react";
 import React from "react";
 import FieldValue, { FieldValueProps_NonOptional } from "..";
 import FieldName, { FieldNameProps, FieldNameTag } from "../../FieldName";
@@ -14,6 +14,7 @@ import NonChangebleHash from "./NonChangebleHash";
 import TextFieldValue from "./TextFieldValue";
 import LinkFieldValue from "./LinkFieldValue";
 import EmailFieldValue from "./EmailFiledValue";
+import RemotionButton from "../../../../../../../elements/RemotionButton";
 
 const { ToastContainer, toast: makeToast } = createStandaloneToast(theme)
 
@@ -22,7 +23,8 @@ export enum ObjFieldChangeReason {
     creation = 0,
     newField   = 1,
     fieldNameEdited = 2,
-    fieldValueChanged = 3
+    fieldValueChanged = 3,
+    fieldRemoved = 4
 }
 
 export interface FixedFieldDescriptor {
@@ -51,13 +53,21 @@ export interface ObjFieldValueProps extends IFieldValueProps
 
 interface ObjFieldValueState
 {
-    addedFields: JSX.Element[]
+    addedFields: FieldAndValuePair[]
 }
 
 export default class ObjFieldValue extends React.Component<ObjFieldValueProps, ObjFieldValueState>
 {
     private _value: object = {};
     private _isStateWriteable: boolean = true;
+
+    private _fieldCounter: number = 0;
+
+    private _getFieldCounter() : number
+    {
+        this._fieldCounter += 1;
+        return this._fieldCounter;
+    }
 
     constructor( props: ObjFieldValueProps)
     {
@@ -72,7 +82,10 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         
         this._defineProperty_and_callChange = this._defineProperty_and_callChange.bind(this);
         this._replacePropertyName_and_callChange = this._replacePropertyName_and_callChange.bind(this);
+        this._removeFieldWithKey_and_callChange = this._removeFieldWithKey_and_callChange.bind(this);
         
+        this._getFieldCounter = this._getFieldCounter.bind(this);
+
         this._checkNewFieldName = this._checkNewFieldName.bind(this);
 
         this._hasAnyUndefinedValue = this._hasAnyUndefinedValue.bind(this);
@@ -119,12 +132,11 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         return (
             <Stack
 
-            divider={<StackDivider borderColor='gray.200' />}
 
             style={{
                 display: "flex",
 
-                padding: "1vh 0",
+                padding: "1.5vh 0",
 
                 width: "92%", minWidth: "fit-content",
                 margin: "auto",
@@ -137,7 +149,9 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
             "
             >
                 <ToastContainer />
-                {this.state.addedFields}
+                
+                {this.state.addedFields.map( field => field.render() )}
+
                 <Center>
                     <Button onClick={() => this._addField()} >
                         Add a field
@@ -172,51 +186,56 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         
         this._isStateWriteable = false;
         this.setState({
-            addedFields: [...this.state.addedFields, (
-                <FieldAndValuePair
-                
-                key={"field_" + (this.state.addedFields.length + 1).toString()}
 
-                valueProps={{
-                    defaultValue: fieldValue
-                }}
+            addedFields: [...this.state.addedFields,
 
-                onChange={(newValue) => {
-                    if (!Object.keys(this._value).includes(newValue.fieldName)) {
-                        throw Error(
-                            "unable to find " + newValue.fieldName + "in the value" + JSON.stringify(this._value) +
-                            "\n\n note that field names changes should be handled in the \"fieldNameProps.onNameEdit\" property callback"
-                        );
+                new FieldAndValuePair({
+                    key: "field_" + this._getFieldCounter().toString(),
+                    removeable: nameTag !== "required",
+                    onRemotion: ( key: string | undefined, currFieldName: string | undefined ) => {
+
+                        if( key === undefined || currFieldName === undefined ) return;
+
+                        this._removeFieldWithKey_and_callChange( key, currFieldName );
+                        
+                    },
+                    valueProps: {
+                        defaultValue: fieldValue
+                    },
+                    onChange: (newValue) => {
+                        if (!Object.keys(this._value).includes(newValue.fieldName)) {
+                            throw Error(
+                                "unable to find " + newValue.fieldName + "in the value" + JSON.stringify(this._value) +
+                                "\n\n note that field names changes should be handled in the \"fieldNameProps.onNameEdit\" property callback"
+                            );
+                        }
+    
+                        (this._value as any)[newValue.fieldName] = newValue.value;
+    
+                        this.props.onChange(
+                            TypeUtils.copySerializable(this._value),
+                            ObjFieldChangeReason.fieldValueChanged
+                        )
+                    },
+                    fieldNameProps: {
+                        tag: nameTag,
+                        editable: isNameEditable,
+                        defaultValue: fieldName,
+
+                        canEditTo: this._checkNewFieldName,
+                        onNameEdit: (newName: string, oldName?: string) => {
+
+                            this._replacePropertyName_and_callChange(oldName, newName);
+                        }
                     }
+                })
+            ]
 
-                    (this._value as any)[newValue.fieldName] = newValue.value;
-
-
-                    this.props.onChange(
-                        TypeUtils.copySerializable(this._value),
-                        ObjFieldChangeReason.fieldValueChanged
-                    );
-                } }
-
-
-                fieldNameProps={{
-
-                    tag: nameTag,
-                    editable: isNameEditable,
-                    defaultValue: fieldName,
-
-                    canEditTo: this._checkNewFieldName,
-                    onNameEdit: (newName: string, oldName?: string) => {
-
-                        this._replacePropertyName_and_callChange(oldName, newName);
-                    }
-                }} 
-                />
-            )]
         }, () => {
             this._isStateWriteable = true;
             this.props.onChange( this._value )
         })
+
     }
 
     private _defineProperty_and_callChange( name: string, value: any, changeReason: ObjFieldChangeReason ) 
@@ -249,7 +268,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         {
             const prevShallowCopy = (this._value as any)[oldName] 
     
-            // actually ok
+            // actually ok if undefined
             // if( prevShallowCopy === undefined ) throw Error("trying to replace non exsisting property");
     
             // due to how the object is constructed we are sure everything here is json-serializable
@@ -262,6 +281,26 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         // create new Field using copied object
         this._defineProperty_and_callChange( newName, prevCopy, ObjFieldChangeReason.fieldNameEdited )
 
+    }
+
+    private _removeFieldWithKey_and_callChange( key: string, currFieldName: string )
+    {
+        if( !Object.keys(this._value).includes(currFieldName) ) throw Error("can't remove a field that is not Present");
+
+        delete (this._value as any)[currFieldName];
+
+        this.setState({
+            addedFields: this.state.addedFields
+                .filter(field => field.props.key !== key )
+        },
+        () => {
+            this.props.onChange(
+                TypeUtils.copySerializable(this._value),
+                ObjFieldChangeReason.fieldRemoved
+            );
+
+            Debug.log( TypeUtils.copySerializable(this._value) );
+        });
     }
 
 
@@ -322,8 +361,12 @@ interface FieldAndValue_ValueProps {
 interface FieldAndValuePairProps extends IFieldValueProps {
     onChange: ( newValue: FieldAndValue_onChangeInput ) => void
 
+    onRemotion: ( key ?: string, currFieldName ?: string ) => void
+
     fieldNameProps: FieldNameProps
     valueProps: FieldAndValue_ValueProps
+
+    key : string
 }
 
 interface FieldAndValuePairState {
@@ -368,136 +411,148 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
     {
         
         return (
-            <>
-            <FieldName
-
-            tag={this.props.fieldNameProps.tag}
-
-            editable={this.props.fieldNameProps.editable}
-            defaultValue={this.props.fieldNameProps.defaultValue}
-
-            canEditTo={this.props.fieldNameProps.canEditTo}
-            onNameEdit={(newName: string, prevName?: string | undefined ) => {
-
-                this._filedName = newName;
-
-                //  the ```fieldNameProps.onNameEdit``` is called before the ```onChange``` callback
-                this.props.fieldNameProps.onNameEdit && this.props.fieldNameProps.onNameEdit( newName, prevName );
-
-                // ```onChange``` callback with tracked values
-                this._callChange();
+            <Box
+            style={{
+                position: "relative"
             }}
+            key={this.props.key}
+            className="
+            placeholder-dbg-border
+            "
+            >
+                <HStack
+                >
+                    {this.props.removeable && <RemotionButton onClick={() => { this.props.onRemotion( this.props.key, this._filedName ) } } />}
+                    <FieldName
 
-            />
-            {
-                (() => {
+                    tag={this.props.fieldNameProps.tag}
 
-                    const defaultValValue = this.props.valueProps.defaultValue;
-                    Debug.log("FieldAndValuePair.props.valueProps.defaultValue:\n\n" +
-                        JSON.stringify(
-                            defaultValValue,
-                            undefined,
-                            2
-                        ) 
-                    )
+                    editable={this.props.fieldNameProps.editable}
+                    defaultValue={this.props.fieldNameProps.defaultValue}
 
-                    if( defaultValValue === undefined )
-                    {
-                        return ( <FieldValue
-                        get_onChange_fromChoice={(_whateverChoice) => this._changeValue_and_callChange} 
-                        /> );
-                    }
-                    else {
-                        switch( typeof defaultValValue )
+                    canEditTo={this.props.fieldNameProps.canEditTo}
+                    onNameEdit={(newName: string, prevName?: string | undefined ) => {
+
+                        this._filedName = newName;
+
+                        //  the ```fieldNameProps.onNameEdit``` is called before the ```onChange``` callback
+                        this.props.fieldNameProps.onNameEdit && this.props.fieldNameProps.onNameEdit( newName, prevName );
+
+                        // ```onChange``` callback with tracked values
+                        this._callChange();
+                    }}
+
+                    />
+                </HStack>
+                {
+                    (() => {
+
+                        const defaultValValue = this.props.valueProps.defaultValue;
+                        Debug.log("FieldAndValuePair.props.valueProps.defaultValue:\n\n" +
+                            JSON.stringify(
+                                defaultValValue,
+                                undefined,
+                                2
+                            ) 
+                        )
+
+                        if( defaultValValue === undefined )
                         {
-                            case "bigint":
-                            case "number":
-                                Debug.log("rendering NumField as value")
-                                return (<NumFieldValue 
-                                    defaultValue={
-                                        Number( defaultValValue )
-                                    }
-                                    onChange={this._changeValue_and_callChange}/>);
-                            break;
+                            return ( <FieldValue
+                            get_onChange_fromChoice={(_whateverChoice) => this._changeValue_and_callChange} 
+                            /> );
+                        }
+                        else {
+                            switch( typeof defaultValValue )
+                            {
+                                case "bigint":
+                                case "number":
+                                    Debug.log("rendering NumField as value")
+                                    return (<NumFieldValue 
+                                        defaultValue={
+                                            Number( defaultValValue )
+                                        }
+                                        onChange={this._changeValue_and_callChange}/>);
+                                break;
 
-                            case "boolean":
-                                return <ReadableSwitch
-                                defaultValue={defaultValValue}
-                                onChange={this._changeValue_and_callChange}
-                                />
-                            break;
-                            case "object":
-
-                                if(
-                                    Array.isArray( defaultValValue )
-                                )
-                                {
-                                    return (
-                                        <ObjFieldValue
-    
-                                        fixedFieds={defaultValValue}
-                                        
-                                        onChange={(newObj: object, what?: ObjFieldChangeReason | undefined): void  => {
-                                            this._changeValue_and_callChange( newObj );
-                                        }}
-                                        
-                                        />
-                                    )
-                                }
-                                else
-                                {
-                                }
-
-                                throw Error(
-                                    "couldn't determine a field value for the default value passed; default value: " +
-                                    JSON.stringify( defaultValValue , undefined, 2 )
-                                );
-
-                            break;
-                            case "string":
-
-                                if( TypeUtils.isHexString(
-                                    defaultValValue
-                                ))
-                                {
-                                    return <NonChangebleHash hash={defaultValValue} />
-                                }
-                                else if (
-                                    defaultValValue.startsWith("http://")  ||
-                                    defaultValValue.startsWith("https://") ||
-                                    defaultValValue.startsWith("ipfs://")
-                                )
-                                {
-                                    return <LinkFieldValue defaultValue={defaultValValue}
-                                    onChange={this._changeValue_and_callChange} />
-                                }
-                                else if( Array.from(defaultValValue).includes("@") )
-                                {
-                                    return <EmailFieldValue defaultValue={defaultValValue}
+                                case "boolean":
+                                    return <ReadableSwitch
+                                    defaultValue={defaultValValue}
                                     onChange={this._changeValue_and_callChange}
                                     />
-                                }
-                                else
-                                {
-                                    return <TextFieldValue
-                                    defaultValue={defaultValValue}
-                                    onChange={ this._changeValue_and_callChange }
-                                    />
-                                }
-                                throw Error("couldn't determine a field value for the default value passed");
+                                break;
+                                case "object":
 
-                            break;
+                                    if(
+                                        Array.isArray( defaultValValue )
+                                    )
+                                    {
+                                        return (
+                                            <ObjFieldValue
+        
+                                            fixedFieds={defaultValValue}
+                                            
+                                            onChange={(newObj: object, what?: ObjFieldChangeReason | undefined): void  => {
+                                                this._changeValue_and_callChange( newObj );
+                                            }}
+                                            
+                                            />
+                                        )
+                                    }
+                                    else
+                                    {
+                                    }
 
-                            case "symbol":
-                            case "undefined":
-                            case "function":
-                            default:
-                                throw Error("couldn't determine a field value for the default value passed");
+                                    throw Error(
+                                        "couldn't determine a field value for the default value passed; default value: " +
+                                        JSON.stringify( defaultValValue , undefined, 2 )
+                                    );
+
+                                break;
+                                case "string":
+
+                                    if( TypeUtils.isHexString(
+                                        defaultValValue
+                                    ) && defaultValValue !== "" )
+                                    {
+                                        return <NonChangebleHash hash={defaultValValue} />
+                                    }
+                                    else if (
+                                        defaultValValue.startsWith("http://")  ||
+                                        defaultValValue.startsWith("https://") ||
+                                        defaultValValue.startsWith("ipfs://")
+                                    )
+                                    {
+                                        return <LinkFieldValue defaultValue={defaultValValue}
+                                        onChange={this._changeValue_and_callChange} />
+                                    }
+                                    else if( Array.from(defaultValValue).includes("@") )
+                                    {
+                                        return <EmailFieldValue defaultValue={defaultValValue}
+                                        onChange={this._changeValue_and_callChange}
+                                        />
+                                    }
+                                    else
+                                    {
+                                        return <TextFieldValue
+                                        defaultValue={defaultValValue}
+                                        onChange={ this._changeValue_and_callChange }
+                                        />
+                                    }
+                                    throw Error("couldn't determine a field value for the default value passed");
+
+                                break;
+
+                                case "symbol":
+                                case "undefined":
+                                case "function":
+                                default:
+                                    throw Error("couldn't determine a field value for the default value passed");
+                            }
                         }
-                    }
-                })()
-            }
-            </>
+                    })()
+                }
+            </Box>
         )
     }
 

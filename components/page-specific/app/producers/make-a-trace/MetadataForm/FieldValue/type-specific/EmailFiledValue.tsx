@@ -33,8 +33,14 @@ export default class EmailFieldValue extends React.Component<EmailFieldValueProp
     render(): React.ReactNode
     {
         return (
-            <Input type="email"
-            isInvalid={EmailFieldValue.isEmail( this.state.email )}
+            <Input
+            type="email"
+            style={{
+                width:"90%",
+                margin: "auto 5%",
+                borderColor: EmailFieldValue.isEmail( this.state.email ) ? undefined : "red" 
+            }}
+            isInvalid={!EmailFieldValue.isEmail( this.state.email )}
             onChange={(event: React.ChangeEvent<HTMLInputElement>) => this._setEmail_and_callChange(event.target.value) }
             />
         );
@@ -55,14 +61,14 @@ export default class EmailFieldValue extends React.Component<EmailFieldValueProp
 
     private _setEmail_and_callChange( email: string )
     {
-        if( EmailFieldValue.isEmail( email ) )
-        {
-            this.setState({
-                email: email
-            },
-            this._callChange
-            )
+        this.setState({
+            email: email
+        },
+        () => {
+            if( EmailFieldValue.isEmail( email ) )
+                this._callChange()
         }
+        )
     }
 
     private _callChange()

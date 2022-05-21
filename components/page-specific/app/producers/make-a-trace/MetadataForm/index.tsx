@@ -64,11 +64,21 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
                             },
                             {
                                 fieldName: {
-                                    name: "email",
+                                    name: "contacts",
                                     tag: "suggested"
                                 },
-                                stringValue: {
-                                    value: "@"
+                                objValue: {
+                                    value: [
+                                        {
+                                            fieldName: {
+                                                name: "email",
+                                                tag: "suggested"
+                                            },
+                                            stringValue: {
+                                                value: "@"
+                                            }
+                                        }
+                                    ]
                                 }
                             }
                         ]
@@ -86,6 +96,9 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
                                 fieldName: {
                                     name: "identifier",
                                     tag: "required"
+                                },
+                                stringValue: {
+                                    value: ""
                                 }
                             },
                             {

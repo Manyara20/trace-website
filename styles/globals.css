@@ -10,14 +10,32 @@ body {
   box-sizing: border-box;
 }
 
-/*
-*:focus {
-  box-shadow: none !important /* remove default ChakraUI focus * /
-}
-*/
-
+/* prevents chakra border on clicks */
 body.js-prevent-focus-using-mouse *:focus {
   box-shadow: none !important;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 0.75vw;
+  height: 0.75vw; /* for horizontal scrolls */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #a3ccab;
+  border-radius: 10px;
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1f682a; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #32753d; 
 }
 
 
