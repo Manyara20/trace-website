@@ -34,7 +34,6 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
         }
     }
 
-
     render(): React.ReactNode
     {
         

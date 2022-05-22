@@ -1,10 +1,12 @@
-import { Button, Stack, useToast } from '@chakra-ui/react'
+import { Box, Button, Stack, Tab, useToast } from '@chakra-ui/react'
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import ScreenSizeSection from '../components/elements/ScreenSizeSeciton.ts'
 import { NextRouter, useRouter } from 'next/router';
 import Image from 'next/image';
-import Link from 'next/link';
+
+import app_constants from '../app_constants';
+import TabsScript from '../components/page-specific/TabsScript';
+
 
 const Home: NextPage = () => {
 
@@ -18,7 +20,7 @@ const Home: NextPage = () => {
         min-screen-height
         "
         >
-
+            <TabsScript />
             <ScreenSizeSection
             style={{
                 position: "relative",
@@ -167,7 +169,23 @@ const Home: NextPage = () => {
                                 size="lg"
 
                                 onClick={() => {
-                                    router.push("/app/trace-it")
+                                    //@ts-ignore
+                                    window.name = "_trace_home";
+                                    //@ts-ignore
+                                    const appWindow = window.launchApplication( app_constants.dbg_trace_url+ "app/trace-it" , "_trace_app" );
+
+                                    try {
+                                        //@ts-ignore
+                                        appWindow.launchApplication = {};
+                                        //@ts-ignore
+                                        appWindow.launchApplication.winrefs["_trace_home"] = window; 
+                                    }
+                                    catch
+                                    {
+                                        // ignore errors
+                                    }
+
+                                    //router.push("/app/trace-it")
                                 }}
                                 >
                                     App
@@ -204,22 +222,31 @@ const Home: NextPage = () => {
                 }}
                 className="placeholder-dbg-border min-screen-height "
                 >
-                    <div
+                    
+                    <Box
                     style={{
-                        border: "3px dashed black",
+                        position: "relative",
+
+                        backgroundColor: "#fff",
+
+                        //border: "3px dashed black",
                         borderRadius: "50%",
 
-                        height: "min( 50vw, 50vh )",
-                        width:  "min( 50vw, 50vh )",
+                        height: "min( 55vw, 55vh )",
+                        width:  "min( 55vw, 55vh )",
                         
                         display: "flex",
                         alignItems: "center",
-                        justifyContent: "center"
+                        justifyContent: "center",
+
+                        boxShadow: "0 0 40px -5px #00540c"
                     }}
-                    className="placeholder-dbg-border"
                     >
-                        logo here
-                    </div>
+                        <Image
+                        layout="fill"
+                        src="/trace/trace_03_fingerprint_only.svg"
+                        />
+                    </Box>
                 </div>
 
                 {/*just for padding*/}
@@ -234,7 +261,6 @@ const Home: NextPage = () => {
 
             </ScreenSizeSection>
             {/*<ScreenSizeSection></ScreenSizeSection>*/}
-
         </div>
     )
 }

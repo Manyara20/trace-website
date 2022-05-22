@@ -33,7 +33,8 @@ export interface FixedFieldDescriptor {
         /**
          * {suggested} `implies` removeable
          */
-        tag: FieldNameTag
+        tag: FieldNameTag,
+        // removeable ?: boolean 
     }
     objValue?: {
         value: FixedFieldDescriptor[]

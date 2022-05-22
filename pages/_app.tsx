@@ -9,6 +9,7 @@ import AppLayout from '../components/page-specific/app/layout/AppLayout'
 
 import theme from "../chakra/theme";
 import Script from 'next/script'
+import TabsScript from '../components/page-specific/TabsScript'
 
 
 type NextPageWithLayout = NextPage & {
@@ -27,7 +28,7 @@ function MyApp({ router, Component, pageProps }: AppPropsWithLayoutAndRouter) {
     return (
       <ChakraProvider theme={theme}>
         <Head>
-            <title>Trace</title>
+            <title>Trace | App</title>
             <meta name="description" content="decentralized product tracing service on the Cardano blockchain" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
@@ -56,6 +57,7 @@ function MyApp({ router, Component, pageProps }: AppPropsWithLayoutAndRouter) {
         });`
         }
         </Script>
+        <TabsScript />
       </ChakraProvider>
     )
   }
@@ -68,6 +70,7 @@ function MyApp({ router, Component, pageProps }: AppPropsWithLayoutAndRouter) {
           <link rel="icon" href="/favicon.ico" />
       </Head>
       <Component {...pageProps} />
+      <TabsScript />
     </ChakraProvider>
   )
 }

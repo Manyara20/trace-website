@@ -5,6 +5,7 @@ import Wallet from "../../../../ownWallets";
 
 import WalletsModal from "./WalletsModal";
 
+import app_constants from "../../../../app_constants";
 
 export interface AppTopBarProps {
     router: NextRouter
@@ -62,7 +63,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
 
     componentDidMount()
     {
-        
+
         this.getConnectedWallet();
 
         if( this._connectedWalletName !== undefined )
@@ -93,7 +94,15 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
     render(): React.ReactNode
     {
 
-        const buttonStyleForPath = ( buttonPath: string, caseTrue: string = "underLine", caseFalse: string = "no-border" ) => this.props.router.pathname.startsWith( buttonPath ) ?  caseTrue : caseFalse;
+        const buttonStyleForPath = (
+            buttonPath: string,
+            caseTrue: string = "underLine",
+            caseFalse: string = "no-border"
+        ) => {
+            return this.props.router.pathname.startsWith( buttonPath ) ?  caseTrue : caseFalse;
+        };
+
+
 
         return (
             <Box
@@ -122,8 +131,14 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     textAlign: "center",
                     top: "1vh",
                     left: "1vw",
+                    cursor: "pointer"
                 }}
-                onClick={() => this.props.router.replace("/")}
+                onClick={() =>{
+                    //@ts-ignore
+                    window.launchApplication( app_constants.dbg_trace_url  , "_trace_home" )
+                    
+                    //this.props.router.replace("/")
+                }}
                 >
                     Trace
                 </Heading>
