@@ -5,7 +5,7 @@ import Wallet from "../../../../ownWallets";
 
 import WalletsModal from "./WalletsModal";
 
-import app_constants from "../../../../app_constants";
+import Image from "next/image";
 
 export interface AppTopBarProps {
     router: NextRouter
@@ -120,28 +120,61 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                 placeholder-dbg-border
                 "
             >
-                <Heading
+                <Box
                 style={{
-                    color:"#efe",
-                    textShadow:"2px 2px 2px #095b15",
-                    position: "absolute",
-                    width: "12%",
-                    minWidth: "fit-content",
-                    height: "10%",
-                    textAlign: "center",
-                    top: "1vh",
-                    left: "1vw",
-                    cursor: "pointer"
+                    position: "relative",
+
+                    top: "-15%",
+
+                    height: "120%",
+                    width: "20%",
+
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+
+                    cursor: "pointer",
                 }}
                 onClick={() =>{
-                    //@ts-ignore
-                    window.launchApplication( app_constants.dbg_trace_url  , "_trace_home" )
+
+                    window.name = "_trace_app"                    
                     
+                    //@ts-ignore
+                    window.launchApplication( window.location.origin  , "_trace_home" )
                     //this.props.router.replace("/")
                 }}
+
+                className="
+                placeholder-dbg-border
+                "
                 >
-                    Trace
-                </Heading>
+                    <Box
+                    style={{
+                        position: "absolute",
+
+                        top: "35%",
+
+                        borderRadius: 100000,
+                        backgroundColor: "#035b10",
+
+                        boxShadow: "0 0 40px -10px #00540c",
+
+                        height: "26%",
+                        width: "60%",
+
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}
+                    className="
+                    placeholder-dbg-border
+                    "
+                    />
+                    <Image
+                    layout="fill"
+                    src="/trace/name_only_white.svg"
+                    />
+                </Box>
 
                 <Stack
                     spacing="3vw"

@@ -30,7 +30,7 @@ function MyApp({ router, Component, pageProps }: AppPropsWithLayoutAndRouter) {
         <Head>
             <title>Trace | App</title>
             <meta name="description" content="decentralized product tracing service on the Cardano blockchain" />
-            <link rel="icon" href="/favicon.ico" />
+            <link rel="icon" href="/trace/fingerprint_whiteOnGreen.svg" />
         </Head>
         <AppLayout>
           <Component {...pageProps} />
@@ -67,7 +67,7 @@ function MyApp({ router, Component, pageProps }: AppPropsWithLayoutAndRouter) {
       <Head>
           <title>Trace</title>
           <meta name="description" content="decentralized product tracing service on the Cardano blockchain" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/trace/fingerprint_whiteOnGreen.svg" />
       </Head>
       <Component {...pageProps} />
       <TabsScript />

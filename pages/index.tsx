@@ -26,7 +26,7 @@ const Home: NextPage = () => {
                 position: "relative",
                 display: "flex",
                 flexDirection: "row",
-                backgroundImage: "linear-gradient( -135deg, #7dc -60%, #28AB1F )"
+                backgroundImage: "linear-gradient( 135deg, #7dc -60%, #28AB1F )"
             }}
             className="
             placeholder-dbg-border
@@ -61,14 +61,15 @@ const Home: NextPage = () => {
                         "
                         >
 
-                            <h1
+                            <Box
                             style={{
-                                height: "80%",
-                                fontSize: "8em",
-                                textAlign: "center",
-                                color: "#efe",
+                                position: "relative",
 
-                                fontWeight: "bold",
+                                top: "-15%",
+                                left: "-10%",
+
+                                height: "130%",
+                                width: "120%",
 
                                 display: "flex",
                                 alignItems: "center",
@@ -78,8 +79,33 @@ const Home: NextPage = () => {
                             placeholder-dbg-border
                             "
                             >
-                                Trace
-                            </h1>
+                                <Box
+                                style={{
+                                    position: "absolute",
+    
+                                    top: "35%",
+
+                                    borderRadius: 100000,
+                                    backgroundColor: "#035b10",
+
+                                    boxShadow: "0 0 40px -10px #00540c",
+
+                                    height: "26%",
+                                    width: "100%",
+    
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center"
+                                }}
+                                className="
+                                placeholder-dbg-border
+                                "
+                                />
+                                <Image
+                                layout="fill"
+                                src="/trace/name_only_white.svg"
+                                />
+                            </Box>
 
                             <div
                             style={{
@@ -172,18 +198,15 @@ const Home: NextPage = () => {
                                     //@ts-ignore
                                     window.name = "_trace_home";
                                     //@ts-ignore
-                                    const appWindow = window.launchApplication( app_constants.dbg_trace_url+ "app/trace-it" , "_trace_app" );
+                                    const appWindow = window.launchApplication( window.location.origin + "/app/trace-it" , "_trace_app" );
 
-                                    try {
-                                        //@ts-ignore
-                                        appWindow.launchApplication = {};
-                                        //@ts-ignore
-                                        appWindow.launchApplication.winrefs["_trace_home"] = window; 
-                                    }
-                                    catch
-                                    {
-                                        // ignore errors
-                                    }
+
+                                    //@ts-ignore
+                                    appWindow.launchApplication = appWindow.launchApplication ?? {};
+
+                                    appWindow.launchApplication.winrefs = appWindow.launchApplication.winrefs ?? {};
+                                    //@ts-ignore
+                                    appWindow.launchApplication.winrefs["_trace_home"] = window; 
 
                                     //router.push("/app/trace-it")
                                 }}
@@ -229,7 +252,6 @@ const Home: NextPage = () => {
 
                         backgroundColor: "#fff",
 
-                        //border: "3px dashed black",
                         borderRadius: "50%",
 
                         height: "min( 55vw, 55vh )",
@@ -242,10 +264,25 @@ const Home: NextPage = () => {
                         boxShadow: "0 0 40px -5px #00540c"
                     }}
                     >
-                        <Image
-                        layout="fill"
-                        src="/trace/trace_03_fingerprint_only.svg"
-                        />
+                        <Box
+                        style={{
+
+                            position: "relative",
+    
+                            height: "min( 40vw, 40vh )",
+                            width:  "min( 40vw, 40vh )",
+                            
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+    
+                        }}
+                        >
+                            <Image
+                            layout="fill"
+                            src="/trace/fingerprint_only.svg"
+                            />
+                        </Box>
                     </Box>
                 </div>
 
