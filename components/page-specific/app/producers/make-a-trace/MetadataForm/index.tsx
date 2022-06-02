@@ -1,6 +1,6 @@
 import React from "react";
 import Debug from "../../../../../../utils/Debug";
-import TypeUtils from "../../../../../../utils/TypeUtils";
+import Utils from "../../../../../../utils/Utils";
 import ObjFieldValue from "./FieldValue/type-specific/ObjFieldValue";
 
 
@@ -19,7 +19,7 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
     public getMetadata()
     {
         return (
-            TypeUtils.copySerializable( this._metadata )
+            Utils.Object.copySerializable( this._metadata )
         );
     }
 
@@ -54,7 +54,7 @@ export default class MetadataForm extends React.Component<MetadataFormProps, Met
                         value: [
                             {
                                 fieldName: {
-                                    name: "Trace producer identifier (NFT policy)",
+                                    name: "identifier",
                                     tag: "required"
                                 },
                                 stringValue: {

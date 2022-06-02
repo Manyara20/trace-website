@@ -1,5 +1,10 @@
 import { Drawer, DrawerOverlay, DrawerContent, DrawerCloseButton, DrawerHeader, DrawerBody, Button, DrawerFooter } from "@chakra-ui/react";
 import React from "react";
+import CardanoGlobalCtx from "../../../../../cardano/CardanoGlobalCtx";
+import makeProducerTx from "../../../../../cardano/Trace/ProducerTx";
+import Trace, { TraceMetadata } from "../../../../../cardano/Trace/TraceMetadata";
+import Debug from "../../../../../utils/Debug";
+import Utils from "../../../../../utils/Utils";
 import MetadataForm from "./MetadataForm";
 
 
@@ -46,14 +51,54 @@ class MetadataDrawer extends React.Component<MetadataDarawerProps, MetadataDaraw
                         <Button
                             variant="solid-shadow"
                             colorScheme='d-green'
-                            onClick={() => {
-                                alert( 
-                                    JSON.stringify(
-                                        this.metadataFormRef.current?.getMetadata(),
-                                        undefined,
-                                        2
-                                    )
+                            onClick={async () => {
+                                const meta =
+                                    // refs migth be undefined, make sure there is one
+                                    this.metadataFormRef.current &&
+                                    // get cardano metadata from object
+                                    TraceMetadata.jsObjToMetadata(
+                                        Utils.Object.copySerializable(
+                                            this.metadataFormRef.current.getMetadata()
+                                        )
+                                    );
+                                
+                                if( !meta )
+                                {
+                                    throw Error("unable to get metadata, probably a problem with React component refernces");
+                                }
+                                
+                                const wallet = CardanoGlobalCtx.getWalletIfAny();
+
+                                if( wallet === undefined )
+                                {
+                                    throw Error("no wallet setted so far");
+                                }
+
+                                let walletAddresses : string[] = await wallet.getUsedAddresses();
+                                if( walletAddresses.length <= 0 )
+                                {
+                                    walletAddresses = await wallet.getUnusedAddresses();
+                                }
+
+                                Debug.log(
+                                    "Metadata Drawer button, going to make producer tx"
                                 );
+
+                                const producerTx = await makeProducerTx(
+                                    meta,
+                                    walletAddresses[0],
+                                    await wallet.getUtxos()
+                                );
+
+                                Debug.log(
+                                    "Metadata Drawer button, made producer tx"
+                                );
+
+                                await CardanoGlobalCtx.submitTransactionWith(
+                                    await CardanoGlobalCtx.signTransactionWith(
+                                        producerTx
+                                    )
+                                )
                             }}
                         >
                             Send

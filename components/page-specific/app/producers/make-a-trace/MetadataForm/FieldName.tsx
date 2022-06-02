@@ -68,13 +68,24 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
                 >
                     {
                         this.props.tag !== undefined &&
-                        <Tag
-                        variant={this.props.tag === "required" ? "solid" : "subtle"}
-                        size="sm"
-                        colorScheme={this.props.tag === "required" ? "blue" : "green"}
-                        >
-                            {this.props.tag}
-                        </Tag>
+                        (
+                            this.props.tag === "required" ?
+                            <Tag
+                            variant="subtle"
+                            size="lg"
+                            colorScheme="red"
+                            >
+                                *
+                            </Tag>
+                            :
+                            <Tag
+                            variant="subtle"
+                            size="sm"
+                            colorScheme="green"
+                            >
+                                {this.props.tag}
+                            </Tag>
+                        )
                     }
                     <Input
                     ref={this._editingInputRef}
@@ -118,13 +129,26 @@ export default class FieldName extends React.Component<FieldNameProps, FieldName
                 >
                     {
                         this.props.tag !== undefined &&
-                        <Tag
-                        variant={this.props.tag === "required" ? "solid" : "subtle"}
-                        size="sm"
-                        colorScheme={this.props.tag === "required" ? "blue" : "green"}
-                        >
-                            {this.props.tag}
-                        </Tag>
+                        (
+                            this.props.tag === "required" ?
+                            <span
+                            style={{
+                                color: "#f00",
+                                fontSize: "1.5em",
+                                top: 0
+                            }}
+                            >
+                                *
+                            </span>
+                            :
+                            <Tag
+                            variant="subtle"
+                            size="sm"
+                            colorScheme="green"
+                            >
+                                {this.props.tag}
+                            </Tag>
+                        )
                     }
                     <Text 
                     margin="0 5px 0 8px"

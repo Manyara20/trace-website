@@ -9,7 +9,7 @@ import theme from "../../../../../../../../chakra/theme";
 import NumFieldValue from "./NumFieldValue";
 import Debug from "../../../../../../../../utils/Debug";
 import ReadableSwitch from "../../../../../../../elements/ReadableSwitch";
-import TypeUtils from "../../../../../../../../utils/TypeUtils";
+import Utils from "../../../../../../../../utils/Utils";
 import NonChangebleHash from "./NonChangebleHash";
 import TextFieldValue from "./TextFieldValue";
 import LinkFieldValue from "./LinkFieldValue";
@@ -124,7 +124,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         }
         
         // update any parent
-        this.props.onChange( TypeUtils.copySerializable( this._value ) , ObjFieldChangeReason.creation )
+        this.props.onChange( Utils.Object.unchekedCopySerializable( this._value ) , ObjFieldChangeReason.creation )
     }
 
     render(): React.ReactNode
@@ -214,7 +214,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                         (this._value as any)[newValue.fieldName] = newValue.value;
     
                         this.props.onChange(
-                            TypeUtils.copySerializable(this._value),
+                            Utils.Object.unchekedCopySerializable(this._value),
                             ObjFieldChangeReason.fieldValueChanged
                         )
                     },
@@ -252,7 +252,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         );
 
         this.props.onChange(
-            TypeUtils.copySerializable(this._value),
+            Utils.Object.unchekedCopySerializable(this._value),
             changeReason
         );
     }
@@ -273,7 +273,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
             // if( prevShallowCopy === undefined ) throw Error("trying to replace non exsisting property");
     
             // due to how the object is constructed we are sure everything here is json-serializable
-            prevCopy = TypeUtils.copySerializable( prevShallowCopy );
+            prevCopy = Utils.Object.unchekedCopySerializable( prevShallowCopy );
             
             // remove old
             delete (this._value as any)[oldName];
@@ -296,11 +296,11 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         },
         () => {
             this.props.onChange(
-                TypeUtils.copySerializable(this._value),
+                Utils.Object.unchekedCopySerializable(this._value),
                 ObjFieldChangeReason.fieldRemoved
             );
 
-            Debug.log( TypeUtils.copySerializable(this._value) );
+            Debug.log( Utils.Object.unchekedCopySerializable(this._value) );
         });
     }
 
@@ -512,7 +512,7 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
                                 break;
                                 case "string":
 
-                                    if( TypeUtils.isHexString(
+                                    if( Utils.isHexString(
                                         defaultValValue
                                     ) && defaultValValue !== "" )
                                     {

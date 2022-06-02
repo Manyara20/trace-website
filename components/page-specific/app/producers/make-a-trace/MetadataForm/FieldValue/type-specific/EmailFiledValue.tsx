@@ -46,7 +46,7 @@ export default class EmailFieldValue extends React.Component<EmailFieldValueProp
         );
     }
 
-    public static isEmail( email: string | undefined )
+    public static isEmail( email: string | undefined ) : boolean
     {
         if( email === undefined ) return false;
         // ^                -> from start

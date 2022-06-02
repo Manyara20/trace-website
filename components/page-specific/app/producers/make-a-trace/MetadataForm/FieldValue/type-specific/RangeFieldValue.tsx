@@ -2,7 +2,7 @@ import { RangeSlider, RangeSliderTrack, RangeSliderFilledTrack, RangeSliderThumb
 import React from "react";
 import { ReactNode } from "react";
 import Debug from "../../../../../../../../utils/Debug";
-import TypeUtils from "../../../../../../../../utils/TypeUtils";
+import Utils from "../../../../../../../../utils/Utils";
 import IFieldValueProps from "../IFieldValueProps";
 import NumFieldValue from "./NumFieldValue";
 
@@ -36,7 +36,7 @@ export default class RangeFieldValue extends React.Component<RangeFieldValueProp
         this._callChange = this._callChange.bind(this);
 
         this._callChange(
-            TypeUtils.copySerializable( 
+            Utils.copySerializable( 
                 [
                     this.state.minBound,
                     this.state.maxBound
@@ -117,7 +117,7 @@ export default class RangeFieldValue extends React.Component<RangeFieldValueProp
                 else
                 {
                     Debug.log("central values", rangeValues , "result" ,
-                        TypeUtils.copySerializable(
+                        Utils.copySerializable(
                             [
                                 this.state.minBound,
                                 ...rangeValues ,
@@ -129,7 +129,7 @@ export default class RangeFieldValue extends React.Component<RangeFieldValueProp
                     );
 
                     this.props.onChange(
-                        TypeUtils.copySerializable(
+                        Utils.copySerializable(
                             [
                                 this.state.minBound,
                                 ...rangeValues ,

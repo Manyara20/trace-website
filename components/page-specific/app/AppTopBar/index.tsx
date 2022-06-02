@@ -6,6 +6,8 @@ import Wallet from "../../../../ownWallets";
 import WalletsModal from "./WalletsModal";
 
 import Image from "next/image";
+import CardanoGlobalCtx from "../../../../cardano/CardanoGlobalCtx";
+import Debug from "../../../../utils/Debug";
 
 export interface AppTopBarProps {
     router: NextRouter
@@ -72,17 +74,10 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
             {
             }
             else Wallet.enable( this._connectedWalletName )
-            .then( () => {
-
-                const wallet = Wallet.get( this._connectedWalletName );
-
-                const Iwallet = Wallet.getInterface( this._connectedWalletName )
-
-                this.setState({
-                    wallet: wallet,
-                    Iwallet: Iwallet
-                });
-
+            .then( () => this.connectWallet( this._connectedWalletName ?? "wallet is not undefined but we are in an async unction, so potentially it could be" ) )
+            .catch( (refusedConnection) => {
+                // remove form local storage
+                this.disconnectWallet();
             });
         }
 
@@ -102,8 +97,6 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
             return this.props.router.pathname.startsWith( buttonPath ) ?  caseTrue : caseFalse;
         };
 
-
-
         return (
             <Box
                 
@@ -120,6 +113,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                 placeholder-dbg-border
                 "
             >
+
                 <Box
                 style={{
                     position: "relative",
@@ -148,6 +142,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                 placeholder-dbg-border
                 "
                 >
+
                     <Box
                     style={{
                         position: "absolute",
@@ -174,6 +169,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     layout="fill"
                     src="/trace/name_only_white.svg"
                     />
+
                 </Box>
 
                 <Stack
@@ -268,12 +264,16 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         window.localStorage.setItem("CardanoTrace_user_connectedWallet", wName )
         
         Wallet.enable( wName ).then(
-            async (_) => {
+            async (_void) => {
 
                 const w = Wallet.get( wName );
 
+                CardanoGlobalCtx.setCip30Wallet( w.raw );
+                Debug.log("CardanoGlobalCtx.setCip30Wallet( w.raw ); was called in the AppTopBar component")
+
                 this.setState({
                     wallet: w,
+                    Iwallet: await Wallet.getInterface( wName ),
                     walletInfos: {
                         cborBalance: await w.raw.getBalance()
                     },
@@ -282,10 +282,6 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                 
             }
         );
-
-        this.setState({
-            Iwallet: await Wallet.getInterface( wName )
-        })
     }
     
     private disconnectWallet()
@@ -297,6 +293,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         if( typeof window === "undefined") return;
 
         window.localStorage.removeItem("CardanoTrace_user_connectedWallet");
+        CardanoGlobalCtx.setCip30Wallet( undefined );
 
         this.setState({
             wallet: null,
@@ -309,7 +306,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
     {
         if( typeof window === "undefined") return;
 
-        this._connectedWalletName = window.localStorage.getItem("CardanoTrace_user_connectedWallet") ?? undefined
+        this._connectedWalletName = window.localStorage.getItem("CardanoTrace_user_connectedWallet") ?? undefined;
     }
 
     

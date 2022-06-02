@@ -3,7 +3,6 @@
 import { Buffer } from "buffer";
 
 
-
 let private_walletInterface_hasBlockFrost = false;
 class Wallet
 {

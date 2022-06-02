@@ -1,6 +1,6 @@
 import { Input, Text } from "@chakra-ui/react";
 import React from "react";
-import TypeUtils from "../../../../../../../../utils/TypeUtils";
+import Utils from "../../../../../../../../utils/Utils";
 
 export interface NonChangebleHashProps {
     hash: string
@@ -17,7 +17,7 @@ export default class NonChangebleHash extends React.Component< NonChangebleHashP
     {
         super(props);
 
-        if( !TypeUtils.isHexString(props.hash) )
+        if( !Utils.isHexString(props.hash) )
         {
             throw Error("trying to construct a NonChangebleHash component without an hexadecimal string as hash; input was: " + this.props.hash )
         }
