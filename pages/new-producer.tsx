@@ -205,7 +205,7 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
             }}
         />,
         <NewProducerDialog
-            text="The Blockchain si persistent"
+            text="The Blockchain is persistent"
             description="this means there is no way to delete the informations you'll share once registered"
             goBackBtnProps={{
                 text: "I'm not ok with that",
