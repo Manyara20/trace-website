@@ -18,7 +18,8 @@ export default class StringUtils
 
     public static isEmail( email: string | undefined ) : boolean
     {
-        if( email === undefined ) return false;
+        if( email === undefined || typeof email !== "string" ) return false;
+        
         // ^                -> from start
         // [A-Z0-9._%+-]+   -> at least one letter / number / allowed email char
         // @                -> @

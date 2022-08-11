@@ -32,11 +32,12 @@ class MetadataDrawer extends React.Component<MetadataDarawerProps, MetadataDaraw
             <Drawer
                 onClose={this.props.close}
                 isOpen={this.props.shoudBeOpen}
-                size="full"
+                size="xl"
             >
                 <DrawerOverlay />
 
-                <DrawerContent>
+                <DrawerContent
+                >
                 
                     <DrawerCloseButton />
 
@@ -71,7 +72,7 @@ class MetadataDrawer extends React.Component<MetadataDarawerProps, MetadataDaraw
 
                                 if( wallet === undefined )
                                 {
-                                    throw Error("no wallet setted so far");
+                                    throw Error("no wallet set so far");
                                 }
 
                                 let walletAddresses : string[] = await wallet.getUsedAddresses();
@@ -94,7 +95,7 @@ class MetadataDrawer extends React.Component<MetadataDarawerProps, MetadataDaraw
                                     "Metadata Drawer button, made producer tx"
                                 );
 
-                                await CardanoGlobalCtx.submitTransactionWith(
+                                const txHash = await CardanoGlobalCtx.submitTransactionWith(
                                     await CardanoGlobalCtx.signTransactionWith(
                                         producerTx
                                     )

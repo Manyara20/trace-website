@@ -1,10 +1,9 @@
-import { Box, Button, Stack, Tab, useToast } from '@chakra-ui/react'
+import { Box, Button, Center, Stack, Tab, useToast } from '@chakra-ui/react'
 import type { NextPage } from 'next'
 import ScreenSizeSection from '../components/elements/ScreenSizeSeciton.ts'
 import { NextRouter, useRouter } from 'next/router';
 import Image from 'next/image';
 
-import app_constants from '../app_constants';
 import TabsScript from '../components/page-specific/TabsScript';
 
 
@@ -29,7 +28,7 @@ const Home: NextPage = () => {
                 backgroundImage: "linear-gradient( 135deg, #7dc -60%, #28AB1F )"
             }}
             className="
-            placeholder-dbg-border
+            no-dbg
             "
             >
                 <div
@@ -37,7 +36,7 @@ const Home: NextPage = () => {
                     flex:13,
                     position: "relative"
                 }}
-                className="placeholder-dbg-border"
+                className="no-dbg"
                 >
 
                     <div
@@ -47,7 +46,7 @@ const Home: NextPage = () => {
                         position: "relative"
                     }}
                     className="
-                    placeholder-dbg-border
+                    no-dbg
                     centred-on-relative-parent
                     "
                     >
@@ -57,7 +56,7 @@ const Home: NextPage = () => {
                             position: "relative",
                         }}
                         className="
-                        placeholder-dbg-border
+                        no-dbg
                         "
                         >
 
@@ -76,7 +75,7 @@ const Home: NextPage = () => {
                                 justifyContent: "center"
                             }}
                             className="
-                            placeholder-dbg-border
+                            no-dbg
                             "
                             >
                                 <Box
@@ -98,12 +97,12 @@ const Home: NextPage = () => {
                                     justifyContent: "center"
                                 }}
                                 className="
-                                placeholder-dbg-border
+                                no-dbg
                                 "
                                 />
                                 <Image
                                 layout="fill"
-                                src="/trace/name_only_white.svg"
+                                src="/trace/fingerprint/name_only_white.svg"
                                 />
                             </Box>
 
@@ -116,7 +115,7 @@ const Home: NextPage = () => {
                                 top: "65%",
                             }}
                             className="
-                            placeholder-dbg-border
+                            no-dbg
                             "
                             >
                                 <div
@@ -127,7 +126,7 @@ const Home: NextPage = () => {
                                     marginBottom:  0
                                 }}
                                 className="
-                                placeholder-dbg-border
+                                no-dbg
                                 "
                                 >
 
@@ -138,7 +137,7 @@ const Home: NextPage = () => {
                                         color: "#efe",
                                     }}
                                     className="
-                                    placeholder-dbg-border
+                                    no-dbg
                                     "
                                     >
                                         Built on
@@ -154,7 +153,7 @@ const Home: NextPage = () => {
                                     position: "absolute"
                                 }}
                                 className="
-                                placeholder-dbg-border
+                                no-dbg
                                 "
                                 >
                                     <Image
@@ -174,7 +173,7 @@ const Home: NextPage = () => {
                             height: "30%",
                         }}
                         className="
-                         placeholder-dbg-border
+                         no-dbg
                         "
 
                         >
@@ -184,7 +183,7 @@ const Home: NextPage = () => {
                             spacing={4} 
                             align='center' justify="center" 
                             className="
-                             placeholder-dbg-border
+                             no-dbg
                             centred-on-relative-parent
                             "
                             >
@@ -243,7 +242,7 @@ const Home: NextPage = () => {
                     justifyContent: "center",
                     alignItems: "center"
                 }}
-                className="placeholder-dbg-border min-screen-height "
+                className="no-dbg min-screen-height "
                 >
                     
                     <Box
@@ -280,7 +279,7 @@ const Home: NextPage = () => {
                         >
                             <Image
                             layout="fill"
-                            src="/trace/fingerprint_only.svg"
+                            src="/trace/fingerprint/fingerprint_only.svg"
                             />
                         </Box>
                     </Box>
@@ -291,12 +290,292 @@ const Home: NextPage = () => {
                 style={{
                     flex:2,
                 }}
-                className="placeholder-dbg-border min-screen-height "
+                className="no-dbg min-screen-height "
                 />
                 {/*just for padding*/}
 
 
             </ScreenSizeSection>
+
+            {/* ----------------------------------------------- ROADMAP ----------------------------------------------- */}
+
+            <ScreenSizeSection
+            style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "row",
+                backgroundImage: "linear-gradient( 45deg, #7dc -60%, #28AB1F )"
+            }}
+            className="
+            no-dbg
+            "
+            >
+
+                <Center
+                style={{
+                    width: "100%", height: "100%"
+                }}
+                className="
+                no-dbg
+                "
+                >
+                    
+                    <Center
+                    style={{
+                        width: "80%", height: "80%",
+                        position: "relative"
+                    }}
+                    className="
+                    no-dbg
+                    "
+                    >
+
+                        <Image 
+                        src="/trace/roadmap/white-bg.png"
+                        layout="fill"
+                        />
+
+                    </Center>
+
+                </Center>
+
+            </ScreenSizeSection>
+
+            {/* ----------------------------------------------- What is TRACE ----------------------------------------------- */}
+
+            <ScreenSizeSection
+            style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "row",
+                backgroundImage: "linear-gradient( 135deg, #7dc -60%, #28AB1F )"
+            }}
+            className="
+            no-dbg
+            "
+            >
+
+                <Center
+                style={{
+                    width: "100%", height: "100%",
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column"
+                }}
+                className="
+                no-dbg
+                "
+                >
+
+                    <Center
+                    style={{
+                        width: "100%",
+                        flex:1
+                    }}
+                    className='
+                    no-dbg
+                    '
+                    >
+                        <h1
+                        style={{
+                            color: "#fff",
+                            fontSize: "4em",
+                            fontWeight: "bold"
+                        }}
+                        className='
+                        no-dbg
+                        '
+                        >
+                            What is Trace
+                        </h1>
+                    </Center>
+                    <Center
+                    style={{
+                        width: "100%",
+                        flex: 4,
+                        display: "flex",
+                        flexDirection: "row"
+                    }}
+                    className='
+                    no-dbg
+                    '
+                    >
+                        <Center
+                        style={{
+                            height: "100%",
+                            maxHeight: "80vh",
+                            flex:5,
+                            color: "#fff",
+                            fontWeight: "bold",
+                            fontSize: "1.4em",
+                            padding: "0 10%"
+                        }}
+                        className='
+                        no-dbg
+                        '
+                        >
+                            Lorem ipsum dolor sit amet,
+                            consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Enim nec dui nunc mattis enim ut tellus elementum sagittis. 
+                            Libero justo laoreet sit amet cursus sit. 
+                            Aliquet eget sit amet tellus cras adipiscing. 
+                            Dolor sit amet consectetur adipiscing elit ut aliquam. 
+                            Ultrices in iaculis nunc sed. 
+                            Tristique nulla aliquet enim tortor at auctor. 
+                            Condimentum vitae sapien pellentesque habitant. 
+                            Nunc sed blandit libero volutpat sed cras. 
+                            Vitae ultricies leo integer malesuada. 
+                            Placerat orci nulla pellentesque dignissim enim sit amet venenatis urna. 
+                            Enim tortor at auctor urna nunc id cursus metus. 
+                            Tortor vitae purus faucibus ornare suspendisse sed nisi. 
+                            Duis ultricies lacus sed turpis tincidunt id aliquet. 
+                        </Center>
+                        <Center
+                        style={{
+                            height: "100%",
+                            flex: 3,
+                            display: "flex",
+                            flexDirection: "row"
+                        }}
+                        className='
+                        no-dbg
+                        '
+                        >
+                            
+                        </Center>
+                    </Center>
+
+                </Center>
+
+            </ScreenSizeSection>
+
+            {/* ----------------------------------------------- FOR PRODUCERS ----------------------------------------------- */}
+
+            <ScreenSizeSection
+            style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "row",
+                backgroundImage: "linear-gradient( 45deg, #7dc -60%, #28AB1F )"
+            }}
+            className="
+            no-dbg
+            "
+            >
+
+                <Center
+                style={{
+                    width: "100%", height: "100%", maxHeight: "100vh",
+                    position: "relative",
+                    display: "flex",
+                    flexDirection: "column"
+                }}
+                className="
+                no-dbg
+                "
+                >
+
+                    <Center
+                    style={{
+                        width: "100%",
+                        flex:1
+                    }}
+                    className='
+                    no-dbg
+                    '
+                    >
+                        <h1
+                        style={{
+                            color: "#fff",
+                            fontSize: "4em",
+                            fontWeight: "bold"
+                        }}
+                        className='
+                        no-dbg
+                        '
+                        >
+                            For Producers
+                        </h1>
+                    </Center>
+                    <Center
+                    style={{
+                        width: "100%",
+                        flex: 4,
+                        display: "flex",
+                        flexDirection: "row"
+                    }}
+                    className='
+                    no-dbg
+                    '
+                    >
+                        <Center
+                        style={{
+                            height: "100%",
+                            maxHeight: "80vh",
+                            flex:5,
+                            color: "#fff",
+                            fontWeight: "bold",
+                            fontSize: "1.3em",
+                            padding: "0 5% 0 10%"
+                        }}
+                        className='
+                        no-dbg
+                        '
+                        >
+                            Lorem ipsum dolor sit amet,
+                            consectetur adipiscing elit, 
+                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                            Enim nec dui nunc mattis enim ut tellus elementum sagittis. 
+                            Libero justo laoreet sit amet cursus sit. 
+                            Aliquet eget sit amet tellus cras adipiscing. 
+                            Dolor sit amet consectetur adipiscing elit ut aliquam. 
+                            Ultrices in iaculis nunc sed. 
+                            Tristique nulla aliquet enim tortor at auctor. 
+                            Condimentum vitae sapien pellentesque habitant. 
+                            Nunc sed blandit libero volutpat sed cras. 
+                            Vitae ultricies leo integer malesuada. 
+                            Placerat orci nulla pellentesque dignissim enim sit amet venenatis urna. 
+                            Enim tortor at auctor urna nunc id cursus metus. 
+                            Tortor vitae purus faucibus ornare suspendisse sed nisi. 
+                            Duis ultricies lacus sed turpis tincidunt id aliquet. 
+                        </Center>
+                        <Center
+                        style={{
+                            height: "100%",
+                            flex: 5,
+                            display: "flex",
+                            flexDirection: "row"
+                        }}
+                        className='
+                        no-dbg
+                        '
+                        >
+                            
+                        </Center>
+                    </Center>
+
+                </Center>
+
+            </ScreenSizeSection>
+
+            {/* ----------------------------------------------- TEAM ----------------------------------------------- */}
+            {/*
+            <ScreenSizeSection
+            style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "row",
+                backgroundImage: "linear-gradient( 135deg, #7dc -60%, #28AB1F )"
+            }}
+            className="
+            no-dbg
+            "
+            >
+
+            </ScreenSizeSection>
+            //*/
+            }
             {/*<ScreenSizeSection></ScreenSizeSection>*/}
         </div>
     )

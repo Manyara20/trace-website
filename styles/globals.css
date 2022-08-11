@@ -15,6 +15,16 @@ body.js-prevent-focus-using-mouse *:focus {
   box-shadow: none !important;
 }
 
+@font-face {
+  font-family: 'cooper-hewitt';
+  src: url("./fonts/cooper-hewitt-boldItalic/cooperhewitt-bolditalic-webfont.woff2") format('woff2'),
+       url('./fonts/cooper-hewitt-boldItalic/cooperhewitt-bolditalic-webfont.woff') format('woff'),
+       url('./fonts/cooper-hewitt-boldItalic/cooperhewitt-bolditalic-webfont.ttf') format('ttf'),
+       url('./fonts/cooper-hewitt-boldItalic/cooperhewitt-bolditalic-webfont.eot') format('eot');
+  font-weight: bold;
+  font-style: italic;
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 0.75vw;
@@ -101,6 +111,7 @@ body.js-prevent-focus-using-mouse *:focus {
   flex-direction: column;
 }
 
+.dbg,
 .dbg-border {
   border: red 3px solid;
 }

@@ -2,7 +2,7 @@ import { Input } from "@chakra-ui/react";
 import React from "react";
 import IFieldValueProps from "../IFieldValueProps";
 
-export interface EmailFieldValueProps extends IFieldValueProps{
+export interface EmailFieldValueProps extends IFieldValueProps {
 
 }
 

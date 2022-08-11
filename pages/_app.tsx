@@ -24,7 +24,7 @@ type AppPropsWithLayoutAndRouter = AppProps & {
 
 function MyApp({ router, Component, pageProps }: AppPropsWithLayoutAndRouter) {
   
-  if (router.pathname.startsWith('/app')) {
+  if (router.pathname.startsWith('/app') ) {
     return (
       <ChakraProvider theme={theme}>
         <Head>

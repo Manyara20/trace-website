@@ -167,7 +167,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     />
                     <Image
                     layout="fill"
-                    src="/trace/name_only_white.svg"
+                    src="/trace/fingerprint/name_only_white.svg"
                     />
 
                 </Box>

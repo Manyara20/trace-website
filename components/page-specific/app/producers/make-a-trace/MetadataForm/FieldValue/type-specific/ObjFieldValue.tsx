@@ -117,7 +117,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
                         ensureFieldAdded();
                     }
 
-                }, 50 );
+                }, 10 );
 
                 ensureFieldAdded();
             }
@@ -139,7 +139,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
 
                 padding: "1.5vh 0",
 
-                width: "92%", minWidth: "fit-content",
+                width: "92%", maxWidth: "100%",
                 margin: "auto",
 
                 border: "#999a 1px solid", borderRadius: 12
@@ -328,7 +328,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
         {
             makeToast({
                 title: "Underscores are not allowed :(",
-                description: "there is an underscore ( _ ) int the name \""+ newName +"\"; please try any other ",
+                description: "there is an underscore ( _ ) in the name \""+ newName +"\"; please try any other ",
                 status: 'warning',
                 variant: "subtle",
                 duration: 4500,
