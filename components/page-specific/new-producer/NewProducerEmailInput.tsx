@@ -12,6 +12,8 @@ export interface NewProducerEmailInputProps {
     prompt: string
     goBackBtnProps: NewProducerDialogBtnProps
     goNextBtnProps: NewProducerDialogBtnProps
+
+    default: string | undefined
 }
 
 interface NewProducerEmailInputState {
@@ -28,7 +30,7 @@ export default class NewProducerEmailInput extends React.Component<NewProducerEm
         super( props );
 
         this.state = {
-            email: undefined,
+            email: this.props.default,
             disabled: true
         };
 
@@ -87,6 +89,7 @@ export default class NewProducerEmailInput extends React.Component<NewProducerEm
                 >
 
                     <Input
+                    defaultValue={this.props.default}
                     type="email"
                     style={{
                         width:"90%",

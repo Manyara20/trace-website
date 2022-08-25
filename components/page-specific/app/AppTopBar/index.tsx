@@ -130,12 +130,13 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                     cursor: "pointer",
                 }}
                 onClick={() =>{
-
+                    /*
                     window.name = "_trace_app"                    
                     
                     //@ts-ignore
                     window.launchApplication( window.location.origin  , "_trace_home" )
-                    //this.props.router.replace("/")
+                    */
+                    this.props.router.replace("/")
                 }}
 
                 className="

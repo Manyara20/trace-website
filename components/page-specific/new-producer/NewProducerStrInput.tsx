@@ -9,6 +9,8 @@ export interface NewProducerStrInputProps {
     prompt: string
     goBackBtnProps: NewProducerDialogBtnProps
     goNextBtnProps: NewProducerDialogBtnProps
+
+    default: string | undefined
 }
 
 interface NewProducerStrInputState {
@@ -25,8 +27,8 @@ export default class NewProducerStrInput extends React.Component<NewProducerStrI
         super( props );
 
         this.state ={
-            str: undefined,
-            disabled: true
+            str: this.props.default,
+            disabled: this.props.default === undefined || this.props.default === ""
         };
 
         this._setStr_and_callChange = this._setStr_and_callChange.bind(this);
@@ -38,6 +40,8 @@ export default class NewProducerStrInput extends React.Component<NewProducerStrI
 
     render(): React.ReactNode
     {
+
+        console.log("default input: " + this.props.default)
     return(
         <Center
         style={{
@@ -84,6 +88,7 @@ export default class NewProducerStrInput extends React.Component<NewProducerStrI
             >
                 
                 <Input
+                defaultValue={this.props.default}
                 type="str"
                 style={{
                     width:"90%",

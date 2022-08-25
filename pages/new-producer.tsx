@@ -1,36 +1,38 @@
 import { Button, Center } from "@chakra-ui/react";
 import { AnimatePresence, motion } from "framer-motion";
+import { NextRouter, withRouter } from "next/router";
 import React from "react";
 import ScreenSizeSection from "../components/elements/ScreenSizeSeciton.ts";
 import NewProducerDialog from "../components/page-specific/new-producer/NewProducerDialog";
 import NewProducerEmailInput from "../components/page-specific/new-producer/NewProducerEmailInput";
 import NewProducerInputLayout from "../components/page-specific/new-producer/NewProducerInputLayout";
+import NewProducerSocialInput, { NewProducerSocialInputValue } from "../components/page-specific/new-producer/NewProducerSocialsInput";
 import NewProducerStrInput from "../components/page-specific/new-producer/NewProducerStrInput";
 import h1TextCss from "../styles/h1TextCss";
 import Debug from "../utils/Debug";
-import ObjectUtils from "../utils/Utils/ObjectUtils";
 import StringUtils from "../utils/Utils/StringUtils";
 
 
 export interface NewProducerPageProps {
-    
+    router: NextRouter
 }
 
 export interface NewProducerBuisnessInfos
 {
     name?: string
     email?: string
+    socials?: NewProducerSocialInputValue
 }
 
 export interface NewProducerPageState {
     index: number
     prevIdx: number
     nextIdx: number
-    pBuisnessInfos: NewProducerBuisnessInfos
+    BuisnessInfos: NewProducerBuisnessInfos
 
 }
 
-export default class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerPageState>
+class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerPageState>
 {
     constructor( props: NewProducerPageProps )
     {
@@ -40,11 +42,10 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
             index: 0,
             prevIdx: 0,
             nextIdx: 0,
-            pBuisnessInfos: {}
+            BuisnessInfos: {}
         };
 
         this._getDialogs = this._getDialogs.bind(this);
-        this.dialogs = this._getDialogs();
 
         this._changeIndexTo = this._changeIndexTo.bind(this);
         this._updateBuisnessInfos = this._updateBuisnessInfos.bind(this);
@@ -94,7 +95,7 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
                         }}
                         >
                             {
-                                this.dialogs[ this.state.index ]
+                                this._getDialogs( this.state.index )
                             }
                     </motion.div>
                     
@@ -125,8 +126,8 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
     {
         this.setState(
             {
-                pBuisnessInfos: {
-                    ...this.state.pBuisnessInfos,
+                BuisnessInfos: {
+                    ...this.state.BuisnessInfos,
                     ...newInfos   
                 }
             },
@@ -134,8 +135,7 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
         );
     }
 
-    private dialogs: JSX.Element[];
-    private _getDialogs() {
+    private _getDialogs( index: number ) {
         return [
         <NewProducerDialog
             text="A little birdie told me you want to integrate Blockchain technology with your products"
@@ -143,7 +143,7 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
             goBackBtnProps={{
                 text: "Nope, wrong person",
                 onClick: () => {
-                    typeof window !== "undefined" && window?.history.back()
+                    this.props.router.push("/#trace-producer")
                 }
             }}
             goNextBtnProps={{
@@ -220,14 +220,14 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
                 }
             }}
         />,
-        <NewProducerStrInput
+        <NewProducerStrInput default={this.state.BuisnessInfos.name}
         prompt="What is the name of your buisness?"
         onChange={( newName?: string ) => {
                 this._updateBuisnessInfos({
                     name: newName
                 },
                 () => Debug.log(
-                    "this.state.pBuisnessInfos updated to", this.state.pBuisnessInfos, this.state.pBuisnessInfos.name === undefined || this.state.pBuisnessInfos.name === ""
+                    "this.state.BuisnessInfos updated to", this.state.BuisnessInfos, this.state.BuisnessInfos.name === undefined || this.state.BuisnessInfos.name === ""
                 )
             );
         }}
@@ -239,21 +239,21 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
         }}
         goNextBtnProps={{
             onClick: () => {
-                if( this.state.pBuisnessInfos.name === undefined || this.state.pBuisnessInfos.name === "" ) return;
+                if( this.state.BuisnessInfos.name === undefined || this.state.BuisnessInfos.name === "" ) return;
                 this._changeIndexTo( this.state.index + 1 )
             },
             text: "Confirm",
-            disabled: this.state.pBuisnessInfos.name === undefined || this.state.pBuisnessInfos.name === ""
+            disabled: this.state.BuisnessInfos.name === undefined || this.state.BuisnessInfos.name === ""
         }}
         />,
-        <NewProducerEmailInput 
+        <NewProducerEmailInput default={this.state.BuisnessInfos.email}
         prompt="buisness' contact email:"
         onChange={( newEmail: string | undefined ) => {
                 this._updateBuisnessInfos({
                     email: newEmail
                 },
                 () => Debug.log(
-                    "this.state.pBuisnessInfos updated to", this.state.pBuisnessInfos, this.state.pBuisnessInfos.name === undefined || this.state.pBuisnessInfos.name === ""
+                    "this.state.BuisnessInfos updated to", this.state.BuisnessInfos
                 )
             );
         }}
@@ -265,12 +265,51 @@ export default class NewProducerPage extends React.Component<NewProducerPageProp
         }}
         goNextBtnProps={{
             onClick: () => {
-                if( !StringUtils.isEmail( this.state.pBuisnessInfos.email ) ) return;
+                if( !StringUtils.isEmail( this.state.BuisnessInfos.email ) ) return;
                 this._changeIndexTo( this.state.index + 1 )
             },
             text: "Confirm",
-            disabled: !StringUtils.isEmail( this.state.pBuisnessInfos.email )
+            disabled: !StringUtils.isEmail( this.state.BuisnessInfos.email )
         }}
         />,
-    ];};
+        <NewProducerDialog
+            text="now some optional informations"
+            description="What follows is not needed to identify your buisness but will help the consumer know more about you!"
+            goBackBtnProps={{
+                text: "Wait let me check my Email",
+                onClick: () => {
+                    this._changeIndexTo( this.state.index - 1 )
+                }
+            }}
+            goNextBtnProps={{
+                text: "Sure! let's see",
+                onClick: () => {
+                    this._changeIndexTo( this.state.index + 1 )
+                }
+            }}
+        />,
+        <NewProducerSocialInput
+        default={this.state.BuisnessInfos.socials}
+        onChange={
+            ( socials ) => this._updateBuisnessInfos({
+                socials
+            },
+            () => Debug.log( this.state.BuisnessInfos ))
+        }
+        goBackBtnProps={{
+            text: "Go Back",
+            onClick: () => {
+                this._changeIndexTo( this.state.index - 1 )
+            }
+        }}
+        goNextBtnProps={{
+            text: "Continue",
+            onClick: () => {
+                // this._changeIndexTo( this.state.index + 1 )
+            }
+        }}
+        />
+    ][index];};
 }
+
+export default withRouter(NewProducerPage);

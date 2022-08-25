@@ -36,4 +36,9 @@ export default class StringUtils
 
         return /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi.test( url );
     }
+
+    public static removeAllSpaces( str: string ): string
+    {
+        return str.trim().split(' ').join('');
+    }
 }

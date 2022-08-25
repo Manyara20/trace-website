@@ -194,20 +194,18 @@ const Home: NextPage = () => {
                                 size="lg"
 
                                 onClick={() => {
+                                    /* // attempt to open single page on two clicks
                                     //@ts-ignore
                                     window.name = "_trace_home";
                                     //@ts-ignore
                                     const appWindow = window.launchApplication( window.location.origin + "/app/trace-it" , "_trace_app" );
-
-
                                     //@ts-ignore
                                     appWindow.launchApplication = appWindow.launchApplication ?? {};
-
                                     appWindow.launchApplication.winrefs = appWindow.launchApplication.winrefs ?? {};
                                     //@ts-ignore
                                     appWindow.launchApplication.winrefs["_trace_home"] = window; 
-
-                                    //router.push("/app/trace-it")
+                                    */
+                                    router.push("/app/trace-it");
                                 }}
                                 >
                                     App
@@ -408,7 +406,8 @@ const Home: NextPage = () => {
                             color: "#fff",
                             fontWeight: "bold",
                             fontSize: "1.4em",
-                            padding: "0 10%"
+                            padding: "10px 10%",
+                            overflowY: "auto"
                         }}
                         className='
                         no-dbg
@@ -491,6 +490,7 @@ const Home: NextPage = () => {
                             fontSize: "4em",
                             fontWeight: "bold"
                         }}
+                        id="trace-producer"
                         className='
                         no-dbg
                         '
@@ -517,7 +517,8 @@ const Home: NextPage = () => {
                             color: "#fff",
                             fontWeight: "bold",
                             fontSize: "1.3em",
-                            padding: "0 5% 0 10%"
+                            padding: "10px 5% 10px 10%",
+                            overflowY: "auto"
                         }}
                         className='
                         no-dbg
@@ -551,7 +552,21 @@ const Home: NextPage = () => {
                         no-dbg
                         '
                         >
-                            
+                            <Button
+                            fontSize='3xl'
+                            style={{
+                                width: "60%", minWidth: "fit-content",
+                                height: "25%", minHeight: "fit-content",
+                                borderRadius: "12px"
+                            }}
+                            onClick={() => {
+                                router.push("/new-producer");
+                            }}
+                            >
+                                Become a <br></br>
+                                Trace Producer <br></br>
+                                Now
+                            </Button>
                         </Center>
                     </Center>
 
