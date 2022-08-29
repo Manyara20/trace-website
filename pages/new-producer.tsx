@@ -6,6 +6,7 @@ import ScreenSizeSection from "../components/elements/ScreenSizeSeciton.ts";
 import NewProducerDialog from "../components/page-specific/new-producer/NewProducerDialog";
 import NewProducerEmailInput from "../components/page-specific/new-producer/NewProducerEmailInput";
 import NewProducerInputLayout from "../components/page-specific/new-producer/NewProducerInputLayout";
+import NewProducerLinkInput from "../components/page-specific/new-producer/NewProducerLinkInput";
 import NewProducerSocialInput, { NewProducerSocialInputValue } from "../components/page-specific/new-producer/NewProducerSocialsInput";
 import NewProducerStrInput from "../components/page-specific/new-producer/NewProducerStrInput";
 import h1TextCss from "../styles/h1TextCss";
@@ -22,6 +23,8 @@ export interface NewProducerBuisnessInfos
     name?: string
     email?: string
     socials?: NewProducerSocialInputValue
+    website?: string
+    logoLink?: string
 }
 
 export interface NewProducerPageState {
@@ -305,9 +308,53 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         goNextBtnProps={{
             text: "Continue",
             onClick: () => {
-                // this._changeIndexTo( this.state.index + 1 )
+                this._changeIndexTo( this.state.index + 1 )
             }
         }}
+        />,
+        <NewProducerLinkInput
+            prompt="Website"
+            default={this.state.BuisnessInfos.website}
+            onChange={( website ) =>
+                this._updateBuisnessInfos({website},
+                    () => Debug.log(
+                        "this.state.BuisnessInfos updated to", this.state.BuisnessInfos
+                    )
+                )}
+            goBackBtnProps={{
+                text: "Go Back",
+                onClick: () => {
+                    this._changeIndexTo( this.state.index - 1 )
+                }
+            }}
+            goNextBtnProps={{
+                text: "Continue",
+                onClick: () => {
+                    this._changeIndexTo( this.state.index + 1 )
+                }
+            }}
+        />,
+        <NewProducerLinkInput
+            prompt="Logo of your buisness"
+            default={this.state.BuisnessInfos.logoLink}
+            onChange={( logoLink ) =>
+                this._updateBuisnessInfos({logoLink},
+                    () => Debug.log(
+                        "this.state.BuisnessInfos updated to", this.state.BuisnessInfos
+                    )
+                )}
+            goBackBtnProps={{
+                text: "Go Back",
+                onClick: () => {
+                    this._changeIndexTo( this.state.index - 1 )
+                }
+            }}
+            goNextBtnProps={{
+                text: "Continue",
+                onClick: () => {
+                    // this._changeIndexTo( this.state.index + 1 )
+                }
+            }}
         />
     ][index];};
 }

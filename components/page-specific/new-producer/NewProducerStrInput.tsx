@@ -26,7 +26,7 @@ export default class NewProducerStrInput extends React.Component<NewProducerStrI
     {
         super( props );
 
-        this.state ={
+        this.state = {
             str: this.props.default,
             disabled: this.props.default === undefined || this.props.default === ""
         };

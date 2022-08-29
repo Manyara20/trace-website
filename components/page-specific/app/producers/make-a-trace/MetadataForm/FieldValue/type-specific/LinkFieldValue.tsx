@@ -18,6 +18,8 @@ const protocols : LinkFieldValueProtocol[] = [
 
 export interface LinkFieldValueProps extends IFieldValueProps {
     defaultValue?: string
+
+    inputStyle?: React.CSSProperties
 }
 
 interface LinkFieldValueState {
@@ -56,7 +58,11 @@ export default class LinkFieldValue extends React.Component< LinkFieldValueProps
             >
                 <InputLeftAddon children={
                     <Menu>
-                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+                        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}
+                        style={{
+                            color: "#000"
+                        }}
+                        >
                             {this.state.protocol}
                         </MenuButton>
                         <MenuList>
@@ -73,7 +79,10 @@ export default class LinkFieldValue extends React.Component< LinkFieldValueProps
                         </MenuList>
                     </Menu>
                     } />
-                <Input type="url"
+                <Input
+                type="url"
+                style={this.props.inputStyle}
+                defaultValue={this.props.defaultValue?.split("//").slice(1).join('')}
                 onChange={
                     (event: React.ChangeEvent<HTMLInputElement>) =>
                         this._setLink_and_callChange(event.target.value)
