@@ -162,6 +162,10 @@ function ProtocolMenuItem({protocol, onClick}: ProtocolMenuItemProps)
         <MenuItem 
         onClick={() => onClick( protocol ) }
 
+        style={{
+            color: "#000"
+        }}
+
         margin="auto"
         >
             {protocol}

@@ -74,10 +74,7 @@ export class TraceMetadata
 
             if(
                 // is signed int
-                ( typeof jsVal === "number" && Math.abs( jsVal ) <= (Math.pow(2, 32) - 1) )
-                
-                ||
-                
+                ( typeof jsVal === "number" && Math.abs( jsVal ) <= (Math.pow(2, 32) - 1) )  ||
                 ( typeof jsVal === "bigint" && 
                     ( 
                         jsVal <= BigInt( (Math.pow(2, 32) - 1) ) && 
@@ -139,7 +136,7 @@ export class TraceMetadata
                 )
             }
 
-            Debug.log("metadata construction successfull; number of top-level paarams is equal? ", metadataMap.len() === oKeys.length )
+            Debug.log("metadata construction successfull; number of top-level params is equal? ", metadataMap.len() === oKeys.length )
             return TransactionMetadatum.new_map( metadataMap );
         }
 
