@@ -295,50 +295,6 @@ const Home: NextPage = () => {
 
             </ScreenSizeSection>
 
-            {/* ----------------------------------------------- ROADMAP ----------------------------------------------- */}
-
-            <ScreenSizeSection
-            style={{
-                position: "relative",
-                display: "flex",
-                flexDirection: "row",
-                backgroundImage: "linear-gradient( 45deg, #7dc -60%, #28AB1F )"
-            }}
-            className="
-            no-dbg
-            "
-            >
-
-                <Center
-                style={{
-                    width: "100%", height: "100%"
-                }}
-                className="
-                no-dbg
-                "
-                >
-                    
-                    <Center
-                    style={{
-                        width: "80%", height: "80%",
-                        position: "relative"
-                    }}
-                    className="
-                    no-dbg
-                    "
-                    >
-
-                        <Image 
-                        src="/trace/roadmap/roadmap_trace.drawio_OCT.svg"
-                        layout="fill"
-                        />
-
-                    </Center>
-
-                </Center>
-
-            </ScreenSizeSection>
-
             {/* ----------------------------------------------- What is TRACE ----------------------------------------------- */}
 
             <ScreenSizeSection
@@ -346,7 +302,7 @@ const Home: NextPage = () => {
                 position: "relative",
                 display: "flex",
                 flexDirection: "row",
-                backgroundImage: "linear-gradient( 135deg, #7dc -60%, #28AB1F )"
+                backgroundImage: "linear-gradient( 45deg, #7dc -60%, #28AB1F )"
             }}
             className="
             no-dbg
@@ -367,8 +323,7 @@ const Home: NextPage = () => {
 
                     <Box
                     style={{
-                        width: "100%",
-                        flex:1
+                        width: "100%"
                     }}
                     className='
                     no-dbg
@@ -381,9 +336,10 @@ const Home: NextPage = () => {
                             fontWeight: "bold",
 
                             backgroundColor: "#fff",
-                            width: "45%",
+                            width: "65%",
                             borderRadius: "0 12vh 12vh 0",
-                            paddingLeft: "2vw"
+                            paddingLeft: "12vw",
+                            position: "absolute"
                         }}
                         className='
                         no-dbg
@@ -456,7 +412,7 @@ const Home: NextPage = () => {
                 position: "relative",
                 display: "flex",
                 flexDirection: "row",
-                backgroundImage: "linear-gradient( 45deg, #7dc -60%, #28AB1F )"
+                backgroundImage: "linear-gradient( 135deg, #7dc -60%, #28AB1F )"
             }}
             className="
             no-dbg
@@ -486,9 +442,16 @@ const Home: NextPage = () => {
                     >
                         <h1
                         style={{
-                            color: "#fff",
+                            color: "#215B12",
                             fontSize: "4em",
-                            fontWeight: "bold"
+                            fontWeight: "bold",
+
+                            backgroundColor: "#fff",
+                            width: "65%",
+                            marginLeft: "35%",
+                            borderRadius: "12vh 0 0 12vh",
+                            paddingLeft: " 18vw",
+                            position: "absolute"
                         }}
                         id="trace-producer"
                         className='
@@ -565,6 +528,51 @@ const Home: NextPage = () => {
 
             </ScreenSizeSection>
 
+            {/* ----------------------------------------------- ROADMAP ----------------------------------------------- */}
+
+            <ScreenSizeSection
+            style={{
+                position: "relative",
+                display: "flex",
+                flexDirection: "row",
+                backgroundImage: "linear-gradient( 45deg, #7dc -60%, #28AB1F )"
+            }}
+            className="
+            no-dbg
+            "
+            >
+
+                <Center
+                style={{
+                    width: "100%", height: "100%"
+                }}
+                className="
+                no-dbg
+                "
+                >
+                    
+                    <Center
+                    style={{
+                        width: "80%", height: "80%",
+                        position: "relative"
+                    }}
+                    className="
+                    no-dbg
+                    "
+                    >
+
+                        <Image 
+                        src="/trace/roadmap/roadmap_trace.drawio_OCT.svg"
+                        layout="fill"
+                        />
+
+                    </Center>
+
+                </Center>
+
+            </ScreenSizeSection>
+
+            
             {/* ----------------------------------------------- TEAM ----------------------------------------------- */}
             {/*
             <ScreenSizeSection
