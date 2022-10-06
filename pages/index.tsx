@@ -216,7 +216,7 @@ const Home: NextPage = () => {
                                 onClick={() =>
                                     noDocsToast({
                                       title: 'Documentation is being written',
-                                      description: "We are currently writing the documentation, follow us on twitter to stay updated",
+                                      description: "We are currently writing the documentation, follow us on Twitter to stay updated",
                                       status: 'warning',
                                       duration: 4500,
                                       isClosable: true,
@@ -329,7 +329,7 @@ const Home: NextPage = () => {
                     >
 
                         <Image 
-                        src="/trace/roadmap/white-bg.png"
+                        src="/trace/roadmap/roadmap_trace.drawio_OCT.svg"
                         layout="fill"
                         />
 
@@ -384,7 +384,7 @@ const Home: NextPage = () => {
                         no-dbg
                         '
                         >
-                            What is Trace
+                            About Trace
                         </h1>
                     </Center>
                     <Center
@@ -413,22 +413,17 @@ const Home: NextPage = () => {
                         no-dbg
                         '
                         >
-                            Lorem ipsum dolor sit amet,
-                            consectetur adipiscing elit, 
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                            Enim nec dui nunc mattis enim ut tellus elementum sagittis. 
-                            Libero justo laoreet sit amet cursus sit. 
-                            Aliquet eget sit amet tellus cras adipiscing. 
-                            Dolor sit amet consectetur adipiscing elit ut aliquam. 
-                            Ultrices in iaculis nunc sed. 
-                            Tristique nulla aliquet enim tortor at auctor. 
-                            Condimentum vitae sapien pellentesque habitant. 
-                            Nunc sed blandit libero volutpat sed cras. 
-                            Vitae ultricies leo integer malesuada. 
-                            Placerat orci nulla pellentesque dignissim enim sit amet venenatis urna. 
-                            Enim tortor at auctor urna nunc id cursus metus. 
-                            Tortor vitae purus faucibus ornare suspendisse sed nisi. 
-                            Duis ultricies lacus sed turpis tincidunt id aliquet. 
+                         Trace is a Web3 interface for Product Tracing.
+                         <br></br>
+                         <br></br>
+                         Bringing blockchain-based traceability to small producers is critical, as many SMEs don't have the funds or time to engage with complicated industry portals.
+                         <br></br>
+                         <br></br>
+                         For these reasons, we want Trace to be:
+                         <br></br>
+                         - Affordable;
+                         <br></br>
+                         - Easy-to-Use.
                         </Center>
                         <Center
                         style={{
@@ -524,22 +519,13 @@ const Home: NextPage = () => {
                         no-dbg
                         '
                         >
-                            Lorem ipsum dolor sit amet,
-                            consectetur adipiscing elit, 
-                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                            Enim nec dui nunc mattis enim ut tellus elementum sagittis. 
-                            Libero justo laoreet sit amet cursus sit. 
-                            Aliquet eget sit amet tellus cras adipiscing. 
-                            Dolor sit amet consectetur adipiscing elit ut aliquam. 
-                            Ultrices in iaculis nunc sed. 
-                            Tristique nulla aliquet enim tortor at auctor. 
-                            Condimentum vitae sapien pellentesque habitant. 
-                            Nunc sed blandit libero volutpat sed cras. 
-                            Vitae ultricies leo integer malesuada. 
-                            Placerat orci nulla pellentesque dignissim enim sit amet venenatis urna. 
-                            Enim tortor at auctor urna nunc id cursus metus. 
-                            Tortor vitae purus faucibus ornare suspendisse sed nisi. 
-                            Duis ultricies lacus sed turpis tincidunt id aliquet. 
+                            Businesses of all sizes are able to mint an exclusive NFT to identify their own business. 
+                            <br></br> 
+                            <br></br>
+                            In turn, the NFT allows access to the "Producer Area", where business owners can enter product information and create custom product profiles. 
+                            <br></br>
+                            <br></br>
+                            Become a Trace Producer today: mint your Company's NFT! 
                         </Center>
                         <Center
                         style={{

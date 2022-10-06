@@ -141,8 +141,8 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
     private _getDialogs( index: number ) {
         return [
         <NewProducerDialog
-            text="A little birdie told me you want to integrate Blockchain technology with your products"
-            description="This process will take up to 10 minutes, be sure to sit back and relax"
+            text="A little birdie told us you want to integrate Blockchain technology with your products."
+            description="This process will take up to 10 minutes, sit back and relax!"
             goBackBtnProps={{
                 text: "Nope, wrong person",
                 onClick: () => {
@@ -157,10 +157,10 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerDialog
-            text="We are going to make an NFT in order to identify your buisness"
+            text="We are going to make an NFT in order to identify your buisness."
             description={[
-                "Make sure you had a look at the documentation in order to understand how this will be used",
-                "once you have your NFT you are responsable for it"
+                "Make sure you read the documentation in order to understand how this will be used",
+                "once you have your NFT you are responsable for it!"
             ]}
             goBackBtnProps={{
                 text: "Humm, I'll pass",
@@ -192,8 +192,8 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerDialog
-            text="The Blockchain si public"
-            description="this means all the informations you'll share in this process can be accessed by everyone in the world"
+            text="The Blockchain is public"
+            description="this means all the information you share in this process can be accessed by everyone in the world"
             goBackBtnProps={{
                 text: "I'm not ok with that",
                 onClick: () => {
@@ -209,7 +209,7 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         />,
         <NewProducerDialog
             text="The Blockchain is persistent"
-            description="this means there is no way to delete the informations you'll share once registered"
+            description="this means there is no way to delete the information you share once registered"
             goBackBtnProps={{
                 text: "I'm not ok with that",
                 onClick: () => {
@@ -224,7 +224,7 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerStrInput default={this.state.BuisnessInfos.name}
-        prompt="What is the name of your buisness?"
+        prompt="What is the name of your business?"
         onChange={( newName?: string ) => {
                 this._updateBuisnessInfos({
                     name: newName
@@ -250,7 +250,7 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         }}
         />,
         <NewProducerEmailInput default={this.state.BuisnessInfos.email}
-        prompt="buisness' contact email:"
+        prompt="Contact email:"
         onChange={( newEmail: string | undefined ) => {
                 this._updateBuisnessInfos({
                     email: newEmail
@@ -276,7 +276,7 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         }}
         />,
         <NewProducerDialog
-            text="now some optional informations"
+            text="Optional information"
             description="What follows is not needed to identify your buisness but will help the consumer know more about you!"
             goBackBtnProps={{
                 text: "Wait let me check my Email",
