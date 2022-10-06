@@ -60,6 +60,7 @@ export default async function makeMintTx( asset_name: string, nftProps: Metadata
         })
     );
 
+
     txBuilder.add_inputs_from( utxoList, CoinSelectionStrategyCIP2.RandomImprove );
 
     // return everything to the specified address since no outputs are specified

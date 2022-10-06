@@ -365,7 +365,7 @@ const Home: NextPage = () => {
                 "
                 >
 
-                    <Center
+                    <Box
                     style={{
                         width: "100%",
                         flex:1
@@ -376,9 +376,14 @@ const Home: NextPage = () => {
                     >
                         <h1
                         style={{
-                            color: "#fff",
+                            color: "#215B12",
                             fontSize: "4em",
-                            fontWeight: "bold"
+                            fontWeight: "bold",
+
+                            backgroundColor: "#fff",
+                            width: "45%",
+                            borderRadius: "0 12vh 12vh 0",
+                            paddingLeft: "2vw"
                         }}
                         className='
                         no-dbg
@@ -386,7 +391,7 @@ const Home: NextPage = () => {
                         >
                             About Trace
                         </h1>
-                    </Center>
+                    </Box>
                     <Center
                     style={{
                         width: "100%",
