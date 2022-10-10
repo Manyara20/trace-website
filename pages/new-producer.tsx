@@ -159,8 +159,8 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         <NewProducerDialog
             text="We are going to make an NFT in order to identify your buisness."
             description={[
-                "Make sure you read the documentation in order to understand how this will be used",
-                "once you have your NFT you are responsable for it!"
+                "Make sure you read the documentation in order to understand how this will be used.",
+                "Once you have your NFT you are responsable for it!"
             ]}
             goBackBtnProps={{
                 text: "Humm, I'll pass",
@@ -176,8 +176,8 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerDialog
-            text="Before we start"
-            description="there are two an important things you should keep in mind during the entire process"
+            text="Before we start."
+            description="There are two important things to keep in mind during the entire process:"
             goBackBtnProps={{
                 text: "Wait, how did I get here",
                 onClick: () => {
@@ -192,8 +192,8 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerDialog
-            text="The Blockchain is public"
-            description="this means all the information you share in this process can be accessed by everyone in the world"
+            text="1) The Blockchain is public!"
+            description="This means all the information you share in this process can be accessed by everyone in the world"
             goBackBtnProps={{
                 text: "I'm not ok with that",
                 onClick: () => {
@@ -208,8 +208,8 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerDialog
-            text="The Blockchain is persistent"
-            description="this means there is no way to delete the information you share once registered"
+            text="The Blockchain is persistent!"
+            description="This means there is no way to delete the information you share once registered."
             goBackBtnProps={{
                 text: "I'm not ok with that",
                 onClick: () => {

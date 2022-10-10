@@ -311,7 +311,8 @@ const Home: NextPage = () => {
 
                 <Center
                 style={{
-                    width: "100%", height: "100%",
+                    width: "100%", height: "50%",
+                    backgroundColor: "#00000060",
                     position: "relative",
                     display: "flex",
                     flexDirection: "column"
@@ -331,14 +332,14 @@ const Home: NextPage = () => {
                     >
                         <h1
                         style={{
-                            color: "#215B12",
+                            color: "#fff",
                             fontSize: "4em",
                             fontWeight: "bold",
 
-                            backgroundColor: "#fff",
-                            width: "65%",
-                            borderRadius: "0 12vh 12vh 0",
-                            paddingLeft: "12vw",
+                            /*backgroundColor: "#ffffff80",*/
+                            width: "100%",
+                            
+                            paddingLeft: "10vw",
                             position: "absolute"
                         }}
                         className='
@@ -351,7 +352,7 @@ const Home: NextPage = () => {
                     <Center
                     style={{
                         width: "100%",
-                        flex: 4,
+                       flex: 4,
                         display: "flex",
                         flexDirection: "row"
                     }}
@@ -362,6 +363,7 @@ const Home: NextPage = () => {
                         <Center
                         style={{
                             height: "100%",
+                            
                             maxHeight: "80vh",
                             flex:5,
                             color: "#fff",
@@ -421,7 +423,8 @@ const Home: NextPage = () => {
 
                 <Center
                 style={{
-                    width: "100%", height: "100%", maxHeight: "100vh",
+                    width: "100%", height: "50%", maxHeight: "100vh",
+                    backgroundColor: "#00000060",
                     position: "relative",
                     display: "flex",
                     flexDirection: "column"
@@ -442,15 +445,15 @@ const Home: NextPage = () => {
                     >
                         <h1
                         style={{
-                            color: "#215B12",
+                            color: "#fff",
                             fontSize: "4em",
                             fontWeight: "bold",
 
-                            backgroundColor: "#fff",
-                            width: "65%",
-                            marginLeft: "35%",
-                            borderRadius: "12vh 0 0 12vh",
-                            paddingLeft: " 18vw",
+                            /*backgroundColor: "#fff",*/
+                            width: "100%",
+                            /*marginLeft: "35%",
+                            borderRadius: "12vh 0 0 12vh",*/
+                            paddingLeft: " 10vw",
                             position: "absolute"
                         }}
                         id="trace-producer"
@@ -509,6 +512,7 @@ const Home: NextPage = () => {
                             <Button
                             fontSize='3xl'
                             style={{
+                                color: "#006633",
                                 width: "60%", minWidth: "fit-content",
                                 height: "25%", minHeight: "fit-content",
                                 borderRadius: "12px"
@@ -517,9 +521,8 @@ const Home: NextPage = () => {
                                 router.push("/new-producer");
                             }}
                             >
-                                Become a <br></br>
-                                Trace Producer <br></br>
-                                Now
+                                Mint Your Company NFT<br></br>
+                                Now!
                             </Button>
                         </Center>
                     </Center>
