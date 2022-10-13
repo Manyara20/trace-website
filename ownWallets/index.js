@@ -821,8 +821,7 @@ function private_makeWalletInterface( walletStringName )
  */
 function private_makeWallet( WalletProvider, defaultBlockfrost_api_key )
 {
- 
-
+  
   const submitTransaction = async ( signedTransaction ) =>
   {
     return await private_submitTransaction( WalletProvider, signedTransaction )

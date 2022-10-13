@@ -25,6 +25,7 @@ interface AppTopBarState {
 
 interface WalletInfos
 {
+    addr: string;
     cborBalance: string
 }
 
@@ -47,6 +48,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
             isWalletModalOpen: false,
             walletInfos : {
                 cborBalance: "",
+                addr: ""
             },
         }
 
@@ -272,11 +274,16 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                 CardanoGlobalCtx.setCip30Wallet( w.raw );
                 Debug.log("CardanoGlobalCtx.setCip30Wallet( w.raw ); was called in the AppTopBar component")
 
+                const addrResult = await w.raw.getAddress();
+
+                const addr = typeof addrResult === "object" ? addrResult.data : addrResult; 
+
                 this.setState({
                     wallet: w,
                     Iwallet: await Wallet.getInterface( wName ),
                     walletInfos: {
-                        cborBalance: await w.raw.getBalance()
+                        cborBalance: await w.raw.getBalance(),
+                        addr: addr 
                     },
                     walletConncetionAction: "",
                 });
@@ -333,7 +340,10 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
 
     private WalletStuff()
     {
+        const addr = this.state.walletInfos.addr;
+
         return(
+
             <>
             <WalletsModal
                 shouldBeOpen={this.state.isWalletModalOpen}
@@ -352,7 +362,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                         right="2vw"
                         mr={6}
                         >
-                            {(this.state.Iwallet as any).name}
+                            {(this.state.Iwallet as any).name + `  |  ${addr.slice( 0, 8 )}...${addr.slice( addr.length - 5 )}`/* + address */} 
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent mr={6}>
