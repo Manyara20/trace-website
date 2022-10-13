@@ -274,7 +274,17 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                 CardanoGlobalCtx.setCip30Wallet( w.raw );
                 Debug.log("CardanoGlobalCtx.setCip30Wallet( w.raw ); was called in the AppTopBar component")
 
-                const addrResult = await w.raw.getAddress();
+                let addrResult;
+                if( w.raw.getAddress )
+                {
+                    addrResult = await w.raw.getAddress();
+                }
+                else if( w.raw.getUsedAddresses )
+                {
+                    addrResult = (await w.raw.getUsedAddresses())[0];
+                    if( addrResult === undefined )
+                        addrResult = (await w.raw.getUnusedAddresses())[0]
+                }
 
                 const addr = typeof addrResult === "object" ? addrResult.data : addrResult; 
 
