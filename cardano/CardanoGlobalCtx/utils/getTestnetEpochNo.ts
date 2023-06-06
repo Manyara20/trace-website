@@ -6,7 +6,7 @@ export default function getTestnetEpochNo(): number
             Date.now() -
             Date.UTC(2019,7,24,20,20,16,0) // cardano testnet start
         ) // slot * 1000                |
-        / // divided by 86_400_000      | -> days form mainnet
+        / // divided by 86_400_000      | -> days from mainnet
         (
             864e5 // milliseconds in Day
             *

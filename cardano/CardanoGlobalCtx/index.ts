@@ -16,7 +16,7 @@ export interface Cip30Wallet
 export default class CardanoGlobalCtx
 {
 
-    private static async _blockfrostReqest( endpoint: string , testnet: boolean = false ): Promise<any>
+    private static async _blockfrostRequest( endpoint: string , testnet: boolean = false ): Promise<any>
     {
         endpoint = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
         return await fetch(
@@ -57,7 +57,7 @@ export default class CardanoGlobalCtx
                 return koiosArray[0]
             })
             .catch(
-                _koiosDidntWork => CardanoGlobalCtx._blockfrostReqest( "/epochs/latest/parameters", testnet )
+                _koiosDidntWork => CardanoGlobalCtx._blockfrostRequest( "/epochs/latest/parameters", testnet )
             )
     }
 

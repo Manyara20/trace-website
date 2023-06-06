@@ -17,7 +17,7 @@ interface AppTopBarState {
     wallet: object | null
     Iwallet: object | null
 
-    walletConncetionAction: "Connecting" | "Disconnecting" | ""
+    walletConnectionAction: "Connecting" | "Disconnecting" | ""
 
     walletInfos : WalletInfos
     isWalletModalOpen: boolean
@@ -44,7 +44,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         this.state = {
             wallet: null,
             Iwallet: null,
-            walletConncetionAction: "",
+            walletConnectionAction: "",
             isWalletModalOpen: false,
             walletInfos : {
                 cborBalance: "",
@@ -84,7 +84,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         }
 
         this.setState({
-            walletConncetionAction: ""
+            walletConnectionAction: ""
         })
     }
 
@@ -259,7 +259,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
     private async connectWallet( wName: string )
     {
         this.setState({
-            walletConncetionAction: "Connecting"
+            walletConnectionAction: "Connecting"
         })
         
         if( wName === "eternl")  { wName = Wallet.Names.CCVault };
@@ -295,7 +295,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                         cborBalance: await w.raw.getBalance(),
                         addr: addr 
                     },
-                    walletConncetionAction: "",
+                    walletConnectionAction: "",
                 });
                 
             }
@@ -305,7 +305,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
     private disconnectWallet()
     {
         this.setState({
-            walletConncetionAction: "Disconnecting"
+            walletConnectionAction: "Disconnecting"
         })
 
         if( typeof window === "undefined") return;
@@ -316,7 +316,7 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
         this.setState({
             wallet: null,
             Iwallet: null,
-            walletConncetionAction: ""
+            walletConnectionAction: ""
         })
     }
 
@@ -395,8 +395,8 @@ class AppTopBar extends React.Component<AppTopBarProps, AppTopBarState>
                 
                 :
                 <Button
-                isLoading={this.state.walletConncetionAction !== ""}
-                loadingText={this.state.walletConncetionAction}
+                isLoading={this.state.walletConnectionAction !== ""}
+                loadingText={this.state.walletConnectionAction}
                 colorScheme='d-green'
                 position="absolute"
                 top="1.5vh"

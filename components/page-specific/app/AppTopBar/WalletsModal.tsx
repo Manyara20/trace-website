@@ -45,7 +45,7 @@ export default function WalletsModal({shouldBeOpen , closeModal, connectWallet }
 
     const [ selectedWalletN , setSelectedWallet ] = useState<string>("")
 
-    function closeModalAncClearState()
+    function closeModalAndClearState()
     {
         setSelectedWallet("");
         closeModal();
@@ -55,7 +55,7 @@ export default function WalletsModal({shouldBeOpen , closeModal, connectWallet }
       <>
         <Modal
         isCentered
-        isOpen={shouldBeOpen} onClose={closeModalAncClearState}
+        isOpen={shouldBeOpen} onClose={closeModalAndClearState}
         
         closeOnOverlayClick={false} 
         blockScrollOnMount={false}
@@ -165,7 +165,7 @@ export default function WalletsModal({shouldBeOpen , closeModal, connectWallet }
                 variant="outline"
                 mr={5} //margin-rigth
 
-                onClick={closeModalAncClearState}
+                onClick={closeModalAndClearState}
                 >
                     Close
                 </Button>
@@ -178,7 +178,7 @@ export default function WalletsModal({shouldBeOpen , closeModal, connectWallet }
                 onClick={() => {
                     connectWallet( selectedWalletN );
 
-                    closeModalAncClearState();
+                    closeModalAndClearState();
                 }}
                 >
                     Connect
