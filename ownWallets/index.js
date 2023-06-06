@@ -150,7 +150,7 @@ class Wallet
     Cardwallet: "CardWallet"
   });
 
-  // dynamicaly genearted so that any change is updated immediately
+  // dynamicaly generated so that any change is updated immediately
   static stringNames = Object.freeze(
     Object.keys( Wallet.Names )
     .map( walletName => Wallet.Names[ walletName ] )
@@ -254,7 +254,7 @@ class Wallet
 
   /**
    * 
-   * @deprecated library is no more basedon symbols
+   * @deprecated library is no longer based on symbols
    */
   static _assertWalletNameIsSym( wallet )
   {
@@ -897,7 +897,7 @@ async function private_getRewardAddress ( WalletProvider )
   
   if( typeof rawAddress !== "string" )
   throw new Error(
-    "bad request for getting user reward address, probably not your fault, pleas open an issue explaining what appened here: https://github.com/HarmonicPool/cardano-wallet-interface/issues"
+    "bad request for getting user reward address, probably not your fault, please open an issue explaining what appened here: https://github.com/HarmonicPool/cardano-wallet-interface/issues"
   );
 
   return rawAddress;

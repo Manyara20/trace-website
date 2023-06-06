@@ -8,7 +8,7 @@ import ReadableSwitch from "../../../../../../elements/ReadableSwitch";
 import FieldValueTypeSelector, { FieldValueType } from "./FieldValueTypeSelector";
 import IFieldValueProps from "./IFieldValueProps";
 import DateFieldValue from "./type-specific/DateFieldValue";
-import EmailFieldValue from "./type-specific/EmailFiledValue";
+import EmailFieldValue from "./type-specific/EmailFieldValue";
 import HourFieldValue from "./type-specific/HourFieldValue";
 import LinkFieldValue from "./type-specific/LinkFieldValue";
 import NumFieldValue from "./type-specific/NumFieldValue";

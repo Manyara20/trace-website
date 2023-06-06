@@ -134,7 +134,7 @@ export default class NewProducerSocialInput extends React.Component<NewProducerS
             no-dbg
             "
             >
-                Buisness Profile on Socials:
+                Business Profile on Socials:
             </Center>
 
             <VStack
