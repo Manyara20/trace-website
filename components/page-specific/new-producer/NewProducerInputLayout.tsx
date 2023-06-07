@@ -4,19 +4,19 @@ import { ReactNode } from "react";
 import { text } from "stream/consumers";
 import { NewProducerDialogBtn, NewProducerDialogBtnProps } from "./NewProducerDialog";
 
-export interface NewProducerInptuLayoutProps
+export interface NewProducerInputLayoutProps
 {
-
+// to do? 
 }
 
 export interface NewProducerInputLayoutState
 {
-
+// to do?
 }
 
-export default class NewProducerInputLayout extends React.Component< NewProducerInptuLayoutProps, NewProducerInputLayoutState >
+export default class NewProducerInputLayout extends React.Component< NewProducerInputLayoutProps, NewProducerInputLayoutState >
 {
-    constructor( props: NewProducerInptuLayoutProps )
+    constructor( props: NewProducerInputLayoutProps )
     {
         super(props);
     }

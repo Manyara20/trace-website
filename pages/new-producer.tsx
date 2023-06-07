@@ -18,7 +18,7 @@ export interface NewProducerPageProps {
     router: NextRouter
 }
 
-export interface NewProducerBuisnessInfos
+export interface NewProducerBusinessInfos
 {
     name?: string
     email?: string
@@ -31,7 +31,7 @@ export interface NewProducerPageState {
     index: number
     prevIdx: number
     nextIdx: number
-    BuisnessInfos: NewProducerBuisnessInfos
+    BusinessInfos: NewProducerBusinessInfos
 
 }
 
@@ -45,13 +45,13 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             index: 0,
             prevIdx: 0,
             nextIdx: 0,
-            BuisnessInfos: {}
+            BusinessInfos: {}
         };
 
         this._getDialogs = this._getDialogs.bind(this);
 
         this._changeIndexTo = this._changeIndexTo.bind(this);
-        this._updateBuisnessInfos = this._updateBuisnessInfos.bind(this);
+        this._updateBusinessInfos = this._updateBusinessInfos.bind(this);
     }
 
     render() 
@@ -125,12 +125,12 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         );
     }
 
-    private _updateBuisnessInfos( newInfos: Partial<NewProducerBuisnessInfos>, callback?: () => void ): void
+    private _updateBusinessInfos( newInfos: Partial<NewProducerBusinessInfos>, callback?: () => void ): void
     {
         this.setState(
             {
-                BuisnessInfos: {
-                    ...this.state.BuisnessInfos,
+                BusinessInfos: {
+                    ...this.state.BusinessInfos,
                     ...newInfos   
                 }
             },
@@ -141,7 +141,7 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
     private _getDialogs( index: number ) {
         return [
         <NewProducerDialog
-            text="A little birdie told us you want to integrate Blockchain technology with your products."
+            text="A little birdie told us you want to integrate Blockchain technology into your products."
             description="This process will take up to 10 minutes, sit back and relax!"
             goBackBtnProps={{
                 text: "Nope, wrong person",
@@ -157,7 +157,7 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerDialog
-            text="We are going to make an NFT in order to identify your buisness."
+            text="We are going to make an NFT in order to identify your business."
             description={[
                 "Make sure you read the documentation in order to understand how this will be used.",
                 "Once you have your NFT you are responsable for it!"
@@ -223,14 +223,14 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
                 }
             }}
         />,
-        <NewProducerStrInput default={this.state.BuisnessInfos.name}
+        <NewProducerStrInput default={this.state.BusinessInfos.name}
         prompt="What is the name of your business?"
         onChange={( newName?: string ) => {
-                this._updateBuisnessInfos({
+                this._updateBusinessInfos({
                     name: newName
                 },
                 () => Debug.log(
-                    "this.state.BuisnessInfos updated to", this.state.BuisnessInfos, this.state.BuisnessInfos.name === undefined || this.state.BuisnessInfos.name === ""
+                    "this.state.BusinessInfos updated to", this.state.BusinessInfos, this.state.BusinessInfos.name === undefined || this.state.BusinessInfos.name === ""
                 )
             );
         }}
@@ -242,21 +242,21 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         }}
         goNextBtnProps={{
             onClick: () => {
-                if( this.state.BuisnessInfos.name === undefined || this.state.BuisnessInfos.name === "" ) return;
+                if( this.state.BusinessInfos.name === undefined || this.state.BusinessInfos.name === "" ) return;
                 this._changeIndexTo( this.state.index + 1 )
             },
             text: "Confirm",
-            disabled: this.state.BuisnessInfos.name === undefined || this.state.BuisnessInfos.name === ""
+            disabled: this.state.BusinessInfos.name === undefined || this.state.BusinessInfos.name === ""
         }}
         />,
-        <NewProducerEmailInput default={this.state.BuisnessInfos.email}
+        <NewProducerEmailInput default={this.state.BusinessInfos.email}
         prompt="Contact email:"
         onChange={( newEmail: string | undefined ) => {
-                this._updateBuisnessInfos({
+                this._updateBusinessInfos({
                     email: newEmail
                 },
                 () => Debug.log(
-                    "this.state.BuisnessInfos updated to", this.state.BuisnessInfos
+                    "this.state.BusinessInfos updated to", this.state.BusinessInfos
                 )
             );
         }}
@@ -268,16 +268,16 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         }}
         goNextBtnProps={{
             onClick: () => {
-                if( !StringUtils.isEmail( this.state.BuisnessInfos.email ) ) return;
+                if( !StringUtils.isEmail( this.state.BusinessInfos.email ) ) return;
                 this._changeIndexTo( this.state.index + 1 )
             },
             text: "Confirm",
-            disabled: !StringUtils.isEmail( this.state.BuisnessInfos.email )
+            disabled: !StringUtils.isEmail( this.state.BusinessInfos.email )
         }}
         />,
         <NewProducerDialog
             text="Optional information"
-            description="What follows is not needed to identify your buisness but will help the consumer know more about you!"
+            description="What follows is not needed to identify your business but will help the consumer know more about you!"
             goBackBtnProps={{
                 text: "Wait let me check my Email",
                 onClick: () => {
@@ -292,12 +292,12 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerSocialInput
-        default={this.state.BuisnessInfos.socials}
+        default={this.state.BusinessInfos.socials}
         onChange={
-            ( socials ) => this._updateBuisnessInfos({
+            ( socials ) => this._updateBusinessInfos({
                 socials
             },
-            () => Debug.log( this.state.BuisnessInfos ))
+            () => Debug.log( this.state.BusinessInfos ))
         }
         goBackBtnProps={{
             text: "Go Back",
@@ -314,11 +314,11 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
         />,
         <NewProducerLinkInput
             prompt="Website"
-            default={this.state.BuisnessInfos.website}
+            default={this.state.BusinessInfos.website}
             onChange={( website ) =>
-                this._updateBuisnessInfos({website},
+                this._updateBusinessInfos({website},
                     () => Debug.log(
-                        "this.state.BuisnessInfos updated to", this.state.BuisnessInfos
+                        "this.state.BusinessInfos updated to", this.state.BusinessInfos
                     )
                 )}
             goBackBtnProps={{
@@ -335,12 +335,12 @@ class NewProducerPage extends React.Component<NewProducerPageProps, NewProducerP
             }}
         />,
         <NewProducerLinkInput
-            prompt="Logo of your buisness"
-            default={this.state.BuisnessInfos.logoLink}
+            prompt="Logo of your business"
+            default={this.state.BusinessInfos.logoLink}
             onChange={( logoLink ) =>
-                this._updateBuisnessInfos({logoLink},
+                this._updateBusinessInfos({logoLink},
                     () => Debug.log(
-                        "this.state.BuisnessInfos updated to", this.state.BuisnessInfos
+                        "this.state.BusinessInfos updated to", this.state.BusinessInfos
                     )
                 )}
             goBackBtnProps={{

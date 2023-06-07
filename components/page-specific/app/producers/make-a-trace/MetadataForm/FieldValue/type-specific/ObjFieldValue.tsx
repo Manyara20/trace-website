@@ -13,7 +13,7 @@ import Utils from "../../../../../../../../utils/Utils";
 import NonChangebleHash from "./NonChangebleHash";
 import TextFieldValue from "./TextFieldValue";
 import LinkFieldValue from "./LinkFieldValue";
-import EmailFieldValue from "./EmailFiledValue";
+import EmailFieldValue from "./EmailFieldValue";
 import RemotionButton from "../../../../../../../elements/RemotionButton";
 
 const { ToastContainer, toast: makeToast } = createStandaloneToast(theme)
@@ -261,7 +261,7 @@ export default class ObjFieldValue extends React.Component<ObjFieldValueProps, O
     {
         // should never be true since onNameEdit has been called before and checked for the same fcondition,
         // however it's a different function, so better safe than sorry
-        if( Object.keys(this._value).includes(newName) ) throw Error("can't have two fileds with the same name");
+        if( Object.keys(this._value).includes(newName) ) throw Error("can't have two fields with the same name");
 
         let prevCopy: any;
         // coping is needed since when deleting we migth drop some nested values
@@ -381,7 +381,7 @@ interface FieldAndValuePairState {
  * this way ```FieldAndValuePair``` acts as a proxy and the ```onChange``` callback
  * provvides both the fieldName and the respective value;
  * 
- * the ```onChange``` callback is fired every time either the ```filedName``` or the ```value``` do change
+ * the ```onChange``` callback is fired every time either the ```fieldName``` or the ```value``` do change
  * 
  * the ```onChange``` is the only place where you can track any value change
  * 
@@ -391,14 +391,14 @@ interface FieldAndValuePairState {
  */ 
 class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAndValuePairState>
 {
-    private _filedName: string;
+    private _fieldName: string;
     private _value: any;
 
     constructor(props: FieldAndValuePairProps)
     {
         super( props );
 
-        this._filedName = this.props.fieldNameProps.defaultValue
+        this._fieldName = this.props.fieldNameProps.defaultValue
 
         this.state = {
 
@@ -423,7 +423,7 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
             >
                 <HStack
                 >
-                    {this.props.removeable && <RemotionButton onClick={() => { this.props.onRemotion( this.props.key, this._filedName ) } } />}
+                    {this.props.removeable && <RemotionButton onClick={() => { this.props.onRemotion( this.props.key, this._fieldName ) } } />}
                     <FieldName
 
                     tag={this.props.fieldNameProps.tag}
@@ -434,7 +434,7 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
                     canEditTo={this.props.fieldNameProps.canEditTo}
                     onNameEdit={(newName: string, prevName?: string | undefined ) => {
 
-                        this._filedName = newName;
+                        this._fieldName = newName;
 
                         //  the ```fieldNameProps.onNameEdit``` is called before the ```onChange``` callback
                         this.props.fieldNameProps.onNameEdit && this.props.fieldNameProps.onNameEdit( newName, prevName );
@@ -560,7 +560,7 @@ class FieldAndValuePair extends React.Component<FieldAndValuePairProps, FieldAnd
     private _callChange(): void
     {
         this.props.onChange({
-            fieldName: this._filedName,
+            fieldName: this._fieldName,
             value: this._value
         });
     }

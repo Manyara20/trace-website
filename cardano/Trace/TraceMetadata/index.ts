@@ -46,7 +46,7 @@ export class TraceMetadata
         if( !TraceMetadata.isValidTraceFormat( jsObj ) )
         {
             throw Error(
-                "the passed js object does not respects the trace metadata format: " + JSON.stringify( jsObj )
+                "the passed js object does not respect the trace metadata format: " + JSON.stringify( jsObj )
             );
         }
 
